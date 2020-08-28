@@ -1,7 +1,8 @@
 {
   "name": "scribblang",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }
