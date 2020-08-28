@@ -1,0 +1,7 @@
+{
+  "name": "scribblang",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
