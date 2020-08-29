@@ -49,24 +49,24 @@ export class ModalWordComponent implements OnInit, AfterViewInit {
   }
 
   createWord(form: NgForm, value: Partial<Word>) {
-    this.http.createWord(this.list_id, {
-      original: value.original,
-      translation: value.translation,
-      transcription: value.transcription,
-      createdAt: new Date()
-    })
-      .then(_ => {
-        form.reset();
-        setTimeout(() => this.inputToFocus.nativeElement.setFocus(), 400);
-      });
+    // this.http.createWord(this.list_id, {
+    //   original: value.original,
+    //   translation: value.translation,
+    //   transcription: value.transcription,
+    //   createdAt: new Date()
+    // })
+    //   .then(_ => {
+    //     form.reset();
+    //     setTimeout(() => this.inputToFocus.nativeElement.setFocus(), 400);
+    //   });
   }
 
   editWord(value: Partial<Word>) {
     for (const key in value)
       this.word[key] = value[key]
 
-    this.http.editWord(this.word)
-      .then(_ => this.modalController.dismiss());
+    // this.http.editWord(this.word)
+    //   .then(_ => this.modalController.dismiss());
   }
 
   closeModal = () => this.modalController.dismiss();

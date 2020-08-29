@@ -3,9 +3,8 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { GamePage } from './game.page';
-
-import { GamePageRoutingModule } from './game-routing.module';
+import { SingleListPage } from './single-list.page';
+import { SingleListRoutingModule } from './single-list-routing.module';
 import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
@@ -13,10 +12,9 @@ import { ComponentsModule } from '../components/components.module';
     IonicModule,
     CommonModule,
     FormsModule,
-    GamePageRoutingModule,
-
+    SingleListRoutingModule,
     ComponentsModule
   ],
-  declarations: [GamePage]
+  declarations: [SingleListPage]
 })
-export class GamePageModule {}
+export class SingleListPageModule {}

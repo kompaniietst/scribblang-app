@@ -1,0 +1,72 @@
+.back {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translate(0, -50%);
+    font-size: 27px;
+    display: flex;
+}
+
+svg.to-bookmark {
+    opacity: 0.3;
+    &.active {
+        fill: #ff3894;
+        opacity: 1;
+    }
+}
+a {
+    color: var(--thr-theme-color);
+    opacity: 0.5;
+    font-size: 15px;
+    border-bottom: 1px solid var(--thr-theme-color);
+}
+.word {
+    padding-left: 7px;
+    // font-size: 18px;
+}
+.translation {
+    font-size: 14px;
+    padding: 0;
+    line-height: initial;
+    text-align: right;
+}
+.transcription {
+    margin-top: 10px;
+    margin-bottom: -17px;
+    div {
+        background: var(--ion-item-border-color);
+        font-size: 10px;
+        padding: 4px 7px 4px 11px;
+        margin-top: 4px;
+        border-radius: 10px 0 0 0;
+        display: unset;
+        color: var(--thr-theme-color);
+    }
+}
+ion-grid {
+    padding: 20px 0;
+}
+ion-col {
+    padding: 0;
+}
+ion-item {
+    border: none;
+    --border-color: transparent;
+    border-width: 0;
+    --inner-border-width: 0;
+}
+small {
+    line-height: 16px;
+    display: block;
+}
+.no-data {
+    position: absolute;
+    top: calc(50% - 50px);
+    transform: translate(0, 50%);
+    width: 100%;
+    margin: auto;
+}
+
+ion-item-sliding {
+    padding: 0 10px;
+}

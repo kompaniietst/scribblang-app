@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ListsPage } from './lists.page';
-import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { ListsPageRoutingModule } from './lists-routing.module';
 import { ComponentsModule } from '../components/components.module';
@@ -13,7 +12,6 @@ import { ComponentsModule } from '../components/components.module';
     IonicModule,
     CommonModule,
     FormsModule,
-    ExploreContainerComponentModule,
     ListsPageRoutingModule,
 
     ComponentsModule
