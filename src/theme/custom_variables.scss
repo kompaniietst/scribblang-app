@@ -1,0 +1,49 @@
+/* Custom variables */
+
+/* Dark theme */
+// :root {
+//     --main-theme-color: #0f3c8b;
+//     --sec-theme-color: #f21a50;
+//     --thr-theme-color: #526372;
+
+//     --ion-toolbar-background: #1246a2;
+//     --ion-toolbar-color: #e2e2e2;
+
+//     --ion-background-color: #22272b;
+
+//     --ion-item-border-color: #3d4044;
+
+//     --theme-text-color: #bfbfbf;
+//     --title-font-size: 16px;
+
+//     --btn-border-radius: 10px;
+
+//     --ion-fab-highlight: #343d45;
+//     --ion-fab-list: #31373c;
+
+//     --svg-color: #1246a2;
+// }
+
+/* Light theme */
+:root {
+    --main-theme-color: #1457cd;
+    --sec-theme-color: #f21a50;
+    --thr-theme-color: #526372;
+
+    --ion-toolbar-background: #1457cd;
+    --ion-toolbar-color: #ffffff;
+
+    --ion-background-color: #f3f5f9;
+
+    --ion-item-border-color: #e0e5ed;
+
+    --theme-text-color: #2d2d2d;
+    --title-font-size: 16px;
+
+    --btn-border-radius: 10px;
+
+    --ion-fab-highlight: #cdd7f7;
+    --ion-fab-list: #fafafc;
+
+    --svg-color: #1457cd;
+}

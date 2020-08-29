@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  selector: 'app-lists',
+  templateUrl: 'lists.page.html',
+  styleUrls: ['lists.page.scss']
 })
-export class Tab1Page {
+export class ListsPage {
 
   constructor(private tts: TextToSpeech) {
     
