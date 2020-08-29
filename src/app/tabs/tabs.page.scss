@@ -1,1 +1,53 @@
 
+.icon {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+}
+
+.space {
+    width: 0;
+    background: #e9ecf3;
+    display: block;
+    height: 100%;
+    transition: 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+    transition: 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+    &.active {
+        width: 75px;
+    }
+}
+
+.add-directory,
+.add-list {
+    top: -119px;
+    right: -30px;
+    ion-fab-button {
+        width: 37px;
+        height: 37px;
+        box-shadow: none;
+    }
+
+    .item {
+        box-shadow: 0 8px 15px rgba(12, 30, 63, 0.05);
+        padding: 15px 15px 15px 15px;
+        font-size: 14px;
+        margin: 0 3px;
+        display: flex;
+        min-width: 87px;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 3px;
+    }
+}
+
+.add-list {
+    left: -27px;
+}
+
+ion-fab svg {
+    margin-bottom: 7px;
+}
+
+ion-tab-button {
+    background: #e9ecf3;
+}
