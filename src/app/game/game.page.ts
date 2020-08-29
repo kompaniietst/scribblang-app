@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 
 @Component({
   selector: 'app-game',
@@ -7,6 +8,10 @@ import { Component } from '@angular/core';
 })
 export class GamePage {
 
-  constructor() {}
+  constructor(private tts: TextToSpeech) { }
 
+  ngOnInit(): void { }
+  do(){
+    this.tts.speak('Good morning');
+  }
 }

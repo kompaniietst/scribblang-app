@@ -7,6 +7,7 @@ import { ProfilePage } from './profile.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { ProfilePageRoutingModule } from './profile-routing.module'
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   imports: [
@@ -16,6 +17,8 @@ import { ProfilePageRoutingModule } from './profile-routing.module'
     ExploreContainerComponentModule,
     RouterModule.forChild([{ path: '', component: ProfilePage }]),
     ProfilePageRoutingModule,
+
+    ComponentsModule
   ],
   declarations: [ProfilePage]
 })

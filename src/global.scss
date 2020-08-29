@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -24,3 +24,202 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+@import "src/theme/custom_variables.scss";
+
+/*  */
+@font-face {
+    font-family: "Poppins";
+    src: url("./assets/fonts/Poppins-Regular.ttf");
+}
+@font-face {
+    font-family: "Poppins Medium";
+    src: url("./assets/fonts/Poppins-Medium.ttf");
+}
+
+html.md {
+    // --ion-default-font: "Poppins", sans-serif;
+    --ion-default-font: "Arial", sans-serif;
+}
+
+ion-tab-bar {
+    // border-top: 1px solid var(--ion-item-border-color);
+    border-top: none;
+    border-radius: 26px 26px 0 0;
+    svg {
+        fill: #526372;
+    }
+}
+
+ion-toolbar {
+    background-color: var(--ion-toolbar-background);
+    box-shadow: none;
+    color: var(--ion-toolbar-color);
+}
+
+ion-modal {
+    // &.modal-add-system-entity,
+    // &.modal-edit-system-entity{
+    //     84px
+    // }
+    &.modal-add-system-entity,
+    &.modal-edit-system-entity,
+    &.modal-add-word,
+    &.modal-edit-word {
+        --height: 84px;
+        padding: 20px;
+        .modal-wrapper {
+            box-shadow: 0 8px 15px rgba(12, 30, 63, 0.05);
+            background: var(--ion-fab-list);
+            position: absolute;
+            bottom: 10px;
+            max-width: 95%;
+            position: absolute;
+        }
+    }
+    &.modal-add-word,
+    &.modal-edit-word {
+        --height: 293px;
+    }
+    ion-backdrop {
+        background-color: #2f72f0;
+        --backdrop-opacity: 0.4;
+    }
+}
+
+ion-button {
+    text-transform: capitalize;
+    height: 56px;
+    box-shadow: 0 7px 10px rgb(9 60 151 / 50%);
+    font-size: 18px;
+    border-radius: var(--btn-border-radius);
+    --border-radius: var(--btn-border-radius);
+}
+
+ion-title {
+    font-size: 17px;
+}
+
+ion-content {
+    --padding-bottom: 30px;
+}
+
+ion-list {
+    padding: 0;
+}
+form {
+    ion-item {
+        color: var(--theme-text-color);
+
+        --padding-end: 25px;
+        --padding-start: 25px;
+        --inner-padding-end: 0;
+        &.item-has-focus .label-floating.sc-ion-label-md-h {
+            color: var(--text-color);
+        }
+        ion-input {
+            font-weight: bold;
+        }
+    }
+}
+
+ion-item {
+    --min-height: 60px;
+}
+
+ion-item-sliding {
+    border-bottom: 1px solid var(--ion-item-border-color);
+    // border: 2px sold red;
+    ion-item-options {
+        padding-right: 12px;
+        ion-item-option {
+            width: 36px;
+            // svg {
+            //     fill: #ffffff;
+        }
+    }
+}
+ion-fab {
+    border: 12px solid var(--ion-fab-highlight);
+    border-radius: 50px;
+    background: var(--ion-background-color);
+    left: calc(50% - 9px);
+    ion-fab-button {
+        box-shadow: 0 5px 10px rgba(7, 13, 134, 0.5);
+        border-radius: 50px;
+        width: 55px;
+        height: 55px;
+        background: var(--main-theme-color);
+    }
+    .item {
+        background: var(--ion-fab-list);
+        color: var(--theme-text-color);
+    }
+}
+
+ion-item-option {
+    background: none;
+}
+
+app-words {
+    svg {
+        fill: var(--svg-color);
+    }
+    ion-item svg {
+        fill: var(--thr-theme-color);
+    }
+}
+
+a {
+    text-decoration: none;
+}
+ul li {
+    list-style: none;
+}
+
+svg {
+    fill: var(--svg-color);
+    &.list {
+        fill: #8395a6;
+    }
+    &.empty {
+        fill: none;
+        stroke: var(--svg-color);
+    }
+}
+
+form svg {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+    align-items: center;
+    fill: var(--thr-theme-color);
+}
+
+.item-interactive.ion-valid {
+    --highlight-background: var(--main-theme-color);
+}
+
+/* Rounded corners */
+ion-toolbar {
+    height: 79px;
+}
+.corners {
+    // position: relative;
+    // svg {
+    //     position: absolute;
+    //     top: 0;
+    //     z-index: 3;
+    //     &.right {
+    //         right: 0;
+    //     }
+    // }
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 23px;
+    background: #f3f5f9;
+    z-index: 999;
+    border-radius: 32px 32px 0 0;
+    margin-top: -23px;
+}

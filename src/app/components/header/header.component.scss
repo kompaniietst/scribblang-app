@@ -1,0 +1,10 @@
+:host {
+    display: block;
+    margin-bottom: -14px;
+    &.single-list {
+        ion-toolbar {
+            --background: #dfd3ad;
+            color: #5b4f29;
+        }
+    }
+}

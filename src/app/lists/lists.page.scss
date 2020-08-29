@@ -1,0 +1,23 @@
+.back {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translate(0, -50%);
+    font-size: 27px;
+    display: flex;
+}
+
+:host {
+    font-size: 17px;
+}
+
+.tree {
+    margin-left: -20px;
+    display: block;
+}
+.no-data {
+    position: absolute;
+    top: calc(50% - 50px); // header height
+    transform: translate(0, 50%);
+    width: 100%;
+}

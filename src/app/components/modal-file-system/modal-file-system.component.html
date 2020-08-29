@@ -1,0 +1,53 @@
+<form #form="ngForm" (ngSubmit)="onFormSubmit(form.value)">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="10">
+        <ion-item>
+          <ion-label *ngIf="type =='directory'">
+            <svg width="40" height="35" viewBox="0 0 70 50">
+              <style type="text/css">
+                .lightBlue {
+                  fill: #318FFF;
+                }
+    
+                .blue {
+                  fill: #1457CD;
+                }
+              </style>
+              <path class="lightBlue"
+                d="M57,12.6c0-2.7-2.2-4.9-4.9-4.9H27.7c-0.8,0-1.6-0.3-2.2-1L20.2,1c-0.6-0.6-1.4-1-2.2-1H5.3
+                C2.6,0,0.4,2.2,0.4,4.9v43.4c0.2,0.1,0.2,0.1,0.3,0.1L27.8,28c0.5-0.4,1.2-0.6,1.8-0.6H54c1.7,0,3-1.3,3-3V12.6z" />
+              <path class="blue" d="M50.9,51.2H2.2c-1.1,0-1.9-1.1-1.6-2.1l11.1-30.3c0.2-0.7,0.9-1.3,1.6-1.3H62c1.1,0,1.6,1.1,1.6,2.1L52.5,49.9
+                C52.3,50.7,51.6,51.2,50.9,51.2z" />
+            </svg>
+          </ion-label>
+          <ion-label *ngIf="type =='list'">
+            <svg width="45" height="45" viewBox="0 0 70 60">
+              <style type="text/css">
+                .lighterPers{fill:#F4EFDC;}
+                .pers{fill:#D1BF86;}
+                .lightPers{fill:#CEC9AE;}
+              </style>
+              <path class="lighterPers" d="M38.2,4.1H16.9c-3.4,0-6.1,2.7-6.1,6.1v20v8v16.3c0,3.4,2.7,6.1,6.1,6.1h30.1c3.4,0,6.1-2.7,6.1-6.1V31v-0.7V19
+                L38.2,4.1z"/>
+              <polygon class="pers" points="38.2,19 53.1,19 38.2,4.1 "/>
+              <g>
+                <path class="lightPers" d="M17.7,27h28.4c0.5,0,1-0.5,1-1s-0.5-1-1-1H17.7c-0.5,0-1,0.5-1,1S17.1,27,17.7,27z"/>
+                <path class="lightPers" d="M46.1,31.4H17.7c-0.5,0-1,0.5-1,1s0.5,1,1,1h28.4c0.5,0,1-0.5,1-1S46.7,31.4,46.1,31.4z"/>
+                <path class="lightPers" d="M46.1,37.8H17.7c-0.5,0-1,0.5-1,1s0.5,1,1,1h28.4c0.5,0,1-0.5,1-1S46.7,37.8,46.1,37.8z"/>
+                <path class="lightPers" d="M46.1,44.2H17.7c-0.5,0-1,0.5-1,1s0.5,1,1,1h28.4c0.5,0,1-0.5,1-1S46.7,44.2,46.1,44.2z"/>
+              </g>
+              </svg>
+            </ion-label>
+          <ion-input #input [(ngModel)]="name" type="text" ngDefaultControl name="name"
+            placeholder="{{ type | capitalize }} name:"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button type="submit" color="primary" expand="block" class="ion-no-padding">
+          <ion-icon name="add" class="icon-add"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</form>

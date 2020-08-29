@@ -1,0 +1,28 @@
+ion-label {
+    margin: 0;
+}
+
+ion-item {
+    --padding-start: 10px;
+    --min-height: 63px;
+}
+
+.icon {
+    width: 27px;
+    height: 27px;
+}
+
+.icon-add {
+    font-size: 22px;
+}
+
+ion-button {
+    height: 57px;
+}
+
+form svg {
+    right: unset;
+    position: relative;
+    top: unset;
+    transform: unset;
+}

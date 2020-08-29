@@ -1,20 +1,10 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1sss
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
+  <app-header [title]="'Directories and lists'"></app-header>
 
-<ion-content [fullscreen]="true">
-  <ion-button (click)="do()">DO</ion-button>
+  <div *ngIf="treeData && treeData?.length === 0" class="no-data ion-text-center">
+    Start to add directories and lists <br> of your words!
+  </div>
 
-  
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab_______ 1fffffff</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <app-file-system-view [children]="treeData" *ngIf="treeData?.length > 0" class="tree"></app-file-system-view>
 
-  <app-explore-container name="Tab Tab_______1 pagedfsf"></app-explore-container>
 </ion-content>

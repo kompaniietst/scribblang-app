@@ -1,0 +1,24 @@
+<form #form="ngForm" (ngSubmit)="onFormSubmit(form,form.value)">
+  <ion-item>
+    <ion-label>
+    </ion-label>
+    <ion-input #input [(ngModel)]="original" type="text" ngDefaultControl name="original" placeholder="Original:">
+    </ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>
+    </ion-label>
+    <ion-input [(ngModel)]="translation" type="text" ngDefaultControl name="translation" placeholder="Translation:">
+    </ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>
+    </ion-label>
+    <ion-input [(ngModel)]="transcription" type="text" ngDefaultControl name="transcription"
+      placeholder="Transcription:"></ion-input>
+  </ion-item>
+  <ion-button type="submit" color="primary" expand="block" class="ion-no-padding">
+    Save word
+  </ion-button>
+  <a><span (click)="closeModal()">Cancel</span></a>
+</form>

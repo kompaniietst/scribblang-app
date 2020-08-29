@@ -7,6 +7,7 @@ import { GamePage } from './game.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { GamePageRoutingModule } from './game-routing.module';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,9 @@ import { GamePageRoutingModule } from './game-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    GamePageRoutingModule
+    GamePageRoutingModule,
+
+    ComponentsModule
   ],
   declarations: [GamePage]
 })

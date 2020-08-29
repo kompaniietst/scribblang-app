@@ -6,6 +6,7 @@ import { ListsPage } from './lists.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { ListsPageRoutingModule } from './lists-routing.module';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   imports: [
@@ -13,7 +14,9 @@ import { ListsPageRoutingModule } from './lists-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    ListsPageRoutingModule
+    ListsPageRoutingModule,
+
+    ComponentsModule
   ],
   declarations: [ListsPage]
 })

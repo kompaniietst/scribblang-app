@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ModalController, ToastController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ModalWordComponent } from '../components/modal-word/modal-word.component';
+import { ModalFileSystemComponent } from '../components/modal-file-system/modal-file-system.component';
 
 @Component({
   selector: 'app-tabs',
@@ -25,23 +27,23 @@ export class TabsPage {
   }
 
   async presentModalWord() {
-    // const modal = await this.modalController.create({
-    //   component: ModalWordComponent,
-    //   cssClass: 'modal-add-word',
-    //   componentProps: { mode: 'create' }
-    // });
-    // return await modal.present();
+    const modal = await this.modalController.create({
+      component: ModalWordComponent,
+      cssClass: 'modal-add-word',
+      componentProps: { mode: 'create' }
+    });
+    return await modal.present();
   }
 
   async presentModalSystemEntity(type: string) {
-    // console.log('presentModalSystemEntity');
-    
-    // const modal = await this.modalController.create({
-    //   component: ModalFileSystemComponent,
-    //   cssClass: 'modal-add-system-entity',
-    //   componentProps: { type: type, path: [""] }
-    // });
-    // return await modal.present();
+    console.log('presentModalSystemEntity');
+
+    const modal = await this.modalController.create({
+      component: ModalFileSystemComponent,
+      cssClass: 'modal-add-system-entity',
+      componentProps: { type: type, path: [""] }
+    });
+    return await modal.present();
   }
 
   currTabIs = (tabName: string) => {
