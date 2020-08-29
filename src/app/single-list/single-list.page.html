@@ -21,7 +21,7 @@
     <ion-item>
       <ion-grid>
         <ion-row>
-          <ion-col size="1" (click)="toBookmark(item.id); bookmarked = item.id">
+          <ion-col size="1" (click)="toBookmark(item.id); bookmarked = item.id" class="to-bookmark">
             <svg width="21" height="21" class="to-bookmark" [class.active]="bookmarked == item.id">
               <g transform="scale(0.3)">
                 <path class="st0" d="M45,11.1c6.5,0,11.8,5.5,11.8,12.2c0,7-2,15.7-24.9,31.1C9,39,7,30.3,7,23.3c0-6.8,5.3-12.2,11.8-12.2
@@ -34,26 +34,47 @@
           <ion-col size="5" class="word">
             <strong>{{ item.original }}</strong>
           </ion-col>
-          <ion-col (click)="toggleTranslation(item.id)" size="6" class="ion-text-right" 
-            *ngIf="!isTranslationOpened(item.id)"
-            class="translation">
+          <ion-col (click)="toggleTranslation(item.id)" size="4" class="ion-text-right translation"
+            *ngIf="!isTranslationOpened(item.id)">
             <a>Translate</a>
           </ion-col>
-          <ion-col (click)="toggleTranslation(item.id)" size="6" class="ion-text-right" 
-            *ngIf="isTranslationOpened(item.id)"
-            class="translation">
+
+          <ion-col (click)="toggleTranslation(item.id)" size="4" class="ion-text-right"
+            *ngIf="isTranslationOpened(item.id)" class="translation">
             <ion-row>
               <ion-col>
                 {{ item.translation }}
               </ion-col>
             </ion-row>
-            <ion-row class="transcription">
+            <ion-row class="transcription" *ngIf="item.transcription">
               <ion-col>
                 <div>
                   {{ item.transcription }}
                 </div>
               </ion-col>
             </ion-row>
+          </ion-col>
+
+          <ion-col (click)="say(item.original)" size="2" class="ion-text-center say">
+            <svg 	 viewBox="0 0 63.8 64.8" style="enable-background:new 0 0 63.8 64.8;" xml:space="preserve">
+              <style type="text/css">
+                .st0{fill:#696977;}
+                .st1{fill:#F7577A;}
+              </style>
+              <path class="st0" d="M38.1,60.8c0.1-0.2,0.1-0.5,0.1-0.7c0,0,0,0,0,0V4.7c0,0,0,0,0,0c0-0.2,0-0.4-0.1-0.6c0-0.1-0.1-0.1-0.1-0.2
+                C38,3.8,38,3.6,37.9,3.5c0,0,0-0.1-0.1-0.1c0,0-0.1,0-0.1-0.1c-0.1-0.2-0.3-0.3-0.5-0.4c0,0-0.1-0.1-0.1-0.1c0,0,0,0-0.1,0
+                c-0.2-0.1-0.4-0.2-0.7-0.2c0,0-0.1,0-0.1,0c-0.2,0-0.4,0-0.6,0c-0.1,0-0.1,0-0.2,0c-0.2,0.1-0.5,0.2-0.7,0.3L14.1,19.6H4.3
+                c-2.3,0-4.3,1.9-4.3,4.3v17c0,0.6,0.1,1.1,0.3,1.7c0.6,1.5,2.2,2.6,3.9,2.6h9.9l20.7,16.6c0.2,0.1,0.4,0.2,0.6,0.3
+                c0.1,0,0.1,0,0.2,0c0.2,0,0.3,0.1,0.5,0.1c0,0,0.1,0,0.1,0c0,0,0.1,0,0.1,0c0.2,0,0.4-0.1,0.6-0.1c0.1,0,0.1,0,0.2-0.1
+                c0,0,0,0,0.1,0c0.2-0.1,0.4-0.2,0.5-0.4c0,0,0.1-0.1,0.1-0.1c0.1-0.1,0.2-0.3,0.3-0.5C38.1,60.9,38.1,60.8,38.1,60.8z"/>
+              <g>
+                <path class="st1" d="M47.6,48c-1.2,0-2.1-1-2.1-2.1c0-0.6,0.2-1.1,0.6-1.5c6.6-6.6,6.6-17.4,0-24c0,0,0,0,0,0
+                  c-0.8-0.9-0.7-2.2,0.2-3c0.8-0.7,2-0.7,2.8,0c8.3,8.3,8.3,21.7,0,30c0,0,0,0,0,0C48.7,47.8,48.1,48,47.6,48z"/>
+                <path class="st1" d="M53.6,54c-1.2,0-2.1-1-2.1-2.1c0-0.6,0.2-1.1,0.6-1.5c10-9.9,10-26,0.1-35.9c0,0-0.1-0.1-0.1-0.1
+                  c-0.9-0.8-1-2.1-0.3-3c0.8-0.9,2.1-1,3-0.3c0.1,0.1,0.2,0.1,0.2,0.2c11.6,11.5,11.7,30.3,0.1,41.9c0,0-0.1,0.1-0.1,0.1
+                  C54.6,53.8,54.1,54,53.6,54z"/>
+              </g>
+              </svg>
           </ion-col>
         </ion-row>
       </ion-grid>

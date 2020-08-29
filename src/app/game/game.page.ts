@@ -11,7 +11,7 @@ export class GamePage {
   constructor(private tts: TextToSpeech) { }
 
   ngOnInit(): void { }
-  do(){
+  do() {
     this.tts.speak('Good morning');
   }
 }

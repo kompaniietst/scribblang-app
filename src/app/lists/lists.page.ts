@@ -17,22 +17,22 @@ export class ListsPage {
   treeData: FileSystemEntity[];
 
   ngOnInit(): void {
-    // this.http.getFileSystemEntities()
-    //   .subscribe(res => {
+    this.http.getFileSystemEntities()
+      .subscribe(res => {
 
-    //     var data = res.map((item: any) => {
-    //       return {
-    //         id: item.payload.doc.id,
-    //         name: item.payload.doc.data()["name"],
-    //         path: item.payload.doc.data()["path"],
-    //         type: item.payload.doc.data()["type"],
-    //         createdAt: item.payload.doc.data()["createdAt"],
-    //       }
-    //     })
+        var data = res.map((item: any) => {
+          return {
+            id: item.payload.doc.id,
+            name: item.payload.doc.data()["name"],
+            path: item.payload.doc.data()["path"],
+            type: item.payload.doc.data()["type"],
+            createdAt: item.payload.doc.data()["createdAt"],
+          }
+        })
 
-    //     this.treeData = [];
-    //     this.buildTree(data, this.treeData, "");
-    //   })
+        this.treeData = [];
+        this.buildTree(data, this.treeData, "");
+      })
   }
 
   buildTree(data: FileSystemEntity[], parentJson: FileSystemEntity[], path: string) {

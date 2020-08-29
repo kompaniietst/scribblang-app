@@ -22,17 +22,20 @@ a {
 }
 .word {
     padding-left: 7px;
-    // font-size: 18px;
+    padding-top: 5px;
+}
+.to-bookmark {
+    padding-top: 2px;
 }
 .translation {
     font-size: 14px;
-    padding: 0;
+    padding-top: 5px;
     line-height: initial;
     text-align: right;
 }
 .transcription {
     margin-top: 10px;
-    margin-bottom: -17px;
+    margin-bottom: -13px;
     div {
         background: var(--ion-item-border-color);
         font-size: 10px;
@@ -44,7 +47,15 @@ a {
     }
 }
 ion-grid {
-    padding: 20px 0;
+    height: 100%;
+}
+ion-row {
+    height: 100%;
+    padding: 10px 0;
+    ion-row {
+        padding: 0;
+        height: unset;
+    }
 }
 ion-col {
     padding: 0;
@@ -54,6 +65,7 @@ ion-item {
     --border-color: transparent;
     border-width: 0;
     --inner-border-width: 0;
+    --inner-padding-end: 0;
 }
 small {
     line-height: 16px;
@@ -66,7 +78,9 @@ small {
     width: 100%;
     margin: auto;
 }
-
-ion-item-sliding {
-    padding: 0 10px;
+.say {
+    padding-top: 4px;
+    svg {
+        max-width: 20px;
+    }
 }

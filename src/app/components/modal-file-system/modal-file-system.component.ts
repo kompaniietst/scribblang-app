@@ -45,20 +45,20 @@ export class ModalFileSystemComponent implements OnInit, AfterViewInit {
   }
 
   createFileSystemEntity(form_value: Partial<FileSystemEntity>) {
-    // this.http.createFileSystemEntity({
-    //   name: form_value.name, type: this.type, path: this.path
-    // })
-    //   .then(_ => {
-    //     this.modalController.dismiss();
-    //     this.presentToast(`${this.name} was successfully created.`, 'success')
-    //   });
+    this.http.createFileSystemEntity({
+      name: form_value.name, type: this.type, path: this.path
+    })
+      .then(_ => {
+        this.modalController.dismiss();
+        this.presentToast(`${this.name} was successfully created.`, 'success')
+      });
   }
 
   editFileSystemEntity(name: string) {
-    // this.http.editFileSystemEntity(this.entity.id, name)
-    //   .then(_ => {
-    //     this.presentToast(`${this.entity.name} was successfully updated.`, 'success');
-    //   });
+    this.http.editFileSystemEntity(this.entity.id, name)
+      .then(_ => {
+        this.presentToast(`${this.entity.name} was successfully updated.`, 'success');
+      });
   }
 
   async presentToast(message: string, color: string) {
