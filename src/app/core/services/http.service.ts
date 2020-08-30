@@ -6,6 +6,8 @@ import { AuthService } from './auth.service';
 import { FileSystemEntity } from '../models/FileSystemEntity';
 import { map, tap } from 'rxjs/operators';
 
+import * as firebase from "firebase";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,9 +15,31 @@ export class HttpService {
 
   constructor(
     private auth: AuthService,
-    private firestore: AngularFirestore) {
+    private firestore: AngularFirestore
+  ) {
     this.getFileSystemEntities();
   }
+
+  upload(audioFile, name) {
+    console.log('UPL');
+
+    // var message = '5b6p5Y-344GX44G-44GX44Gf77yB44GK44KB44Gn44Go44GG77yB';
+
+    // var file = '' // use the Blob or File API
+    // var bytes = new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21]);
+    let metadata = {
+      contentType: 'audio/mpeg',
+    };
+
+    firebase.storage().ref().child(name)
+      .put(audioFile, metadata).then(function (snapshot) {
+        console.log(snapshot);
+
+        alert('Uploaded a blob or file!');
+      });
+  }
+
+
 
   getWordsBy(list_id: string): Observable<any> {
     return this.firestore
@@ -79,7 +103,7 @@ export class HttpService {
       .add(obj)
       .then(resp => {
         // if (obj.type == "list")
-          // this.saveListToListsCollection(resp.id, obj);
+        // this.saveListToListsCollection(resp.id, obj);
 
         this.saveSystEntIdToUsersColl(resp.id);
         this.getFileSystemEntities()
@@ -115,5 +139,9 @@ export class HttpService {
       .doc(doc_id)
       .delete()
   }
+
+
+
+
 }
 

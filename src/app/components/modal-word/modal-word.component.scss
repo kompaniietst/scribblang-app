@@ -22,3 +22,9 @@ a {
         border-bottom: 1px solid var(--thr-theme-color);
     }
 }
+.record ion-button {
+    height: 40px;
+    --padding-start: 20px;
+    --padding-end: 20px;
+    font-size: 15px;
+}

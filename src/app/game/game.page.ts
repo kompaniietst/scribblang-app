@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
+import { Media, MediaObject } from "@ionic-native/media/ngx";
+import { File } from "@ionic-native/file/ngx";
 
 @Component({
   selector: 'app-game',
@@ -7,11 +8,23 @@ import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
   styleUrls: ['game.page.scss']
 })
 export class GamePage {
+  status: string = "";
+  audioFile: MediaObject;
 
-  constructor(private tts: TextToSpeech) { }
+  constructor(private media: Media, private file: File) { }
 
   ngOnInit(): void { }
-  do() {
-    this.tts.speak('Good morning');
+
+  RecordAudio() {
+    this.audioFile = this.media.create(this.file.externalRootDirectory + '/audiofile.mp3');
+    this.audioFile.startRecord();
+    this.status = "Rocording...";
   }
+
+  StopRecording() {
+    this.audioFile.stopRecord();
+    this.status = "Stop";
+  }
+
+
 }

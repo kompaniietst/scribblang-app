@@ -1,21 +1,32 @@
 <form #form="ngForm" (ngSubmit)="onFormSubmit(form,form.value)">
   <ion-item>
-    <ion-label>
-    </ion-label>
-    <ion-input #input [(ngModel)]="original" type="text" ngDefaultControl name="original" placeholder="Original:">
+    <ion-input #input [(ngModel)]="original" type="text" 
+      ngDefaultControl name="original" placeholder="Original:">
     </ion-input>
   </ion-item>
   <ion-item>
-    <ion-label>
-    </ion-label>
-    <ion-input [(ngModel)]="translation" type="text" ngDefaultControl name="translation" placeholder="Translation:">
+    <ion-input [(ngModel)]="translation" type="text" 
+      ngDefaultControl name="translation" placeholder="Translation:">
     </ion-input>
   </ion-item>
   <ion-item>
-    <ion-label>
-    </ion-label>
-    <ion-input [(ngModel)]="transcription" type="text" ngDefaultControl name="transcription"
-      placeholder="Transcription:"></ion-input>
+    <ion-input [(ngModel)]="transcription" type="text" 
+      ngDefaultControl name="transcription" placeholder="Transcription:">
+    </ion-input>
+  </ion-item>
+
+  <ion-item>
+<input #f type="file" (input)="changefile($event)">
+  </ion-item>
+
+  <ion-item class="record">
+    <div>{{status}}</div>
+    
+    <ion-button (click)="RecordAudio()">
+      <span *ngIf="recordingNow">Stop</span>
+      <span *ngIf="!recordingNow">Record</span>
+      </ion-button>
+{{recordingNow}}
   </ion-item>
   <ion-button type="submit" color="primary" expand="block" class="ion-no-padding">
     Save word
