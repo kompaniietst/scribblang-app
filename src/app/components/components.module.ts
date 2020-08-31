@@ -6,6 +6,9 @@ import { HeaderComponent } from './header/header.component';
 import { FileSystemViewComponent } from './file-system-view/file-system-view.component';
 import { ModalWordComponent } from './modal-word/modal-word.component';
 import { ModalFileSystemComponent } from './modal-file-system/modal-file-system.component';
+import { ModalAudioComponent } from './modal-audio/modal-audio.component';
+// import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
+
 
 @NgModule({
   declarations: [
@@ -13,15 +16,17 @@ import { ModalFileSystemComponent } from './modal-file-system/modal-file-system.
     FileSystemViewComponent,
     CapitalizePipe,
     ModalWordComponent,
-    ModalFileSystemComponent
+    ModalFileSystemComponent,
+    ModalAudioComponent
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
   ],
   exports: [
     HeaderComponent,
     FileSystemViewComponent,
-  ]
+  ],
+  providers: []
 })
 export class ComponentsModule { }

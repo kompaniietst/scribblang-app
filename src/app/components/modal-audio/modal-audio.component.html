@@ -1,0 +1,9 @@
+<div class="record">
+  <div>{{status}}</div>
+
+  <ion-button (click)="RecordAudio()">
+    <span *ngIf="recordingNow">Stop</span>
+    <span *ngIf="!recordingNow">Record</span>
+  </ion-button>
+  {{recordingNow}}
+</div>

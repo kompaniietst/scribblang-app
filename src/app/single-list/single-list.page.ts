@@ -7,6 +7,7 @@ import { ModalWordComponent } from 'src/app/components/modal-word/modal-word.com
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
+import { ModalAudioComponent } from '../components/modal-audio/modal-audio.component';
 
 @Component({
   selector: 'single-list',
@@ -73,15 +74,20 @@ export class SingleListPage implements OnInit {
 
   }
 
-  edit = (word: Word) => this.presentModalEditWord(word);
+  edit = (word: Word) =>
+    this.presentModal(
+      { word: word, mode: 'edit' }, "modal-edit-word", ModalWordComponent);
+
+  addAudio = (id: string) =>
+    this.presentModal({ id: id }, "modal-add-audio", ModalAudioComponent);
 
   remove = (word_id: string) => this.http.removeWord(word_id)
 
-  async presentModalEditWord(word: Word) {
+  async presentModal(prop: {}, className: string, component) {
     const modal = await this.modalController.create({
-      component: ModalWordComponent,
-      cssClass: 'modal-edit-word',
-      componentProps: { word: word, mode: 'edit' }
+      component: component,
+      cssClass: className,
+      componentProps: prop
     });
     return await modal.present();
   }

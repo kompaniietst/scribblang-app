@@ -8,15 +8,15 @@
 }
 
 svg.to-bookmark {
-    opacity: 0.3;
+    fill: #d0c5bf;
     &.active {
-        fill: #ff3894;
+        fill: #d8946f;
         opacity: 1;
     }
 }
 a {
     color: var(--thr-theme-color);
-    opacity: 0.5;
+    opacity: 0.7;
     font-size: 15px;
     border-bottom: 1px solid var(--thr-theme-color);
 }

@@ -26,24 +26,25 @@
 
 /* Light theme */
 :root {
-    --main-theme-color: #1457cd;
+    --main-theme-color: #7233ad;
+    // --main-theme-color: #1457cd;
     --sec-theme-color: #f21a50;
-    --thr-theme-color: #526372;
+    --thr-theme-color: #493e53;
 
-    --ion-toolbar-background: #1457cd;
+    --ion-toolbar-background: #7233ad;
     --ion-toolbar-color: #ffffff;
 
     --ion-background-color: #f3f5f9;
 
-    --ion-item-border-color: #e0e5ed;
+    --ion-item-border-color: #e6e4ec;
 
     --theme-text-color: #2d2d2d;
     --title-font-size: 16px;
 
     --btn-border-radius: 10px;
 
-    --ion-fab-highlight: #cdd7f7;
+    --ion-fab-highlight: rgba(155, 95, 229, 0.169);
     --ion-fab-list: #fafafc;
 
-    --svg-color: #1457cd;
+    --svg-color: #7233ad;
 }

@@ -46,7 +46,7 @@ ion-tab-bar {
     border-top: none;
     border-radius: 26px 26px 0 0;
     svg {
-        fill: #526372;
+        fill: #464055;
     }
 }
 
@@ -63,6 +63,7 @@ ion-modal {
     // }
     &.modal-add-system-entity,
     &.modal-edit-system-entity,
+    &.modal-add-audio,
     &.modal-add-word,
     &.modal-edit-word {
         --height: 84px;
@@ -76,12 +77,13 @@ ion-modal {
             position: absolute;
         }
     }
+    &.modal-add-audio,
     &.modal-add-word,
     &.modal-edit-word {
         --height: 293px;
     }
     ion-backdrop {
-        background-color: #2f72f0;
+        background-color: rgba(168, 100, 216, 0.612);
         --backdrop-opacity: 0.4;
     }
 }
@@ -144,7 +146,7 @@ ion-fab {
     background: var(--ion-background-color);
     left: calc(50% - 9px);
     ion-fab-button {
-        box-shadow: 0 5px 10px rgba(7, 13, 134, 0.5);
+        box-shadow: 0 5px 10px rgba(155, 95, 229, 0.871);
         border-radius: 50px;
         width: 55px;
         height: 55px;
