@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Word } from '../models/Word';
 import { AuthService } from './auth.service';
 import { FileSystemEntity } from '../models/FileSystemEntity';
@@ -12,6 +12,9 @@ import * as firebase from "firebase";
   providedIn: 'root'
 })
 export class HttpService {
+
+  private recordSubj = new BehaviorSubject(false);
+  public recordListener = this.recordSubj.asObservable();
 
   constructor(
     private auth: AuthService,
@@ -40,9 +43,8 @@ export class HttpService {
   upload(list_id: string, id: string, str: string) {
     let storageRef = firebase.storage().ref().child(list_id + '/' + id + '.mp3');
 
-    storageRef.putString(str as string, 'data_url').then(function (snapshot) {
-      alert('Uploaded a base64 string!');
-    }).catch(err => alert(err));
+    return storageRef.putString(str as string, 'data_url')
+      .then(_ => this.recordSubj.next(true));
   }
 
   getAllRecords(list_id: string) {

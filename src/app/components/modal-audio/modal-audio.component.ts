@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Media, MediaObject } from "@ionic-native/media/ngx";
 import { File, Entry } from "@ionic-native/file/ngx";
 import { Md5 } from 'ts-md5';
-import { Platform } from '@ionic/angular';
+import { Platform, ModalController } from '@ionic/angular';
 import * as firebase from "firebase";
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -28,6 +28,7 @@ export class ModalAudioComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    public modalController: ModalController,
     private media: Media,
     private file: File,
     private platform: Platform,
@@ -35,27 +36,27 @@ export class ModalAudioComponent implements OnInit {
     private http: HttpService
   ) { }
 
-  public press: number = 0;
-  pressEvent(e) {
-    console.log('press');
+  // public press: number = 0;
+  // pressEvent(e) {
+  //   console.log('press');
 
-    this.press++;
-    console.log(this.press);
+  //   this.press++;
+  //   console.log(this.press);
 
-  }
+  // }
 
-  holdCount() {
-    console.log('press');
+  // holdCount() {
+  //   console.log('press');
 
-    this.press++;
-    console.log(this.press);
+  //   this.press++;
+  //   console.log(this.press);
 
-  }
+  // }
 
-  endCount() {
-    console.log('end');
+  // endCount() {
+  //   console.log('end');
 
-  }
+  // }
 
 
   ngOnInit() { }
@@ -70,14 +71,18 @@ export class ModalAudioComponent implements OnInit {
 
     this.audioFile = this.media.create(this.file.externalRootDirectory + this.id + '.mp3');
     this.audioFile.startRecord();
-    this.status = "Rocording...";
+    this.status = "Recording...";
   }
 
   StopRecording(path, Name) {
     this.audioFile.stopRecord();
-    this.status = "Recorded!";
 
     this.recordingNow = false;
+    this.status = "Done.";
+
+    // setTimeout(() => {
+    //   this.modalController.dismiss();
+    // }, 1000);
 
     this.platform.ready()
       .then(() => {
@@ -98,9 +103,15 @@ export class ModalAudioComponent implements OnInit {
 
           reader.onload = () => readedAudio = reader.result;
 
+
           setTimeout(() => {
-            this.http.upload(this.list_id, this.id, readedAudio);
+            this.http.upload(this.list_id, this.id, readedAudio)
+              .then(snapshot => console.log('snapshot'))
+              .catch(err => alert(err));;
           }, 0);
+
+          //change status
+          //close window
 
         })
       })

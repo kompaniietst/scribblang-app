@@ -27,7 +27,7 @@
             }
 
             .bezh {
-              fill: #ead6a4;
+              fill: #ffefe7;
             }
 
             .blue {
@@ -46,31 +46,25 @@
 
         <svg *ngIf="item.type == 'list'" width="40" height="40" viewBox="0 0 70 70">
           <style type="text/css">
-            .lighterPers {
-              fill: #ead6a4;
+            .or {
+              fill: #feb38a;
             }
 
-            .pers {
-              fill: #d8946f;
-            }
-
-            .lightPers {
-              fill: #d8946f;
+            .lb {
+              fill: #ffefe7;
             }
           </style>
-          <path class="lighterPers" d="M38.2,4.1H16.9c-3.4,0-6.1,2.7-6.1,6.1v20v8v16.3c0,3.4,2.7,6.1,6.1,6.1h30.1c3.4,0,6.1-2.7,6.1-6.1V31v-0.7V19
+          <path class="or" d="M38.2,4.1H16.9c-3.4,0-6.1,2.7-6.1,6.1v20v8v16.3c0,3.4,2.7,6.1,6.1,6.1h30.1c3.4,0,6.1-2.7,6.1-6.1V31v-0.7V19
             L38.2,4.1z" />
-          <polygon class="pers" points="38.2,19 53.1,19 38.2,4.1 " />
-          <g>
-            <path class="lightPers"
+          <polygon class="lb" points="38.2,19 53.1,19 38.2,4.1 " />
+            <path class="lb"
               d="M17.7,27h28.4c0.5,0,1-0.5,1-1s-0.5-1-1-1H17.7c-0.5,0-1,0.5-1,1S17.1,27,17.7,27z" />
-            <path class="lightPers"
+            <path class="lb"
               d="M46.1,31.4H17.7c-0.5,0-1,0.5-1,1s0.5,1,1,1h28.4c0.5,0,1-0.5,1-1S46.7,31.4,46.1,31.4z" />
-            <path class="lightPers"
+            <path class="lb"
               d="M46.1,37.8H17.7c-0.5,0-1,0.5-1,1s0.5,1,1,1h28.4c0.5,0,1-0.5,1-1S46.7,37.8,46.1,37.8z" />
-            <path class="lightPers"
+            <path class="lb"
               d="M46.1,44.2H17.7c-0.5,0-1,0.5-1,1s0.5,1,1,1h28.4c0.5,0,1-0.5,1-1S46.7,44.2,46.1,44.2z" />
-          </g>
         </svg>
 
         <strong>{{ item.name }}</strong>
@@ -109,28 +103,13 @@
       </ion-item-option>
       <ion-item-option (click)="onCreateEntityBtn(item.id, 'list', item.path, slidingItem)">
         <svg *ngIf="item.type == 'directory'" width="30" height="30" viewBox="0 0 70 70">
-          <style type="text/css">
-            .white {
-              fill: #FFFFFF;
-            }
-
-            .srpers {
-              fill: #ead6a4;
-            }
-
-            .pers {
-              fill: #d8946f;
-            }
-          </style>
-          <g>
-            <path class="white" d="M86,36.5l-2.3-2c-0.1-0.1-0.2-0.1-0.3-0.1c-0.1,0-0.2,0-0.2,0.1L74.9,44l-3-3.9c-0.1-0.1-0.1-0.1-0.2-0.1
+            <path class="lb" d="M86,36.5l-2.3-2c-0.1-0.1-0.2-0.1-0.3-0.1c-0.1,0-0.2,0-0.2,0.1L74.9,44l-3-3.9c-0.1-0.1-0.1-0.1-0.2-0.1
                 c-0.1,0-0.2,0-0.3,0.1L69,41.8c-0.2,0.1-0.2,0.3-0.1,0.5l5.5,7.3c0.1,0.1,0.2,0.1,0.3,0.1c0,0,0,0,0,0c0.1,0,0.2,0,0.3-0.1L86.1,37
                 C86.2,36.8,86.2,36.6,86,36.5z" />
-          </g>
-          <path class="srpers" d="M38.6,3.9H17.3c-3.4,0-6.1,2.7-6.1,6.1v20v8v16.3c0,3.4,2.7,6.1,6.1,6.1h30.1c3.4,0,6.1-2.7,6.1-6.1V30.8v-0.7
+          <path class="or" d="M38.6,3.9H17.3c-3.4,0-6.1,2.7-6.1,6.1v20v8v16.3c0,3.4,2.7,6.1,6.1,6.1h30.1c3.4,0,6.1-2.7,6.1-6.1V30.8v-0.7
               V18.8L38.6,3.9z" />
-          <polygon class="pers" points="38.6,18.8 53.5,18.8 38.6,3.9 " />
-          <polygon class="pers" points="42.5,33.1 34.4,33.1 34.4,25 31.1,25 31.1,33.1 22.9,33.1 22.9,36.5 31.1,36.5 31.1,44.6 34.4,44.6 
+          <polygon class="lb" points="38.6,18.8 53.5,18.8 38.6,3.9 " />
+          <polygon class="lb" points="42.5,33.1 34.4,33.1 34.4,25 31.1,25 31.1,33.1 22.9,33.1 22.9,36.5 31.1,36.5 31.1,44.6 34.4,44.6 
               34.4,36.5 42.5,36.5 " />
         </svg>
       </ion-item-option>
@@ -142,7 +121,7 @@
             }
 
             .orange {
-              fill: #EBBA16;
+              fill: #feb38a;
             }
 
             .rose {
@@ -169,7 +148,7 @@
         <svg width="30" height="30" viewBox="0 0 70 70">
           <style type="text/css">
             .pers {
-              fill: #d8946f;
+              fill: #eeb18f;
             }
 
             .rose {

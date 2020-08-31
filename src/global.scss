@@ -77,10 +77,15 @@ ion-modal {
             position: absolute;
         }
     }
-    &.modal-add-audio,
-    &.modal-add-word,
+    &.modal-add-audio {
+        --height: 236px;
+    }
+
     &.modal-edit-word {
-        --height: 293px;
+        --height: 250px;
+    }
+    &.modal-add-word {
+        --height: 290px;
     }
     ion-backdrop {
         background-color: rgba(168, 100, 216, 0.612);

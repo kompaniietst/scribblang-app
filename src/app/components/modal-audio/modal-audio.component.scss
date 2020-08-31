@@ -1,0 +1,41 @@
+svg,
+ion-button {
+    position: absolute;
+    top: 33%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+ion-button {
+    top: unset;
+    bottom: 0;
+    min-width: 200px;
+}
+svg {
+    border-radius: 100px;
+    padding: 10px;
+    transition: 0.3s;
+    // background: #fafafc;
+    &.active {
+        transition: 0.3s;
+        // background: #edebef;
+        animation-name: pulse;
+        animation-duration: 1.5s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+}
+.status {
+    margin: 20px;
+}
+
+@keyframes pulse{
+    0% {
+      box-shadow: 0 0 0 0px#edebef;
+    }
+    80% {
+      box-shadow: 0 0 0 25px #edebef;
+    }
+    100% {
+      box-shadow: 0 0 0 0px #edebef;
+    }
+  }

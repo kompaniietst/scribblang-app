@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/core/services/http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Word } from 'src/app/core/models/Word';
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonItemSliding } from '@ionic/angular';
 import { ModalWordComponent } from 'src/app/components/modal-word/modal-word.component';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -35,12 +35,20 @@ export class SingleListPage implements OnInit {
     private tts: TextToSpeech
   ) {
 
-    this.http.getAllRecords(this.list_id)
-      .then(x => {
-        this.allRecords = x.items.map(x => x.toString());
-      }).catch(x => {
-        console.log(x);
-      });
+    this.http.recordListener
+      .subscribe(x => {
+
+
+        this.http.getAllRecords(this.list_id)
+          .then(x => {
+            this.allRecords = x.items.map(x => x.toString());
+          }).catch(x => {
+            console.log(x);
+          });
+
+      }
+
+      )
 
     this.list_name = this.route.snapshot.queryParams.name;
     this.currPageisBookmarks = Object.keys(this.route.snapshot.queryParams).length === 0;
@@ -92,8 +100,10 @@ export class SingleListPage implements OnInit {
     this.presentModal(
       { word: word, mode: 'edit' }, "modal-edit-word", ModalWordComponent);
 
-  addAudio = (id: string) =>
+  addAudio = (id: string, slidingItem: IonItemSliding) => {
+    slidingItem.close();
     this.presentModal({ id: id }, "modal-add-audio", ModalAudioComponent);
+  }
 
   remove = (word_id: string) => this.http.removeWord(this.list_id, word_id)
 
@@ -108,7 +118,7 @@ export class SingleListPage implements OnInit {
 
   say = (id: string) => this.http.play(this.list_id, id);
 
-  recordExist(id: string) {
+  ifRecordExist(id: string) {
     if (this.allRecords)
       return this.allRecords.some(x => x.includes(id))
   }
