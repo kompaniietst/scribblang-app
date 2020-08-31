@@ -5,7 +5,7 @@ import { Word } from '../models/Word';
 import { AuthService } from './auth.service';
 import { FileSystemEntity } from '../models/FileSystemEntity';
 import { map, tap } from 'rxjs/operators';
-
+import { StreamingMedia, StreamingAudioOptions } from '@ionic-native/streaming-media/ngx';
 import * as firebase from "firebase";
 
 @Injectable({
@@ -15,31 +15,39 @@ export class HttpService {
 
   constructor(
     private auth: AuthService,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private streamingMedia: StreamingMedia
   ) {
     this.getFileSystemEntities();
   }
 
-  upload(audioFile, name) {
-    console.log('UPL');
+  play(list_id: string, id: string) {
+    var ref = firebase.storage().ref().child(list_id + '/' + id + '.mp3');
+    ref.getDownloadURL()
+      .then(url => {
 
-    // var message = '5b6p5Y-344GX44G-44GX44Gf77yB44GK44KB44Gn44Go44GG77yB';
+        let options: StreamingAudioOptions = {
+          initFullscreen: false,
+          // bgColor: '#ff0000',
+          successCallback: () => { console.log('Audio played') },
+          errorCallback: (e) => { console.log('Error streaming') }
+        };
 
-    // var file = '' // use the Blob or File API
-    // var bytes = new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21]);
-    let metadata = {
-      contentType: 'audio/mpeg',
-    };
-
-    firebase.storage().ref().child(name)
-      .put(audioFile, metadata).then(function (snapshot) {
-        console.log(snapshot);
-
-        alert('Uploaded a blob or file!');
-      });
+        this.streamingMedia.playAudio(url, options);
+      })
   }
 
+  upload(list_id: string, id: string, str: string) {
+    let storageRef = firebase.storage().ref().child(list_id + '/' + id + '.mp3');
 
+    storageRef.putString(str as string, 'data_url').then(function (snapshot) {
+      alert('Uploaded a base64 string!');
+    }).catch(err => alert(err));
+  }
+
+  getAllRecords(list_id: string) {
+    return firebase.storage().ref().child(list_id).listAll()
+  }
 
   getWordsBy(list_id: string): Observable<any> {
     return this.firestore
@@ -65,12 +73,24 @@ export class HttpService {
       .set(word)
   }
 
-  removeWord(word_id: string) {
+  removeWord(list_id: string, word_id: string) {
     this.firestore
       .collection("words")
       .doc(word_id)
       .delete()
     // .then(() => console.log(word.word, ' REMOVED'))
+
+
+    console.log(list_id, word_id);
+
+
+    var audioRec = firebase.storage().ref().child(list_id + "/" + word_id + ".mp3");
+
+    audioRec.delete().then(function () {
+      console.log('removed rec');
+    }).catch(function (error) {
+      console.log('catch removing rec');
+    });
   }
 
   // getLists(): Observable<any> {

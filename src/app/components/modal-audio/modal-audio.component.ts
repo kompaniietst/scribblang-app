@@ -6,7 +6,8 @@ import { Platform } from '@ionic/angular';
 import * as firebase from "firebase";
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
-// import { StreamingMedia, StreamingAudioOptions } from '@ionic-native/streaming-media';
+import { StreamingMedia, StreamingAudioOptions } from '@ionic-native/streaming-media/ngx';
+import { HttpService } from 'src/app/core/services/http.service';
 
 @Component({
   selector: 'app-modal-audio',
@@ -30,35 +31,36 @@ export class ModalAudioComponent implements OnInit {
     private media: Media,
     private file: File,
     private platform: Platform,
-    // private streamingMedia: StreamingMedia
+
+    private http: HttpService
   ) { }
 
-  ngOnInit() {
-    console.log('id', this.route.snapshot.queryParams.id);
+  public press: number = 0;
+  pressEvent(e) {
+    console.log('press');
 
+    this.press++;
+    console.log(this.press);
 
-    // var player = new Audio();
-    // player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-/* 
-    var ref = firebase.storage().ref().child(this.list_id + '/' + 'qHULZvL4zNzegoGGJJf0.mp3');
-    ref.getDownloadURL()
-      .then(url => {
-        alert(url);
-
-        // let options: StreamingAudioOptions = {
-        //   bgColor: 'red',
-        //   successCallback: () => { console.log('Audio played') },
-        //   errorCallback: (e) => { console.log('Error streaming') }
-        // };
-
-        // this.streamingMedia.playAudio(url);
-
-      }) */
   }
 
-  RecordAudio() {
-    console.log(this.recordingNow);
+  holdCount() {
+    console.log('press');
 
+    this.press++;
+    console.log(this.press);
+
+  }
+
+  endCount() {
+    console.log('end');
+
+  }
+
+
+  ngOnInit() { }
+
+  RecordAudio() {
     if (this.recordingNow) {
       this.StopRecording(this.file.externalRootDirectory, this.id + '.mp3');
       return;
@@ -67,12 +69,7 @@ export class ModalAudioComponent implements OnInit {
     this.recordingNow = true;
 
     this.audioFile = this.media.create(this.file.externalRootDirectory + this.id + '.mp3');
-
-
-
     this.audioFile.startRecord();
-    this.status = "Rocording...";
-
     this.status = "Rocording...";
   }
 
@@ -80,52 +77,30 @@ export class ModalAudioComponent implements OnInit {
     this.audioFile.stopRecord();
     this.status = "Recorded!";
 
-    console.log(this.audioFile);
-
-
-
     this.recordingNow = false;
-
-
-    console.log(this.recordingNow);
-    let storageRef = firebase.storage().ref().child(this.list_id + '/' + this.id + '.mp3');
 
     this.platform.ready()
       .then(() => {
         return this.file.resolveDirectoryUrl(this.file.externalRootDirectory)
       })
       .then((rootDir) => {
-        // alert(2);
-        alert(rootDir.name);
-        // alert(rootDir.fullPath);
         return this.file.getFile(rootDir, this.id + '.mp3', { create: false })
       })
       .then((fileEntry) => {
-        // alert('fileEntry.nativeURL');
-        // alert(fileEntry.nativeURL);
-        // alert(fileEntry.name);
-        // alert(fileEntry.isFile);
-        // alert(fileEntry.fullPath);
-
-
 
         fileEntry.file(file => {
-
-          alert(JSON.stringify(file));
-
 
           let reader = new FileReader();
 
           reader.readAsDataURL(file)
 
+          var readedAudio;
 
-          reader.onload = function () {
-            alert(reader.result);
+          reader.onload = () => readedAudio = reader.result;
 
-            storageRef.putString(reader.result as string, 'data_url').then(function (snapshot) {
-              alert('Uploaded a base64 string!');
-            }).catch(err => alert(err));
-          };
+          setTimeout(() => {
+            this.http.upload(this.list_id, this.id, readedAudio);
+          }, 0);
 
         })
       })

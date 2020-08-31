@@ -9,6 +9,8 @@ import { map, tap } from 'rxjs/operators';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { ModalAudioComponent } from '../components/modal-audio/modal-audio.component';
 
+import * as firebase from "firebase";
+
 @Component({
   selector: 'single-list',
   templateUrl: 'single-list.page.html',
@@ -20,9 +22,11 @@ export class SingleListPage implements OnInit {
 
   openedTranslations: string[] = [];
 
-  list_id: string;
+  list_id: string = this.route.snapshot.queryParams.id;
   list_name: string;
   currPageisBookmarks: boolean;
+
+  allRecords;
 
   constructor(
     private http: HttpService,
@@ -31,7 +35,13 @@ export class SingleListPage implements OnInit {
     private tts: TextToSpeech
   ) {
 
-    this.list_id = this.route.snapshot.queryParams.id;
+    this.http.getAllRecords(this.list_id)
+      .then(x => {
+        this.allRecords = x.items.map(x => x.toString());
+      }).catch(x => {
+        console.log(x);
+      });
+
     this.list_name = this.route.snapshot.queryParams.name;
     this.currPageisBookmarks = Object.keys(this.route.snapshot.queryParams).length === 0;
   }
@@ -74,6 +84,10 @@ export class SingleListPage implements OnInit {
 
   }
 
+
+
+
+
   edit = (word: Word) =>
     this.presentModal(
       { word: word, mode: 'edit' }, "modal-edit-word", ModalWordComponent);
@@ -81,7 +95,7 @@ export class SingleListPage implements OnInit {
   addAudio = (id: string) =>
     this.presentModal({ id: id }, "modal-add-audio", ModalAudioComponent);
 
-  remove = (word_id: string) => this.http.removeWord(word_id)
+  remove = (word_id: string) => this.http.removeWord(this.list_id, word_id)
 
   async presentModal(prop: {}, className: string, component) {
     const modal = await this.modalController.create({
@@ -92,12 +106,19 @@ export class SingleListPage implements OnInit {
     return await modal.present();
   }
 
-  say(string: string) {
-    this.tts.speak({
-      text: string,
-      rate: 0.85
-    })
-      .then(x => console.log(string))
-      .catch(x => console.log(string))
+  say = (id: string) => this.http.play(this.list_id, id);
+
+  recordExist(id: string) {
+    if (this.allRecords)
+      return this.allRecords.some(x => x.includes(id))
   }
+
+  // say(string: string) {
+  //   this.tts.speak({
+  //     text: string,
+  //     rate: 0.85
+  //   })
+  //     .then(x => console.log(string))
+  //     .catch(x => console.log(string))
+  // }
 }

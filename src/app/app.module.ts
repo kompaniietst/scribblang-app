@@ -12,7 +12,7 @@ import { AppComponent } from './app.component';
 import { TextToSpeech } from "@ionic-native/text-to-speech/ngx";
 import { Media } from "@ionic-native/media/ngx";
 import { File } from "@ionic-native/file/ngx";
-// import { StreamingMedia } from '@ionic-native/streaming-media';
+import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 
 import { AngularFireModule } from "@angular/fire";
 import { AngularFirestoreModule } from "@angular/fire/firestore";
@@ -36,7 +36,7 @@ import { environment } from 'src/environments/environment';
     TextToSpeech,
     Media,
     File,
-    // StreamingMedia,
+    StreamingMedia,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

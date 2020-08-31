@@ -85,11 +85,7 @@ export class ModalWordComponent implements OnInit, AfterViewInit {
     this.translation = this.word?.translation || '';
     this.transcription = this.word?.transcription || '';
   }
-  changefile(e) {
 
-    console.log(e.target.files[0]);
-    this.http.upload(e.target.files[0], e.target.files[0].name)
-  }
   ngAfterViewInit() {
     console.log(this.f.nativeElement.files);
 
@@ -470,13 +466,6 @@ export class ModalWordComponent implements OnInit, AfterViewInit {
   }
 
 
-  upl(name) {
-    this.http.upload(this.blob, name);
-  }
 
-  public press: number = 0;
-  pressEvent() {
-    this.press++;
 
-  }
 }

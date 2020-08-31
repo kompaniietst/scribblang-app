@@ -1,6 +1,10 @@
 <div class="record">
   <div>{{status}}</div>
 
+  <ion-button (click)="pressEvent($event)">press</ion-button>
+
+  <button (touch)="holdCount()" (touchend)="endCount()">EDD</button>
+
   <ion-button (click)="RecordAudio()">
     <span *ngIf="recordingNow">Stop</span>
     <span *ngIf="!recordingNow">Record</span>
