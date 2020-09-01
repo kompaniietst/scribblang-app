@@ -35,7 +35,7 @@ export class SingleListPage implements OnInit {
     private tts: TextToSpeech
   ) {
 
-    this.http.recordListener
+    this.http.recordListener$
       .subscribe(x => {
 
 

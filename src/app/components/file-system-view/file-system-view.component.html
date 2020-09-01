@@ -5,13 +5,8 @@
 
         <svg *ngIf="item.type == 'directory' && item.children.length === 0" width="35" height="35" viewBox="0 0 65 53">
           <style type="text/css">
-            .lightBlue {
-              fill: #318FFF;
-            }
-
-            .blue {
-              fill: #1457CD;
-            }
+            .lightBlue {fill:#e23359;}
+            .blue {fill: #fe456d;}
           </style>
           <path class="lightBlue"
             d="M57,12.6c0-2.7-2.2-4.9-4.9-4.9H27.7c-0.8,0-1.6-0.3-2.2-1L20.2,1c-0.6-0.6-1.4-1-2.2-1H5.3
@@ -22,17 +17,9 @@
 
         <svg *ngIf="item.type == 'directory' && item.children.length > 0" width="35" height="35" viewBox="0 0 65 53">
           <style type="text/css">
-            .lightBlue {
-              fill: #318FFF;
-            }
-
-            .bezh {
-              fill: #ffefe7;
-            }
-
-            .blue {
-              fill: #1457CD;
-            }
+            .bezh {fill: #ffffff;}
+            .lightBlue {fill:#e23359;}
+            .blue {fill: #fe456d;}
           </style>
           <path class="lightBlue"
             d="M57,12.6c0-2.7-2.2-4.9-4.9-4.9H27.7c-0.8,0-1.6-0.3-2.2-1L20.2,1c-0.6-0.6-1.4-1-2.2-1H5.3
@@ -75,14 +62,6 @@
       <ion-item-option (click)="onCreateEntityBtn(item.id, 'directory', item.path, slidingItem)">
         <svg *ngIf="item.type == 'directory'" width="30" height="30" viewBox="0 0 70 70">
           <style type="text/css">
-            .lightBlue {
-              fill: #318FFF;
-            }
-
-            .blue {
-              fill: #1457CD;
-            }
-
             .white {
               fill: #FFFFFF;
             }
@@ -125,7 +104,7 @@
             }
 
             .rose {
-              fill: #f7577a;
+              fill: #e23359;
             }
           </style>
           <path class="grey" d="M57.8,14.6L50,6.8c-0.9-0.9-2.5-0.9-3.4,0L42,11.3l-3.8,3.7L14.1,38.9l-6.9,18l0,0l0,0l7.5-2.8l10.7-4
@@ -152,7 +131,7 @@
             }
 
             .rose {
-              fill: #f7577a;
+              fill: #e23359;
             }
 
             .white {

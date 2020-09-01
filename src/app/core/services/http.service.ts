@@ -7,6 +7,7 @@ import { FileSystemEntity } from '../models/FileSystemEntity';
 import { map, tap } from 'rxjs/operators';
 import { StreamingMedia, StreamingAudioOptions } from '@ionic-native/streaming-media/ngx';
 import * as firebase from "firebase";
+import { LangService } from './lang.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,15 @@ import * as firebase from "firebase";
 export class HttpService {
 
   private recordSubj = new BehaviorSubject(false);
-  public recordListener = this.recordSubj.asObservable();
+  public recordListener$ = this.recordSubj.asObservable();
 
   constructor(
     private auth: AuthService,
     private firestore: AngularFirestore,
-    private streamingMedia: StreamingMedia
+    private streamingMedia: StreamingMedia,
+    private lang: LangService
   ) {
-    this.getFileSystemEntities();
+    this.getFileSystemEntities('en');
   }
 
   play(list_id: string, id: string) {
@@ -44,7 +46,10 @@ export class HttpService {
     let storageRef = firebase.storage().ref().child(list_id + '/' + id + '.mp3');
 
     return storageRef.putString(str as string, 'data_url')
-      .then(_ => this.recordSubj.next(true));
+      .then(_ => {
+        this.recordSubj.next(true);
+        alert('upload');
+      });
   }
 
   getAllRecords(list_id: string) {
@@ -102,23 +107,35 @@ export class HttpService {
   //     .snapshotChanges()
   // }
 
-  getFileSystemEntities() {
+  getFileSystemEntities(lang: string) {
+    console.log('l ', lang);
+
     var uid = this.auth.getCurrUserUid();
     console.log('uid get', uid);
 
 
-    return this.firestore
+    return firebase.firestore().collection("systemEntities2").orderBy("createdAt", "desc")
+      .where("uid", "==", uid)
+      .where("lang", "==", lang)
+
+    // query = query.where(...)
+    // query = query.where(...)
+    // query = query.orderBy(...)
+    // query.get().then(...)
+
+    this.firestore
       .collection("systemEntities2", ref => ref
         .orderBy("createdAt", "desc")
         .where("uid", "==", uid))
       .snapshotChanges()
   }
 
-  createFileSystemEntity(obj: Partial<FileSystemEntity>) {
+  createFileSystemEntity(obj: Partial<FileSystemEntity>, lang: string) {
     var uid = this.auth.getCurrUserUid();
 
     obj["createdAt"] = new Date();
     obj["uid"] = this.auth.getCurrUserUid();
+    obj["lang"] = lang;
 
     return this.firestore
       .collection("systemEntities2")
@@ -128,7 +145,7 @@ export class HttpService {
         // this.saveListToListsCollection(resp.id, obj);
 
         this.saveSystEntIdToUsersColl(resp.id);
-        this.getFileSystemEntities()
+        this.getFileSystemEntities(lang);
       });
   }
 

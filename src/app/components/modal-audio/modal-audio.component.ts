@@ -1,12 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Media, MediaObject } from "@ionic-native/media/ngx";
-import { File, Entry } from "@ionic-native/file/ngx";
+import { File } from "@ionic-native/file/ngx";
 import { Md5 } from 'ts-md5';
 import { Platform, ModalController } from '@ionic/angular';
-import * as firebase from "firebase";
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { StreamingMedia, StreamingAudioOptions } from '@ionic-native/streaming-media/ngx';
 import { HttpService } from 'src/app/core/services/http.service';
 
 @Component({
@@ -25,7 +22,6 @@ export class ModalAudioComponent implements OnInit {
 
   recordingNow: boolean = false;
 
-
   constructor(
     private route: ActivatedRoute,
     public modalController: ModalController,
@@ -36,34 +32,11 @@ export class ModalAudioComponent implements OnInit {
     private http: HttpService
   ) { }
 
-  // public press: number = 0;
-  // pressEvent(e) {
-  //   console.log('press');
-
-  //   this.press++;
-  //   console.log(this.press);
-
-  // }
-
-  // holdCount() {
-  //   console.log('press');
-
-  //   this.press++;
-  //   console.log(this.press);
-
-  // }
-
-  // endCount() {
-  //   console.log('end');
-
-  // }
-
-
   ngOnInit() { }
 
   RecordAudio() {
     if (this.recordingNow) {
-      this.StopRecording(this.file.externalRootDirectory, this.id + '.mp3');
+      this.StopRecording();
       return;
     }
 
@@ -74,15 +47,13 @@ export class ModalAudioComponent implements OnInit {
     this.status = "Recording...";
   }
 
-  StopRecording(path, Name) {
+  StopRecording() {
     this.audioFile.stopRecord();
 
     this.recordingNow = false;
     this.status = "Done.";
 
-    // setTimeout(() => {
-    //   this.modalController.dismiss();
-    // }, 1000);
+    setTimeout(() => { this.modalController.dismiss(); }, 1000);
 
     this.platform.ready()
       .then(() => {

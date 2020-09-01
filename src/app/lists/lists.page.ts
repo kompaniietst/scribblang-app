@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { HttpService } from '../core/services/http.service';
 import { FileSystemEntity } from '../core/models/FileSystemEntity';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-lists',
@@ -10,29 +11,69 @@ import { FileSystemEntity } from '../core/models/FileSystemEntity';
 })
 export class ListsPage {
 
+  lang: string = this.route.snapshot.queryParams.lang;
+
   constructor(
-    private http: HttpService
+    private http: HttpService,
+    private route: ActivatedRoute
   ) { }
 
   treeData: FileSystemEntity[];
 
   ngOnInit(): void {
-    this.http.getFileSystemEntities()
-      .subscribe(res => {
+    console.log(this.lang);
 
-        var data = res.map((item: any) => {
+    this.http.getFileSystemEntities(this.lang)
+      .onSnapshot(querySnapshot => {
+
+        var data = querySnapshot.docChanges().map(item => {
+
           return {
-            id: item.payload.doc.id,
-            name: item.payload.doc.data()["name"],
-            path: item.payload.doc.data()["path"],
-            type: item.payload.doc.data()["type"],
-            createdAt: item.payload.doc.data()["createdAt"],
+            id: item.doc.id,
+            name: item.doc.data()["name"],
+            path: item.doc.data()["path"],
+            type: item.doc.data()["type"],
+            createdAt: item.doc.data()["createdAt"],
           }
-        })
+
+        });
+        console.log(`Received`, data);
 
         this.treeData = [];
         this.buildTree(data, this.treeData, "");
-      })
+
+        // var data = querySnapshot.map((item: any) => {
+        //   return {
+        //     id: item.payload.doc.id,
+        //     name: item.payload.doc.data()["name"],
+        //     path: item.payload.doc.data()["path"],
+        //     type: item.payload.doc.data()["type"],
+        //     createdAt: item.payload.doc.data()["createdAt"],
+        //   }
+        // })
+
+
+
+      }, err => {
+        console.log(`Encountered error: ${err}`);
+      });
+
+
+    // .subscribe(res => {
+
+    //   var data = res.map((item: any) => {
+    //     return {
+    //       id: item.payload.doc.id,
+    //       name: item.payload.doc.data()["name"],
+    //       path: item.payload.doc.data()["path"],
+    //       type: item.payload.doc.data()["type"],
+    //       createdAt: item.payload.doc.data()["createdAt"],
+    //     }
+    //   })
+
+    //   this.treeData = [];
+    //   this.buildTree(data, this.treeData, "");
+    // })
   }
 
   buildTree(data: FileSystemEntity[], parentJson: FileSystemEntity[], path: string) {

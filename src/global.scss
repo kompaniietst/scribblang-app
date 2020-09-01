@@ -209,18 +209,9 @@ form svg {
 
 /* Rounded corners */
 ion-toolbar {
-    height: 79px;
+    padding-bottom: 23px;
 }
 .corners {
-    // position: relative;
-    // svg {
-    //     position: absolute;
-    //     top: 0;
-    //     z-index: 3;
-    //     &.right {
-    //         right: 0;
-    //     }
-    // }
     position: relative;
     display: block;
     width: 100%;
@@ -230,6 +221,3 @@ ion-toolbar {
     border-radius: 32px 32px 0 0;
     margin-top: -23px;
 }
-// .logo {
-//     // background: url(../src/assets/logo.png) no-repeat center;
-// }

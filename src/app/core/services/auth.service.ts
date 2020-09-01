@@ -123,7 +123,7 @@ export class AuthService {
 
     return from(this.auth().then(result => {
       console.log('TRUEEE', result);
-      // this.router.navigate(['tabs']);
+      // this.router.navigate(['start']);
       return true;
     }).catch(error => {
       console.log('FALSEEE', error);
