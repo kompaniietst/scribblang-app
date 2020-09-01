@@ -33,7 +33,7 @@ export class FileSystemViewComponent implements OnInit {
 
   goToList(item: FileSystemEntity) {
     this.router
-      .navigate([`/tabs/lists/single-list/`],
+      .navigate([`app/tabs/lists/single-list/`],
         { queryParams: { id: item.id, name: item.name } });
   }
   open(id: string) {

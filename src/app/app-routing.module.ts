@@ -3,16 +3,30 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
-  {
-    path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
-    canActivate: [AuthGuard]
-  },
+  // {
+  //   path: '',
+  //   loadChildren: () => import('./test/test.module').then(m => m.TestPageModule),
+  //   canActivate: [AuthGuard]
+  // },
+  // {
+  //   path: 'tabs',
+  //   loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
+  //   canActivate: [AuthGuard]
+  // },
   {
     path: 'start',
     loadChildren: () => import('./starter/starter.module').then(m => m.StarterPageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'app',
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
+    canActivate: [AuthGuard]
+  },
+  // {
+  //   path: 'app',
+  //   loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
+  // },
   // {
   //   path: '',
   //   loadChildren: () => import('./auth/login/login.module').then(m => m.LoginPageModule),
@@ -26,6 +40,11 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./auth/login/login.module').then(m => m.LoginPageModule),
   },
+  {
+    path: '',
+    redirectTo: '/start',
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({
@@ -34,4 +53,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

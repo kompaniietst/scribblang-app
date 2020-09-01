@@ -26,17 +26,34 @@ export class ListsPage {
     this.http.getFileSystemEntities(this.lang)
       .onSnapshot(querySnapshot => {
 
-        var data = querySnapshot.docChanges().map(item => {
+        console.log('querySnapshot', querySnapshot);
+
+
+        var data = querySnapshot.docs.map(item => {
+          // console.log('d', item.data());
 
           return {
-            id: item.doc.id,
-            name: item.doc.data()["name"],
-            path: item.doc.data()["path"],
-            type: item.doc.data()["type"],
-            createdAt: item.doc.data()["createdAt"],
+            id: item.id,
+            name: item.data()["name"],
+            path: item.data()["path"],
+            type: item.data()["type"],
+            createdAt: item.data()["createdAt"],
           }
 
+
         });
+
+        // var data = querySnapshot.docChanges().map(item => {
+
+        //   return {
+        //     id: item.doc.id,
+        //     name: item.doc.data()["name"],
+        //     path: item.doc.data()["path"],
+        //     type: item.doc.data()["type"],
+        //     createdAt: item.doc.data()["createdAt"],
+        //   }
+
+        // });
         console.log(`Received`, data);
 
         this.treeData = [];

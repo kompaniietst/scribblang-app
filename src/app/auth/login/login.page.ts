@@ -46,7 +46,7 @@ export class LoginPage implements OnInit, AfterViewInit {
         this.successMessage = "Your can enter";
 
         // this.router.navigate(['login'])
-        this.router.navigate(['tabs/lists']);
+        this.router.navigate(['start']);
 
         console.log('res', res.user.uid);
 
