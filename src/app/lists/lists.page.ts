@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { HttpService } from '../core/services/http.service';
 import { FileSystemEntity } from '../core/models/FileSystemEntity';
 import { ActivatedRoute } from '@angular/router';
 import { LangService } from '../core/services/lang.service';
-import { tap, mergeMap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-lists',
@@ -23,7 +22,12 @@ export class ListsPage {
     console.log(' ');
 
     this.lang.lang$
-      .pipe(tap(x => console.log('lang in lists', x)))
+      .pipe(tap(x => {
+        console.log(' ');
+        console.log('LIST', x);
+        console.log(' ');
+      }
+      ))
       .subscribe((lang: string) => this.getFilesStructure(lang));
   }
 

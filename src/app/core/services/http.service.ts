@@ -17,13 +17,19 @@ export class HttpService {
   private recordSubj = new BehaviorSubject(false);
   public recordListener$ = this.recordSubj.asObservable();
 
+  // currLang: string;
+
   constructor(
     private auth: AuthService,
     private firestore: AngularFirestore,
     private streamingMedia: StreamingMedia,
     private lang: LangService
   ) {
-    this.getFileSystemEntities('en');
+    this.lang.lang$
+      .subscribe(lang => {
+        // this.currLang = lang;
+        this.getFileSystemEntities(lang)
+      })
   }
 
   play(list_id: string, id: string) {
@@ -42,14 +48,21 @@ export class HttpService {
       })
   }
 
-  upload(list_id: string, id: string, str: string) {
+  async upload(list_id: string, id: string, str: string) {
+    alert(list_id + '/' + id + '.mp3');
     let storageRef = firebase.storage().ref().child(list_id + '/' + id + '.mp3');
 
-    return storageRef.putString(str as string, 'data_url')
-      .then(_ => {
-        this.recordSubj.next(true);
-        alert('upload');
-      });
+    try {
+      const _ = await storageRef.putString((str as string), 'data_url');
+      this.recordSubj.next(true);
+      alert('upload');
+      // this.getFileSystemEntities(this.currLang);
+      this.getAllRecords(list_id);
+    }
+    catch (err) {
+      alert('err');
+      alert(JSON.stringify(err));
+    }
   }
 
   getAllRecords(list_id: string) {
@@ -58,7 +71,7 @@ export class HttpService {
 
   getWordsBy(list_id: string): Observable<any> {
     return this.firestore
-      .collection("words", ref => ref
+      .collection("words_____", ref => ref
         .orderBy("createdAt", "desc")
         .where("list_id", "==", list_id))
       .snapshotChanges()
@@ -68,14 +81,14 @@ export class HttpService {
     var newWord = Object.assign({ list_id: list_id }, word);
 
     return this.firestore
-      .collection("words")
+      .collection("words_____")
       .add(newWord)
     // .then(() => console.log('Created word'))
   }
 
   editWord(word: Word): Promise<any> {
     return this.firestore
-      .collection("words")
+      .collection("words_____")
       .doc(word.id)
       .set(word)
   }
@@ -84,7 +97,7 @@ export class HttpService {
     console.log(list_id, word_id);
 
     this.firestore
-      .collection("words")
+      .collection("words_____")
       .doc(word_id)
       .delete()
     // .then(() => console.log(word.word, ' REMOVED'))
@@ -104,7 +117,7 @@ export class HttpService {
 
   // getLists(): Observable<any> {
   //   return this.firestore
-  //     .collection("systemEntities2", ref => ref
+  //     .collection("systemEntities_____", ref => ref
   //       .where("type", "==", "list"))
   //     .snapshotChanges()
   // }
@@ -116,7 +129,7 @@ export class HttpService {
     console.log('uid get', uid);
 
 
-    return firebase.firestore().collection("systemEntities2").orderBy("createdAt", "desc")
+    return firebase.firestore().collection("systemEntities_____").orderBy("createdAt", "desc")
       .where("uid", "==", uid)
       .where("lang", "==", lang)
 
@@ -126,7 +139,7 @@ export class HttpService {
     // query.get().then(...)
 
     this.firestore
-      .collection("systemEntities2", ref => ref
+      .collection("systemEntities_____", ref => ref
         .orderBy("createdAt", "desc")
         .where("uid", "==", uid))
       .snapshotChanges()
@@ -140,7 +153,7 @@ export class HttpService {
     obj["lang"] = lang;
 
     return this.firestore
-      .collection("systemEntities2")
+      .collection("systemEntities_____")
       .add(obj)
       .then(resp => {
         // if (obj.type == "list")
@@ -151,12 +164,6 @@ export class HttpService {
       });
   }
 
-  // saveListToListsCollection(list_id: string, obj: Partial<FileSystemEntity>) {
-  //   this.firestore
-  //     .collection("lists2")
-  //     .doc(list_id)
-  //     .set(obj)
-  // }
 
   saveSystEntIdToUsersColl(list_id) {
     var uid = this.auth.getCurrUserUid();
@@ -169,14 +176,14 @@ export class HttpService {
 
   editFileSystemEntity(doc_id: string, systemEntityName: string) {
     return this.firestore
-      .collection("systemEntities2")
+      .collection("systemEntities_____")
       .doc(doc_id)
       .update({ name: systemEntityName })
   }
 
   removeFileSystemEntity(doc_id: string) {
     return this.firestore
-      .collection("systemEntities2")
+      .collection("systemEntities_____")
       .doc(doc_id)
       .delete()
   }

@@ -15,19 +15,10 @@ export class ProfilePage {
     private auth: AuthService,
     private lang: LangService
   ) {
-
-    this.lang.lang$
-      .subscribe((lang: string) => this.currLang = lang);
+    this.lang.lang$.subscribe((lang: string) => this.currLang = lang);
   }
 
   logout = () => this.auth.logout();
 
-
-  selectLang(lang: string) {
-    console.log('lang=> ', lang);
-
-    this.lang.setLang(lang);
-    // this.router.navigate(["app/tabs/lists"], { queryParams: { lang: lang || 'en' } });
-  }
-
+  selectLang = (lang: string) => this.lang.setLangtoUser(lang);
 }

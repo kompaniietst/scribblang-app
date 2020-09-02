@@ -5,10 +5,15 @@ ion-label.sc-ion-label-md-h,
 ion-select {
     color: white;
 }
-ion-list{
+ion-list {
     position: absolute;
     top: 47%;
     width: 85%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     left: 50%;
+}
+ion-select {
+    max-width: 100%;
+    width: 100%;
+    color: white;
 }

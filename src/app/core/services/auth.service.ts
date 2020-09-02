@@ -12,8 +12,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class AuthService {
 
-  public state: ReplaySubject<firebase.User> = new ReplaySubject(1);
-  user$ = this.state.asObservable();
+  public userSubject: ReplaySubject<firebase.User> = new ReplaySubject(1);
+  user$ = this.userSubject.asObservable();
 
   currUserId;
 
@@ -29,8 +29,20 @@ export class AuthService {
       console.log('authData', authData);
 
       if (authData != null) {
-        this.state.next(authData);
+        this.userSubject.next(authData);
         this.currUserId = authData.uid;
+
+        // if(authData){
+        //   authData.
+        //   authData.updateProfile({
+        //      displayName: 'DN',
+        //      LANG:'lang',
+        //      photoURL: "PU"
+        //   }).then(
+        //     (s)=> console.log('updated')
+        //   )
+        // }
+
       } else {
         this.router.navigate(["login"]);
       }
@@ -110,7 +122,7 @@ export class AuthService {
 
   async auth(): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.state.subscribe((authData) => {
+      this.userSubject.subscribe((authData) => {
         resolve(authData.uid);
       }, (error => {
         reject(error);
@@ -119,17 +131,18 @@ export class AuthService {
   }
 
   guardAuth() {
-    console.log('***************');
-
     return from(this.auth().then(result => {
-      console.log('TRUEEE', result);
-      // this.router.navigate(['start']);
       return true;
     }).catch(error => {
-      console.log('FALSEEE', error);
       this.router.navigate(['/login']);
-
       return false;
     }));
+  }
+
+  setLangtoUser(uid: string, lang: string) {
+    this.firestore.collection("users")
+      .doc(uid)
+      .set({ lang: lang }, { merge: true })
+      .then(x => console.log('add lang', x));
   }
 }

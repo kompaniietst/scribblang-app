@@ -49,4 +49,10 @@ export class TabsPage {
   currTabIs = (tabName: string) => {
     return this.router.url.includes(tabName);
   }
+
+  ionTabsDidChange(e) {
+    console.log('e', e);
+    if (e.tab == "lists")
+    this.router.navigate(["app/tabs/lists"]);
+  }
 }

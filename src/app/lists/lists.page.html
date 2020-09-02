@@ -1,7 +1,7 @@
 <ion-content>{{ lang.lang$ | async }}
   <app-header [title]="'Directories and lists'"></app-header>
 
-  <div *ngIf="treeData && treeData?.length === 0" class="no-data ion-text-center">
+  <div *ngIf="treeData?.length === 0" class="no-data ion-text-center">
     Start to add directories and lists <br> of your words!
   </div>
 
