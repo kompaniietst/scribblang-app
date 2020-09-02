@@ -81,6 +81,8 @@ export class HttpService {
   }
 
   removeWord(list_id: string, word_id: string) {
+    console.log(list_id, word_id);
+
     this.firestore
       .collection("words")
       .doc(word_id)

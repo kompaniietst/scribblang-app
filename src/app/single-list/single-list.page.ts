@@ -10,6 +10,7 @@ import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { ModalAudioComponent } from '../components/modal-audio/modal-audio.component';
 
 import * as firebase from "firebase";
+import { LangService } from '../core/services/lang.service';
 
 @Component({
   selector: 'single-list',
@@ -28,12 +29,19 @@ export class SingleListPage implements OnInit {
 
   allRecords;
 
+  currLang: string;
+
   constructor(
     private http: HttpService,
     public modalController: ModalController,
     private route: ActivatedRoute,
-    private tts: TextToSpeech
+    private tts: TextToSpeech,
+    private lang: LangService
   ) {
+
+    this.lang.lang$
+      .pipe(tap(x => console.log('lang in lists', x)))
+      .subscribe((lang: string) => this.currLang = lang);
 
     this.http.recordListener$
       .subscribe(x => {
@@ -116,19 +124,21 @@ export class SingleListPage implements OnInit {
     return await modal.present();
   }
 
-  say = (id: string) => this.http.play(this.list_id, id);
+  playRecorded = (id: string) => this.http.play(this.list_id, id);
 
   ifRecordExist(id: string) {
     if (this.allRecords)
       return this.allRecords.some(x => x.includes(id))
   }
 
-  // say(string: string) {
-  //   this.tts.speak({
-  //     text: string,
-  //     rate: 0.85
-  //   })
-  //     .then(x => console.log(string))
-  //     .catch(x => console.log(string))
-  // }
+  speek(string: string) {
+    console.log('speak');
+
+    this.tts.speak({
+      text: string,
+      rate: 0.85
+    })
+      .then(x => console.log(string))
+      .catch(x => console.log(string))
+  }
 }

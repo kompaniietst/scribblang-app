@@ -16,4 +16,14 @@
     </ion-toolbar>
   </ion-header>
 
+  <ion-list>
+    <ion-item>
+      <ion-label>Select your lang:</ion-label>{{currLang}}
+      <ion-select [value]="currLang" okText="Ok" cancelText="" (ionChange)="selectLang($event.target.value)">
+        <ion-select-option value="en">English</ion-select-option>
+        <ion-select-option value="hw">Hebrew</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
 </ion-content>

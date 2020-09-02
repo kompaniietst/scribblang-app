@@ -88,8 +88,8 @@ export class FileSystemViewComponent implements OnInit {
       return;
     }
 
-    // this.http.removeFileSystemEntity(id)
-    //   .then(_ => this.presentToast(`${name} was removed`, 'success'))
+    this.http.removeFileSystemEntity(id)
+      .then(_ => this.presentToast(`${name} was removed`, 'success'))
   }
 
   async presentToast(message: string, color: string) {

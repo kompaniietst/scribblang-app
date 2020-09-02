@@ -7,8 +7,6 @@ import { FileSystemViewComponent } from './file-system-view/file-system-view.com
 import { ModalWordComponent } from './modal-word/modal-word.component';
 import { ModalFileSystemComponent } from './modal-file-system/modal-file-system.component';
 import { ModalAudioComponent } from './modal-audio/modal-audio.component';
-import { StarterComponent } from './starter/starter.component';
-// import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 
 
 @NgModule({
@@ -19,7 +17,6 @@ import { StarterComponent } from './starter/starter.component';
     ModalWordComponent,
     ModalFileSystemComponent,
     ModalAudioComponent,
-    StarterComponent
   ],
   imports: [
     CommonModule,

@@ -3,6 +3,8 @@ import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { HttpService } from '../core/services/http.service';
 import { FileSystemEntity } from '../core/models/FileSystemEntity';
 import { ActivatedRoute } from '@angular/router';
+import { LangService } from '../core/services/lang.service';
+import { tap, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-lists',
@@ -11,69 +13,77 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ListsPage {
 
-  lang: string = this.route.snapshot.queryParams.lang;
+  currLang: string;
 
   constructor(
     private http: HttpService,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+    private lang: LangService
+  ) {
+    console.log(' ');
+
+    this.lang.lang$
+      .pipe(tap(x => console.log('lang in lists', x)))
+      .subscribe((lang: string) => this.getFilesStructure(lang));
+  }
 
   treeData: FileSystemEntity[];
 
   ngOnInit(): void {
-    console.log(this.lang);
+    console.log('ON INIT');
 
-    this.http.getFileSystemEntities(this.lang)
-      .onSnapshot(querySnapshot => {
-
-        console.log('querySnapshot', querySnapshot);
-
-
-        var data = querySnapshot.docs.map(item => {
-          // console.log('d', item.data());
-
-          return {
-            id: item.id,
-            name: item.data()["name"],
-            path: item.data()["path"],
-            type: item.data()["type"],
-            createdAt: item.data()["createdAt"],
-          }
-
-
-        });
-
-        // var data = querySnapshot.docChanges().map(item => {
-
-        //   return {
-        //     id: item.doc.id,
-        //     name: item.doc.data()["name"],
-        //     path: item.doc.data()["path"],
-        //     type: item.doc.data()["type"],
-        //     createdAt: item.doc.data()["createdAt"],
-        //   }
-
-        // });
-        console.log(`Received`, data);
-
-        this.treeData = [];
-        this.buildTree(data, this.treeData, "");
-
-        // var data = querySnapshot.map((item: any) => {
-        //   return {
-        //     id: item.payload.doc.id,
-        //     name: item.payload.doc.data()["name"],
-        //     path: item.payload.doc.data()["path"],
-        //     type: item.payload.doc.data()["type"],
-        //     createdAt: item.payload.doc.data()["createdAt"],
-        //   }
-        // })
-
-
-
-      }, err => {
-        console.log(`Encountered error: ${err}`);
-      });
+    /*     this.http.getFileSystemEntities(this.currLang)
+          .onSnapshot(querySnapshot => {
+    
+            console.log('querySnapshot', querySnapshot);
+    
+    
+            var data = querySnapshot.docs.map(item => {
+              // console.log('d', item.data());
+    
+              return {
+                id: item.id,
+                name: item.data()["name"],
+                path: item.data()["path"],
+                type: item.data()["type"],
+                lang: item.data()["lang"],
+                createdAt: item.data()["createdAt"],
+              }
+    
+    
+            });
+    
+            // var data = querySnapshot.docChanges().map(item => {
+    
+            //   return {
+            //     id: item.doc.id,
+            //     name: item.doc.data()["name"],
+            //     path: item.doc.data()["path"],
+            //     type: item.doc.data()["type"],
+            //     createdAt: item.doc.data()["createdAt"],
+            //   }
+    
+            // });
+            console.log(`Received`, data);
+    
+            this.treeData = [];
+            this.buildTree(data, this.treeData, "");
+    
+            // var data = querySnapshot.map((item: any) => {
+            //   return {
+            //     id: item.payload.doc.id,
+            //     name: item.payload.doc.data()["name"],
+            //     path: item.payload.doc.data()["path"],
+            //     type: item.payload.doc.data()["type"],
+            //     createdAt: item.payload.doc.data()["createdAt"],
+            //   }
+            // })
+    
+    
+    
+          }, err => {
+            console.log(`Encountered error: ${err}`);
+          }); */
 
 
     // .subscribe(res => {
@@ -91,6 +101,32 @@ export class ListsPage {
     //   this.treeData = [];
     //   this.buildTree(data, this.treeData, "");
     // })
+  }
+
+  getFilesStructure(lang: string) {
+    this.http.getFileSystemEntities(lang)
+      .onSnapshot(querySnapshot => {
+
+        console.log('querySnapshot', querySnapshot);
+
+        var data = querySnapshot.docs.map(item => {
+          return {
+            id: item.id,
+            name: item.data()["name"],
+            path: item.data()["path"],
+            type: item.data()["type"],
+            lang: item.data()["lang"],
+            createdAt: item.data()["createdAt"],
+          }
+        });
+
+        console.log(`Received`, data);
+
+        this.treeData = [];
+        this.buildTree(data, this.treeData, "");
+      }, err => {
+        console.log(`Encountered error: ${err}`);
+      });
   }
 
   buildTree(data: FileSystemEntity[], parentJson: FileSystemEntity[], path: string) {
