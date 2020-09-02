@@ -33,13 +33,12 @@ export class HttpService {
   }
 
   play(list_id: string, id: string) {
-    var ref = firebase.storage().ref().child(list_id + '/' + id + '.mp3');
+    var ref = firebase.storage().ref().child("audio/" + list_id + '/' + id + '.mp3');
     ref.getDownloadURL()
       .then(url => {
 
         let options: StreamingAudioOptions = {
           initFullscreen: false,
-          // bgColor: '#ff0000',
           successCallback: () => { console.log('Audio played') },
           errorCallback: (e) => { console.log('Error streaming') }
         };
@@ -50,7 +49,7 @@ export class HttpService {
 
   async upload(list_id: string, id: string, str: string) {
     alert(list_id + '/' + id + '.mp3');
-    let storageRef = firebase.storage().ref().child(list_id + '/' + id + '.mp3');
+    let storageRef = firebase.storage().ref().child("audio/" + list_id + '/' + id + '.mp3');
 
     try {
       const _ = await storageRef.putString((str as string), 'data_url');
@@ -152,6 +151,8 @@ export class HttpService {
     obj["uid"] = this.auth.getCurrUserUid();
     obj["lang"] = lang;
 
+    console.log('obj',obj);
+    
     return this.firestore
       .collection("systemEntities_____")
       .add(obj)

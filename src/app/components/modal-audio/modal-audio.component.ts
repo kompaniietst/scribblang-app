@@ -40,6 +40,13 @@ export class ModalAudioComponent implements OnInit {
       return;
     }
 
+    if (!this.file.externalRootDirectory) {
+      alert("You can only record audio using the mobile app");
+      setTimeout(() => { this.modalController.dismiss(); }, 1000);
+      return;
+    }
+
+
     this.recordingNow = true;
 
     this.audioFile = this.media.create(this.file.externalRootDirectory + this.id + '.mp3');

@@ -3,6 +3,7 @@ import { ModalController, ToastController } from '@ionic/angular';
 import { HttpService } from 'src/app/core/services/http.service';
 import { FileSystemEntity } from 'src/app/core/models/FileSystemEntity';
 import { ActivatedRoute } from '@angular/router';
+import { LangService } from 'src/app/core/services/lang.service';
 
 @Component({
   selector: 'app-modal-file-system',
@@ -18,15 +19,14 @@ export class ModalFileSystemComponent implements OnInit, AfterViewInit {
   @ViewChild('input') inputToFocus: ElementRef<any>;
 
   name: string = '';
-
-  lang: string = this.route.snapshot.queryParams.lang
+  currLang: string;
 
   constructor(
     public modalController: ModalController,
     private http: HttpService,
     public toastController: ToastController,
-    private route: ActivatedRoute
-  ) { }
+    private lang: LangService
+  ) { this.lang.lang$.subscribe(lang => this.currLang = lang) }
 
   ngOnInit() {
     this.name = this.entity?.name || '';
@@ -51,7 +51,7 @@ export class ModalFileSystemComponent implements OnInit, AfterViewInit {
   createFileSystemEntity(form_value: Partial<FileSystemEntity>) {
     this.http.createFileSystemEntity({
       name: form_value.name, type: this.type, path: this.path
-    }, this.lang)
+    }, this.currLang)
       .then(_ => {
         this.modalController.dismiss();
         this.presentToast(`${this.name} was successfully created.`, 'success')

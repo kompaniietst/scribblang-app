@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef } from '@angular/core';
+import { LangService } from 'src/app/core/services/lang.service';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,7 @@ export class HeaderComponent implements OnInit {
 
   @Input('title') title: string;
 
-  constructor() { }
+  constructor(private lang: LangService) { }
 
   ngOnInit() { }
 

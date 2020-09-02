@@ -93,6 +93,10 @@
   <ion-fab-list side="end" class="add-list" *ngIf="currTabIs('lists') && !currTabIs('single-list')">
     <div (click)="presentModalSystemEntity('list')" class="item">
       <svg width="40" height="40" viewBox="0 0 70 70">
+        <style>
+          .or {fill: #feb38a;}
+          .lb {fill: #ffefe7;}
+        </style>
         <path class="or" d="M38.2,4.1H16.9c-3.4,0-6.1,2.7-6.1,6.1v20v8v16.3c0,3.4,2.7,6.1,6.1,6.1h30.1c3.4,0,6.1-2.7,6.1-6.1V31v-0.7V19
           L38.2,4.1z"/>
         <polygon class="lb" points="38.2,19 53.1,19 38.2,4.1 "/>

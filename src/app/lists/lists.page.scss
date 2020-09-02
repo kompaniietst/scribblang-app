@@ -21,3 +21,13 @@
     transform: translate(0, 50%);
     width: 100%;
 }
+.lang {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translate(0, -50%);
+    font-size: 14px;
+    background: #644ae6;
+    padding: 2px 7px 3px;
+    border-radius: 3px;
+}

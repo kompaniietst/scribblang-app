@@ -13,7 +13,7 @@ import { tap } from 'rxjs/operators';
 export class ListsPage {
 
   currLang: string;
-
+  name="dddDDDD"
   constructor(
     private http: HttpService,
     private route: ActivatedRoute,
