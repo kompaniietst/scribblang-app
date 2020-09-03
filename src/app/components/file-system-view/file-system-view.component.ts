@@ -80,7 +80,7 @@ export class FileSystemViewComponent implements OnInit {
     slidingItem.close();
   }
 
-  removeSystemEntity(id: string, childrenExists: boolean, name: string, slidingItem: IonItemSliding) {
+  removeSystemEntity(id: string, childrenExists: boolean, name: string, type: string, slidingItem: IonItemSliding) {
     slidingItem.close();
 
     if (childrenExists) {
@@ -88,8 +88,23 @@ export class FileSystemViewComponent implements OnInit {
       return;
     }
 
-    this.http.removeFileSystemEntity(id)
-      .then(_ => this.presentToast(`${name} was removed`, 'success'))
+    if (type === "directory")
+      this.http.removeFileSystemEntity(id, type)
+        .then(_ => this.presentToast(`${name} was removed`, 'success'))
+
+    if (type === "list")
+      this.http.removeFileSystemEntity(id, type)
+        .then(() => {
+          this.http.getWordsBy(id)
+            .subscribe(x => {
+              console.log('on list rem ', x);
+              x.forEach((el: any) => {
+                console.log(el.payload.doc.id);
+                var word_id = el.payload.doc.id;
+                this.http.removeWord(id, word_id);
+              });
+            })
+        })
   }
 
   async presentToast(message: string, color: string) {

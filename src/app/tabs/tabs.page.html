@@ -1,7 +1,7 @@
 <ion-tabs (ionTabsDidChange)="ionTabsDidChange($event)">
 
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="lists">
+    <ion-tab-button tab="lists" class="no-ripple">
       <svg width="22" height="22" fill="#526372">
         <g transform="scale(0.33)">
           <path class="st2" d="M36.8,5.8L36.8,5.8L36.8,5.8 M31.9,9.9l24.4,18.3v22.4c0,2.8-2.2,5-5,5H34.4h-5H12.5c-2.8,0-5-2.2-5-5V28.2
@@ -11,7 +11,7 @@
       </svg>
     </ion-tab-button>
 
-    <ion-tab-button tab="words">
+    <ion-tab-button tab="words" class="no-ripple">
       <svg width="22" height="22" fill="#526372">
         <g transform="scale(0.33)">
           <path class="st0" d="M45,11.1c6.5,0,11.8,5.5,11.8,12.2c0,7-2,15.7-24.9,31.1C9,39,7,30.3,7,23.3c0-6.8,5.3-12.2,11.8-12.2
@@ -26,7 +26,7 @@
       [class.active]="currTabIs('lists') || currTabIs('list')">
     </div>
 
-    <ion-tab-button tab="game">
+    <ion-tab-button tab="game" class="no-ripple">
       <svg width="22" height="22" fill="#526372">
         <g transform="scale(0.33)">
           <path class="st5"
@@ -51,7 +51,7 @@
       </svg>
     </ion-tab-button>
 
-    <ion-tab-button tab="profile">
+    <ion-tab-button tab="profile" class="no-ripple">
       <svg width="22" height="22" fill="#526372">
         <g transform="scale(0.33)">
           <path

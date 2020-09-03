@@ -81,8 +81,11 @@ small {
 .record {
     padding-top: 2px;
 }
-.recorded svg {
-    max-width: 20px;
+.recorded {
+    padding-top: 2px;
+    svg {
+        max-width: 20px;
+    }
 }
 .say {
     padding-top: 4px;

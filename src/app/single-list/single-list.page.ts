@@ -49,6 +49,8 @@ export class SingleListPage implements OnInit {
 
         this.http.getAllRecords(this.list_id)
           .then(x => {
+            console.log('recs ',x);
+            
             this.allRecords = x.items.map(x => x.toString());
           }).catch(x => {
             console.log(x);
@@ -108,8 +110,8 @@ export class SingleListPage implements OnInit {
     this.presentModal(
       { word: word, mode: 'edit' }, "modal-edit-word", ModalWordComponent);
 
-  addAudio = (id: string, slidingItem: IonItemSliding) => {
-    slidingItem.close();
+  addAudio = (id: string, slidingItem?: IonItemSliding) => {
+    slidingItem?.close();
     this.presentModal({ id: id }, "modal-add-audio", ModalAudioComponent);
   }
 

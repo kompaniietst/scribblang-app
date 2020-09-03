@@ -49,7 +49,28 @@ export class ModalAudioComponent implements OnInit {
 
     this.recordingNow = true;
 
-    this.audioFile = this.media.create(this.file.externalRootDirectory + this.id + '.mp3');
+
+    this.platform.ready().then(() => {
+      if (this.platform.is('android')) {
+        this.file.checkDir(this.file.externalRootDirectory, 'Scribblang').then(response => {
+          alert('Directory exists' + JSON.stringify(response));
+        }).catch(err => {
+          console.log('Directory doesn\'t exist' + JSON.stringify(err));
+          this.file.createDir(this.file.externalRootDirectory, 'Scribblang', false).then(response => {
+            alert('Directory create' + JSON.stringify(response));
+          }).catch(err => {
+            alert('Directory no create' + JSON.stringify(err));
+          });
+        });
+      }
+    });
+
+
+
+
+
+
+    this.audioFile = this.media.create(this.file.externalRootDirectory + '/Scribblang/' + this.id + ".mp3");
     this.audioFile.startRecord();
     this.status = "Recording...";
   }
@@ -64,7 +85,7 @@ export class ModalAudioComponent implements OnInit {
 
     this.platform.ready()
       .then(() => {
-        return this.file.resolveDirectoryUrl(this.file.externalRootDirectory)
+        return this.file.resolveDirectoryUrl(this.file.externalRootDirectory + "/Scribblang/")
       })
       .then((rootDir) => {
         return this.file.getFile(rootDir, this.id + '.mp3', { create: false })
@@ -83,10 +104,12 @@ export class ModalAudioComponent implements OnInit {
 
 
           setTimeout(() => {
+            alert('readed audio'+readedAudio);
+
             this.http.upload(this.list_id, this.id, readedAudio)
               .then(snapshot => console.log('snapshot'))
               .catch(err => alert(err));;
-          }, 0);
+          }, 100);
 
           //change status
           //close window

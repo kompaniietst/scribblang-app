@@ -51,3 +51,6 @@ ion-fab svg {
 ion-tab-button {
     background: #eeedf7;
 }
+.no-ripple {
+    --ripple-color: transparent;
+  }

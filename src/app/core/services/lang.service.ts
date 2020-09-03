@@ -18,22 +18,26 @@ export class LangService {
     private auth: AuthService,
     private firestore: AngularFirestore
   ) {
-    // console.log('=====', this.auth.getCurrUserUid());
 
 
     this.auth.user$
       .subscribe(
         x => {
           this.uid = x.uid; this.getLang();
-          console.log('========================', x)
         }
       )
 
   }
 
+  test() {
+    console.log('test');
+  }
+
+  get() {
+    return this.langSubj.value;
+  }
 
   setLangtoUser(lang: string) {
-    console.log('UUUUUU', this.uid);
 
     this.firestore.collection("users")
       .doc(this.uid)
@@ -48,7 +52,6 @@ export class LangService {
       .doc(this.uid)
       .get()
       .subscribe(x => {
-        console.log('getLang', x.data()?.lang);
         var lang = x.data()?.lang;
         if (lang) this.langSubj.next(lang);
       })

@@ -1,11 +1,3 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
 
   <ion-button (click)="logout()">Log out</ion-button>
@@ -18,7 +10,7 @@
 
   <ion-list>
     <ion-item>
-      <ion-label>Select your lang:</ion-label>{{currLang}}
+      <ion-label>Change your language:</ion-label>{{currLang}}
       <ion-select [value]="currLang" okText="Ok" cancelText="" (ionChange)="selectLang($event.target.value)">
         <ion-select-option value="en">English</ion-select-option>
         <ion-select-option value="hw">Hebrew</ion-select-option>

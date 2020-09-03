@@ -54,6 +54,9 @@ export class ModalWordComponent implements OnInit, AfterViewInit {
   }
 
   onFormSubmit(form: NgForm, form_value: Partial<Word>) {
+    if (form_value.original === "" && form_value.translation === "" && form_value.transcription === "")
+      return;
+
     if (this.mode == 'create')
       this.createWord(form, form_value);
 
@@ -79,7 +82,7 @@ export class ModalWordComponent implements OnInit, AfterViewInit {
       this.word[key] = value[key]
 
     this.http.editWord(this.word)
-      // .then(_ => this.modalController.dismiss());
+    .then(_ => this.modalController.dismiss());
   }
 
   closeModal = () => this.modalController.dismiss();
