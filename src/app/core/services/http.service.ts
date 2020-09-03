@@ -7,6 +7,7 @@ import { FileSystemEntity } from '../models/FileSystemEntity';
 import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 import * as firebase from "firebase";
 import { LangService } from './lang.service';
+import { unescapeIdentifier } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ export class HttpService {
 
   private recordSubj = new BehaviorSubject(false);
   public recordListener$ = this.recordSubj.asObservable();
+  uid: string;
+  currLang: string;
 
   constructor(
     private auth: AuthService,
@@ -24,8 +27,11 @@ export class HttpService {
   ) {
     this.lang.lang$
       .subscribe(lang => {
+        this.currLang = lang;
         this.getFileSystemEntities(lang)
       })
+
+    this.uid = this.auth.getCurrUserUid();
   }
 
   play(list_id: string, id: string) {
@@ -65,7 +71,8 @@ export class HttpService {
   }
 
   createWord(list_id: string, word: Partial<Word>) {
-    var newWord = Object.assign({ list_id: list_id }, word);
+    var newWord = Object.assign(
+      { list_id: list_id, uid: this.uid }, word);
 
     return this.firestore
       .collection("words_____")
@@ -142,12 +149,35 @@ export class HttpService {
       .delete()
   }
 
-  saveWordToBookmark(id: string) {
+  bookmarkWord(id: string) {
     this.firestore
       .collection("words_____")
       .doc(id)
       .set({ is_bookmarked: true }, { merge: true })
   }
+
+  getAllBookmarks() {
+    console.log('u_i_d', this.uid);
+
+    //filter by uid
+    firebase.firestore().collection("systemEntities_____")
+      .where("uid", "==", this.uid)
+      .where("is_bookmarked", "==", true)
+
+
+    return firebase.firestore().collection("words_____")
+      .where("uid", "==", this.uid)
+    // .where("is_bookmarked", "==", true)
+
+  }
+
+  unBookmark(id: string) {
+    this.firestore
+      .collection("words_____")
+      .doc(id)
+      .set({ is_bookmarked: false }, { merge: true })
+  }
+}
 
   // saveToBookmark(word: Word, lang: string) {
   //   var uid = this.auth.getCurrUserUid();
@@ -170,5 +200,5 @@ export class HttpService {
   //       .collection("bookmarked")
   //       .snapshotChanges()
   // }
-}
+// }
 

@@ -5,5 +5,6 @@ export class Word {
     translation: string;
     transcription: string;
     createdAt: Date;
-    is_bookmarked: boolean;
+    is_bookmarked?: boolean;
+    uid?: string;
 }

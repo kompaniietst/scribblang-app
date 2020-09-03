@@ -77,8 +77,7 @@ export class SingleListPage implements OnInit {
             console.log('w', w);
 
             this.bookmarkedWords = w.filter(x => x.is_bookmarked)
-          }
-          ))
+          }))
   }
 
   toggleTranslation = (id: string) => {
@@ -102,8 +101,11 @@ export class SingleListPage implements OnInit {
     return this.openedTranslations.includes(id);
   }
 
-  toBookmark(id: string) {
-    this.http.saveWordToBookmark(id)
+  bookmark(id: string) {
+    this.checkIfBookmark(id)
+      ? this.http.unBookmark(id)
+      : this.http.bookmarkWord(id)
+
     // this.http.saveToBookmark(word, this.currLang)
     //   .then(() => this.presentToast(`${name} was bookmarked`, 'success'))
   }
