@@ -2,7 +2,7 @@
   <app-header [title]="'Bookmarks'">
   </app-header>
 
-  <!-- <div *ngIf="currPageisBookmarks" class="no-data ion-text-center">
+  <div *ngIf="words && words.length === 0" class="no-data ion-text-center">
     If you need to learn some words harder, <br>
     you can separate them here, <br> press by icon <br><br>
     <svg width="22" height="22" viewBox="0 0 70 70">
@@ -11,7 +11,7 @@
         C8.4,4.1,0,12.7,0,23.3c0,10.6,4.3,21.8,31.8,39.4c0,0.1,0,0.1,0,0.1c0,0,0,0,0.1,0c0,0,0,0,0.1,0c0,0,0,0,0-0.1
         c27.5-17.6,31.8-28.8,31.8-39.4C63.8,12.7,55.4,4.1,45,4.1L45,4.1z" />
     </svg>
-  </div> -->
+  </div>
 
   <ion-item-sliding *ngFor="let item of words" #slidingItem>
     <ion-item>
@@ -186,7 +186,7 @@
           <polygon class="grey" points="49.5,26.2 38.3,15.1 42,11.3 53.3,22.5 " />
         </svg>
       </ion-item-option>
-      <ion-item-option (click)="remove(item.id)">
+      <ion-item-option (click)="unBookmark(item.id)">
         <svg width="30" height="30" viewBox="0 0 70 70">
           <style type="text/css">
             .pers {

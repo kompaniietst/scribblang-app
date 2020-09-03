@@ -71,8 +71,9 @@ export class HttpService {
   }
 
   createWord(list_id: string, word: Partial<Word>) {
+
     var newWord = Object.assign(
-      { list_id: list_id, uid: this.uid }, word);
+      { list_id: list_id, uid: this.uid, lang: this.currLang }, word);
 
     return this.firestore
       .collection("words_____")
@@ -156,17 +157,33 @@ export class HttpService {
       .set({ is_bookmarked: true }, { merge: true })
   }
 
-  getAllBookmarks() {
+  getAllBookmarks(lang: string) {
     console.log('u_i_d', this.uid);
+    console.log('LANG', lang);
+
+
+
+    // this.lang.lang$
+    //   .subscribe(lang => {
+    //   console.log('UOD');
+
+    //   })
+
+
+
 
     //filter by uid
-    firebase.firestore().collection("systemEntities_____")
-      .where("uid", "==", this.uid)
-      .where("is_bookmarked", "==", true)
-
-
     return firebase.firestore().collection("words_____")
       .where("uid", "==", this.uid)
+      .where("is_bookmarked", "==", true)
+      .where("lang", "==", lang)
+
+
+
+
+
+    // return firebase.firestore().collection("words_____")
+    //   .where("uid", "==", this.uid)
     // .where("is_bookmarked", "==", true)
 
   }

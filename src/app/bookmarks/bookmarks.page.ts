@@ -4,6 +4,9 @@ import { Word } from '../core/models/Word';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
+import { ModalController } from '@ionic/angular';
+import { ModalWordComponent } from '../components/modal-word/modal-word.component';
+import { LangService } from '../core/services/lang.service';
 
 @Component({
   selector: 'app-bookmarks',
@@ -16,23 +19,37 @@ export class BookmarksPage implements OnInit {
   openedTranslations: string[] = [];
   allRecords;
 
-  constructor(private http: HttpService, private tts: TextToSpeech) {
+  constructor(
+    private http: HttpService,
+    private lang: LangService,
+    private tts: TextToSpeech,
+    private modalController: ModalController
+  ) {
 
     // this.words$ =
-    this.http.getAllBookmarks().get().then(x => {
-      console.log('br', x.docs);
-      this.words = x.docs.map(item => {
-        return {
-          id: item.id,
-          original: item.data()["original"],
-          translation: item.data()["translation"],
-          transcription: item.data()["transcription"],
-          createdAt: item.data()["createdAt"],
-          list_id: item.data()["list_id"],
-          uid: item.data()["uid"],
-        }
+    // this.http.getAllBookmarks()
+
+    this.lang.lang$
+      .subscribe(lang => {
+        if (!!lang)
+          this.http.getAllBookmarks(lang).onSnapshot(x => {
+            this.words = x.docs.map(item => {
+              return {
+                id: item.id,
+                original: item.data()["original"],
+                translation: item.data()["translation"],
+                transcription: item.data()["transcription"],
+                createdAt: item.data()["createdAt"],
+                list_id: item.data()["list_id"],
+                is_bookmarked: item.data()["is_bookmarked"],
+                lang: item.data()["lang"],
+                uid: item.data()["uid"],
+              }
+            })
+            console.log('words ', this.words);
+          })
       })
-    })
+
     // .pipe(
     //   map((res: any) =>
     //     res.map((x: any) =>
@@ -45,7 +62,9 @@ export class BookmarksPage implements OnInit {
     //   ))
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+  }
 
   toggleTranslation = (id: string) => {
     this.openedTranslations.includes(id)
@@ -85,4 +104,24 @@ export class BookmarksPage implements OnInit {
       .then(x => console.log(string))
       .catch(x => console.log(string))
   }
+
+  unBookmark(id: string) {
+    this.http.unBookmark(id);
+  }
+
+  edit = async (word: Word) => {
+    const modal = await this.modalController.create({
+      component: ModalWordComponent,
+      cssClass: "modal-edit-word",
+      componentProps: { word: word, mode: 'edit' }
+    });
+    return await modal.present();
+  }
+  //   this.presentModal(
+  //     { word: word, mode: 'edit' }, "modal-edit-word", ModalWordComponent);
+
+
+  // async presentModal(prop: {}, className: string, component) {
+
+  // }
 }

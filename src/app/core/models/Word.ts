@@ -7,4 +7,5 @@ export class Word {
     createdAt: Date;
     is_bookmarked?: boolean;
     uid?: string;
+    lang?: string;
 }

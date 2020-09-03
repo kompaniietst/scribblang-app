@@ -44,6 +44,8 @@ export class ModalWordComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+    console.log('diter word', this.word);
+
     this.original = this.word?.original || '';
     this.translation = this.word?.translation || '';
     this.transcription = this.word?.transcription || '';
@@ -82,7 +84,7 @@ export class ModalWordComponent implements OnInit, AfterViewInit {
       this.word[key] = value[key]
 
     this.http.editWord(this.word)
-    .then(_ => this.modalController.dismiss());
+      .then(_ => this.modalController.dismiss());
   }
 
   closeModal = () => this.modalController.dismiss();
