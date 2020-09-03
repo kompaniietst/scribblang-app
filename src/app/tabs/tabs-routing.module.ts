@@ -12,6 +12,10 @@ const routes: Routes = [
         loadChildren: () => import('../lists/lists.module').then(m => m.ListsPageModule)
       },
       {
+        path: 'bookmarks',
+        loadChildren: () => import('../bookmarks/bookmarks.module').then(m => m.BookmarksPageModule)
+      },
+      {
         path: 'lists/single-list',
         loadChildren: () => import('../single-list/single-list.module').then(m => m.SingleListPageModule)
       },

@@ -1,21 +1,23 @@
 <ion-content [fullscreen]="true">
-
-  <ion-button (click)="logout()">Log out</ion-button>
-
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <app-header>
+    <a (click)="logout()">Log out</a>
+  </app-header>
 
   <ion-list>
     <ion-item>
-      <ion-label>Change your language:</ion-label>{{currLang}}
+      <ion-label>
+        <strong>Email: </strong>
+      </ion-label>
+      <div>{{ (auth.user$ | async).email }}</div>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <strong>Change vacabulary:</strong>
+      </ion-label>
       <ion-select [value]="currLang" okText="Ok" cancelText="" (ionChange)="selectLang($event.target.value)">
         <ion-select-option value="en">English</ion-select-option>
         <ion-select-option value="hw">Hebrew</ion-select-option>
       </ion-select>
     </ion-item>
   </ion-list>
-
 </ion-content>

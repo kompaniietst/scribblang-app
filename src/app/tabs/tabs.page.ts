@@ -51,8 +51,6 @@ export class TabsPage {
   }
 
   ionTabsDidChange(e) {
-    console.log('e', e);
-    if (e.tab == "lists")
-    this.router.navigate(["app/tabs/lists"]);
+    if (e.tab == "lists") this.router.navigate(["app/tabs/lists"]);
   }
 }

@@ -1,16 +1,8 @@
 <ion-content>
-
-  <app-header [title]="list_name" class="single-list">
-    <span *ngIf="(words$ | async)?.length>  0">
-      ( {{ (words$ | async)?.length }} )
-    </span>
+  <app-header [title]="'Bookmarks'">
   </app-header>
 
-  <div *ngIf="(words$ | async)?.length === 0" class="no-data ion-text-center">
-    Start to add your words!
-  </div>
-
-  <div *ngIf="currPageisBookmarks" class="no-data ion-text-center">
+  <!-- <div *ngIf="currPageisBookmarks" class="no-data ion-text-center">
     If you need to learn some words harder, <br>
     you can separate them here, <br> press by icon <br><br>
     <svg width="22" height="22" viewBox="0 0 70 70">
@@ -19,22 +11,13 @@
         C8.4,4.1,0,12.7,0,23.3c0,10.6,4.3,21.8,31.8,39.4c0,0.1,0,0.1,0,0.1c0,0,0,0,0.1,0c0,0,0,0,0.1,0c0,0,0,0,0-0.1
         c27.5-17.6,31.8-28.8,31.8-39.4C63.8,12.7,55.4,4.1,45,4.1L45,4.1z" />
     </svg>
-  </div>
+  </div> -->
 
   <ion-item-sliding *ngFor="let item of words$ | async" #slidingItem>
     <ion-item>
       <ion-grid>
         <ion-row>
-          <ion-col size="1" (click)="toBookmark(item.id); bookmarked = item.id" class="to-bookmark">
-            <svg width="21" height="21" class="to-bookmark" [class.bookmarked]="checkIfBookmark(item.id)">
-              <g transform="scale(0.3)">
-                <path d="M45,11.1c6.5,0,11.8,5.5,11.8,12.2c0,7-2,15.7-24.9,31.1C9,39,7,30.3,7,23.3c0-6.8,5.3-12.2,11.8-12.2
-                c3,0,5.9,1.2,8.1,3.4l4.9,4.9l4.9-4.9C39,12.3,41.9,11.1,45,11.1 M45,4.1c-5.1,0-9.7,2.1-13.1,5.4c-3.4-3.3-8-5.4-13.1-5.4
-                C8.4,4.1,0,12.7,0,23.3c0,10.6,4.3,21.8,31.8,39.4c0,0.1,0,0.1,0,0.1c0,0,0,0,0.1,0c0,0,0,0,0.1,0c0,0,0,0,0-0.1
-                c27.5-17.6,31.8-28.8,31.8-39.4C63.8,12.7,55.4,4.1,45,4.1L45,4.1z" />
-              </g>
-            </svg>
-          </ion-col>
+
           <ion-col size="5" class="word">
             <strong>{{ item.original }}</strong>
           </ion-col>

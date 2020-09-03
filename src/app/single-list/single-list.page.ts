@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/core/services/http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Word } from 'src/app/core/models/Word';
-import { ModalController, IonItemSliding } from '@ionic/angular';
+import { ModalController, IonItemSliding, ToastController } from '@ionic/angular';
 import { ModalWordComponent } from 'src/app/components/modal-word/modal-word.component';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -20,6 +20,7 @@ import { LangService } from '../core/services/lang.service';
 export class SingleListPage implements OnInit {
 
   words$: Observable<Word[]>;
+  bookmarkedWords: Word[];
 
   openedTranslations: string[] = [];
 
@@ -36,7 +37,8 @@ export class SingleListPage implements OnInit {
     public modalController: ModalController,
     private route: ActivatedRoute,
     private tts: TextToSpeech,
-    private lang: LangService
+    private lang: LangService,
+    private toastController: ToastController
   ) {
 
     this.lang.lang$
@@ -46,11 +48,10 @@ export class SingleListPage implements OnInit {
     this.http.recordListener$
       .subscribe(x => {
 
-
         this.http.getAllRecords(this.list_id)
           .then(x => {
-            console.log('recs ',x);
-            
+            console.log('recs ', x);
+
             this.allRecords = x.items.map(x => x.toString());
           }).catch(x => {
             console.log(x);
@@ -66,18 +67,18 @@ export class SingleListPage implements OnInit {
 
   ngOnInit(): void {
 
-    // if (this.currPageisBookmarks)
-    //   this.list_name = "Bookmarked wods";
-
-    if (this.list_id) {
+    if (this.list_id)
       this.words$ = this.http.getWordsBy(this.list_id)
         .pipe(
-          map((res: any) => {
-            return res.map((x: any) =>
-              Object.assign({ id: x.payload.doc.id }, x.payload.doc.data()))
-          }),
-          tap((w: Word[]) => console.log('words ', w)))
-    }
+          map((res: any) =>
+            res.map((x: any) =>
+              Object.assign({ id: x.payload.doc.id }, x.payload.doc.data()))),
+          tap((w: Word[]) => {
+            console.log('w', w);
+
+            this.bookmarkedWords = w.filter(x => x.is_bookmarked)
+          }
+          ))
   }
 
   toggleTranslation = (id: string) => {
@@ -89,22 +90,32 @@ export class SingleListPage implements OnInit {
   openTranslation(id: string) {
     this.openedTranslations.push(id);
   }
+
   closeTranslation(id: string) {
     var i = this.openedTranslations.indexOf(id);
     console.log(i);
 
     this.openedTranslations.splice(i, 1);
   }
+
   isTranslationOpened(id: string) {
     return this.openedTranslations.includes(id);
   }
-  toBookmark(id: string) {
 
+  toBookmark(id: string) {
+    this.http.saveWordToBookmark(id)
+    // this.http.saveToBookmark(word, this.currLang)
+    //   .then(() => this.presentToast(`${name} was bookmarked`, 'success'))
   }
 
-
-
-
+  async presentToast(message: string, color: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      color: color
+    });
+    toast.present();
+  }
 
   edit = (word: Word) =>
     this.presentModal(
@@ -142,5 +153,9 @@ export class SingleListPage implements OnInit {
     })
       .then(x => console.log(string))
       .catch(x => console.log(string))
+  }
+
+  checkIfBookmark(word_id: string) {
+    return this.bookmarkedWords.some(w => w.id === word_id);
   }
 }

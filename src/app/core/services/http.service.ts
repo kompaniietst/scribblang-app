@@ -141,5 +141,34 @@ export class HttpService {
       .doc(doc_id)
       .delete()
   }
+
+  saveWordToBookmark(id: string) {
+    this.firestore
+      .collection("words_____")
+      .doc(id)
+      .set({ is_bookmarked: true }, { merge: true })
+  }
+
+  // saveToBookmark(word: Word, lang: string) {
+  //   var uid = this.auth.getCurrUserUid();
+
+  //   return this.firestore
+  //     .collection("bookmarked")
+  //     .doc(word.id)
+  //     .set(Object.assign(word, { lang: lang, uid: uid }))
+  // }
+
+  // getBookmarks(list_id?: string) {
+  //   return list_id
+
+  //     ? this.firestore
+  //       .collection("bookmarked", ref => ref
+  //         .where("list_id", "==", list_id))
+  //       .snapshotChanges()
+
+  //     : this.firestore
+  //       .collection("bookmarked")
+  //       .snapshotChanges()
+  // }
 }
 

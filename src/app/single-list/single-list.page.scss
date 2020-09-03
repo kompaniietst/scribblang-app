@@ -9,8 +9,8 @@
 
 svg.to-bookmark {
     fill: #d0c5bf;
-    &.active {
-        fill: #bcbcbc;
+    &.bookmarked {
+        fill: var(--sec-theme-color);
         opacity: 1;
     }
 }
