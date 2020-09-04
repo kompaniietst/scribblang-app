@@ -7,6 +7,7 @@ import { FileSystemViewComponent } from './file-system-view/file-system-view.com
 import { ModalWordComponent } from './modal-word/modal-word.component';
 import { ModalFileSystemComponent } from './modal-file-system/modal-file-system.component';
 import { ModalAudioComponent } from './modal-audio/modal-audio.component';
+import { RecordFeatureComponent } from './record-feature/record-feature.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { ModalAudioComponent } from './modal-audio/modal-audio.component';
     ModalWordComponent,
     ModalFileSystemComponent,
     ModalAudioComponent,
+    RecordFeatureComponent
   ],
   imports: [
     CommonModule,
@@ -24,6 +26,7 @@ import { ModalAudioComponent } from './modal-audio/modal-audio.component';
   ],
   exports: [
     HeaderComponent,
+    RecordFeatureComponent,
     FileSystemViewComponent,
   ],
   providers: []

@@ -20,6 +20,8 @@ export class ListsPage {
     private lang: LangService
   ) {
     console.log(' ');
+    console.log('   LISTS    ');
+    console.log(' ');
 
     this.lang.lang$
       // .pipe(tap(x => { console.log('LIST', x); }))
@@ -46,6 +48,12 @@ export class ListsPage {
         });
 
         console.log(`Received`, data);
+
+        // if (data.length > 0) {
+        //   data.forEach(el => {
+        //     this.http.editWord2(el.id)
+        //   });
+        // }
 
         this.treeData = [];
         this.buildTree(data, this.treeData, "");

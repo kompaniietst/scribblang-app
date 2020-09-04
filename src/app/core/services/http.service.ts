@@ -35,38 +35,42 @@ export class HttpService {
   }
 
   play(list_id: string, id: string) {
-    var ref = firebase.storage().ref().child("audio/" + list_id + '/' + id + '.mp3');
+    var ref = firebase.storage().ref().child("audio/" + this.uid + '/' + list_id + '/' + id + '.mp3');
     ref.getDownloadURL()
-      .then(url => {
-        this.streamingMedia.playAudio(url);
-      })
+      .then(url => this.streamingMedia.playAudio(url))
   }
 
   async upload(list_id: string, id: string, str: string) {
-    alert(list_id + '/' + id + '.mp3');
-    let storageRef = firebase.storage().ref().child("audio/" + list_id + '/' + id + '.mp3');
+    let storageRef = firebase.storage().ref().child("audio/" + this.uid + '/' + list_id + '/' + id + '.mp3');
 
     try {
       const _ = await storageRef.putString((str as string), 'data_url');
       this.recordSubj.next(true);
-      alert('upload');
       this.getAllRecords(list_id);
     }
     catch (err) {
-      alert('err');
-      alert(JSON.stringify(err));
+      console.log(err)
     }
   }
 
   getAllRecords(list_id: string) {
-    return firebase.storage().ref().child("audio/" + list_id).listAll()
+    return firebase.storage().ref().child("audio/" + this.uid + '/' + list_id).listAll()
+  }
+
+  getSingeRecord(list_id: string, id: string) {
+    // alert('sigle ' + list_id + ' ' + id)
+    return firebase.storage().ref().child("audio/" + this.uid + '/' + list_id + "/" + id + ".mp3")
+      .getDownloadURL()
+
   }
 
   getWordsBy(list_id: string): Observable<any> {
     return this.firestore
-      .collection("words_____", ref => ref
+      // .collection("words", ref => ref
+        .collection("words_____", ref => ref
         .orderBy("createdAt", "desc")
-        .where("list_id", "==", list_id))
+        .where("list_id", "==", list_id)
+      )
       .snapshotChanges()
   }
 
@@ -80,7 +84,37 @@ export class HttpService {
       .add(newWord)
   }
 
+//   editWord2(list_id) {
+//     this.firestore
+//       .collection("words", ref => ref
+//         // .collection("words_____", ref => ref
+//         // .orderBy("createdAt", "desc")
+//         .where("list_id", "==", list_id))
+//       .snapshotChanges()
+//       .subscribe(x => {
+//         console.log('WD ', x)
+
+//         x.forEach(w => {
+
+//           var word = Object.assign(
+//             { id: w.payload.doc.id },
+//             w.payload.doc.data(),
+//             { lang: this.currLang, uid: this.uid }
+//           ) as Word;
+
+//           console.log('w,',word);
+          
+// this.editWord(word)
+
+//         })
+//       })
+//   }
+
   editWord(word: Word): Promise<any> {
+    // word["uid"] = this.uid;
+    // word["lang"] = this.currLang;
+    // word["lang"] = this.currLang;
+
     return this.firestore
       .collection("words_____")
       .doc(word.id)
@@ -105,6 +139,7 @@ export class HttpService {
   getFileSystemEntities(lang: string) {
     var uid = this.auth.getCurrUserUid();
 
+    // return firebase.firestore().collection("systemEntities2").orderBy("createdAt", "desc")
     return firebase.firestore().collection("systemEntities_____").orderBy("createdAt", "desc")
       .where("uid", "==", uid)
       .where("lang", "==", lang)
@@ -137,6 +172,13 @@ export class HttpService {
   // }
 
   editFileSystemEntity(doc_id: string, systemEntityName: string) {
+    // return this.firestore
+    //   .collection("systemEntities_____")
+    //   .doc(doc_id)
+    //   .set({
+    //     name: systemEntityName, lang: 'hw', uid: 'S1fo8esA2TNsYuyMmLi6v87wmig1',
+    //     type: 'list', path: [""], createdAt: new Date()
+    //   }, { merge: true })
     return this.firestore
       .collection("systemEntities_____")
       .doc(doc_id)

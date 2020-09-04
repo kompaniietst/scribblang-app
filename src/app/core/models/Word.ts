@@ -4,7 +4,7 @@ export class Word {
     original: string;
     translation: string;
     transcription: string;
-    createdAt: Date;
+    createdAt?: Date;
     is_bookmarked?: boolean;
     uid?: string;
     lang?: string;

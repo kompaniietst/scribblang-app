@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../core/services/http.service';
 import { Word } from '../core/models/Word';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { ModalController } from '@ionic/angular';
 import { ModalWordComponent } from '../components/modal-word/modal-word.component';
 import { LangService } from '../core/services/lang.service';
+import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 
 @Component({
   selector: 'app-bookmarks',
@@ -19,19 +20,18 @@ export class BookmarksPage implements OnInit {
   openedTranslations: string[] = [];
   allRecords;
 
-  constructor(
-    private http: HttpService,
-    private lang: LangService,
-    private tts: TextToSpeech,
-    private modalController: ModalController
-  ) {
+  currLang: string;
 
-    // this.words$ =
-    // this.http.getAllBookmarks()
-
+  ionViewWillEnter(){
+    console.log(
+      'Enter'
+    );
     this.lang.lang$
       .subscribe(lang => {
-        if (!!lang)
+        if (!!lang) {
+
+          this.currLang = lang
+
           this.http.getAllBookmarks(lang).onSnapshot(x => {
             this.words = x.docs.map(item => {
               return {
@@ -46,25 +46,96 @@ export class BookmarksPage implements OnInit {
                 uid: item.data()["uid"],
               }
             })
-            console.log('words ', this.words);
+            console.log('BOOKwords ', this.words);
+
+            this.WS = this.words;
+            this.WSS.next([...this.WS]);
           })
+        }
       })
 
-    // .pipe(
-    //   map((res: any) =>
-    //     res.map((x: any) =>
-    //       Object.assign({ id: x.payload.doc.id }, x.payload.doc.data()))),
-    //   tap((w: Word[]) => {
-    //     console.log('w', w);
+    
+  }
 
-    //     this.bookmarkedWords = w.filter(x => x.is_bookmarked)
+  ionViewDidLoad() {
+    console.log("I'm alive!");
+  }
+  ionViewWillLeave() {
+    console.log("Looks like I'm about to leave :(");
+  }
+
+  private WSS: BehaviorSubject<Word[]> = new BehaviorSubject([]);
+  WS = [];
+  W = this.WSS.asObservable();
+
+
+  
+
+  constructor(
+    private http: HttpService,
+    private lang: LangService,
+
+    private modalController: ModalController,
+  ) {
+
+this.W.subscribe(x=>{
+  console.log('W',x)
+})
+
+
+    // this.words = [
+    //   {
+    //     id: "pqYUnboC1qjpXasi4uaP",
+    //     is_bookmarked: true,
+    //     lang: "en",
+    //     list_id: "5HNA4UPT9SyocwaJe8NS",
+    //     original: "22222222222222222",
+    //     transcription: "",
+    //     translation: "",
+    //     uid: "8qRxvDtQAmZMTtdjHpsIfsx8dkr2"
     //   }
-    //   ))
+    // ];
+    console.log(' ');
+    console.log('   BOOKMARKS    ');
+    console.log(' ');
+
+    // this.lang.lang$
+    //   .subscribe((lang: string) => this.currLang = lang);
+
+/*     this.lang.lang$
+      .subscribe(lang => {
+        if (!!lang) {
+
+          this.currLang = lang
+
+          this.http.getAllBookmarks(lang).onSnapshot(x => {
+            this.words = x.docs.map(item => {
+              return {
+                id: item.id,
+                original: item.data()["original"],
+                translation: item.data()["translation"],
+                transcription: item.data()["transcription"],
+                createdAt: item.data()["createdAt"],
+                list_id: item.data()["list_id"],
+                is_bookmarked: item.data()["is_bookmarked"],
+                lang: item.data()["lang"],
+                uid: item.data()["uid"],
+              }
+            })
+            console.log('BOOKwords ', this.words);
+
+            this.WS = this.words;
+            this.WSS.next([...this.WS]);
+          })
+        }
+      }) */
+
+
   }
 
-  ngOnInit() {
 
-  }
+
+  ngOnInit() { }
 
   toggleTranslation = (id: string) => {
     this.openedTranslations.includes(id)
@@ -87,23 +158,60 @@ export class BookmarksPage implements OnInit {
     return this.openedTranslations.includes(id);
   }
 
-  // playRecorded = (id: string) => this.http.play(this.list_id, id);
+  // playRecorded = (id: string, list_id: string) => {
+  //   // this.http.getSingeRecord(list_id, id)
+  //   //   .then(x => {
+  //   //     alert('firebase => ' + JSON.stringify(x))
+  //   //   }).catch(x => {
+  //   //     alert('err ' + JSON.stringify(x));
+  //   //   });
 
-  ifRecordExist(id: string) {
-    if (this.allRecords)
-      return this.allRecords.some(x => x.includes(id))
-  }
+  //   // this.http.getAllRecords(list_id)
+  //   //   .then(x => {
+  //   //     alert('recs ' + JSON.stringify(x));
 
-  speek(string: string) {
-    console.log('speak');
+  //   //     this.allRecords = x.items.map(x => x.toString());
+  //   //   }).catch(x => {
+  //   //     alert('err' + JSON.stringify(x));
+  //   //   });
 
-    this.tts.speak({
-      text: string,
-      rate: 0.85
-    })
-      .then(x => console.log(string))
-      .catch(x => console.log(string))
-  }
+  //   this.http.getSingeRecord(list_id, id)
+  //     .then(x => {
+  //       console.log('recsSSS ', x);
+
+  //       var url = x.items.map(x => x.toString()).find(x => x.includes(id));
+  //       console.log(url);
+
+  //       if (url) this.http.play(list_id, id);
+
+  //     }).catch(x => {
+  //       console.log(x);
+  //     });
+  // }
+
+
+  // async ifRecordExist(list_id, id) {
+  //   try {
+  //     const x = await this.http.getSingeRecord(list_id, id);
+  //     console.log('recsSSS ', x);
+
+  //     var url = x.items.map(x_1 => x_1.toString()).find(x_2 => x_2.includes(id));
+  //     console.log(url);
+
+  //     if (url)
+  //       return true;
+  //     else
+  //       return false;
+  //   }
+  //   catch (x_3) {
+  //     console.log(x_3);
+  //   }
+  // }
+
+
+
+
+
 
   unBookmark(id: string) {
     this.http.unBookmark(id);

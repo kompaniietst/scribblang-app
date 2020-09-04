@@ -55,8 +55,10 @@ export class ModalWordComponent implements OnInit, AfterViewInit {
     setTimeout(() => this.inputToFocus.nativeElement.setFocus(), 400);
   }
 
-  onFormSubmit(form: NgForm, form_value: Partial<Word>) {
-    if (form_value.original === "" && form_value.translation === "" && form_value.transcription === "")
+  onFormSubmit(form: NgForm, form_value: Partial<Word>) {console.log(form_value);
+  
+    if (form_value.original === "" && form_value.translation === "" && form_value.transcription === ""
+    || form_value.original === null && form_value.translation === null && form_value.transcription === null)
       return;
 
     if (this.mode == 'create')

@@ -46,7 +46,7 @@ export class SingleListPage implements OnInit {
       .subscribe((lang: string) => this.currLang = lang);
 
     this.http.recordListener$
-      .subscribe(x => {
+      .subscribe(() => {
 
         this.http.getAllRecords(this.list_id)
           .then(x => {
@@ -159,5 +159,12 @@ export class SingleListPage implements OnInit {
 
   checkIfBookmark(word_id: string) {
     return this.bookmarkedWords.some(w => w.id === word_id);
+  }
+
+  shuffle() {
+    // this.words = this.words.sort( () => Math.random() - 0.5) );
+    this.words$ = this.words$.pipe(map(words =>
+      words.sort(() => Math.random() - 0.5)
+    ))
   }
 }
