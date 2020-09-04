@@ -31,7 +31,9 @@ export class HttpService {
         this.getFileSystemEntities(lang)
       })
 
-    this.uid = this.auth.getCurrUserUid();
+    this.auth.user$
+      .subscribe(x => this.uid = x.uid)
+    // this.uid = this.auth.getCurrUserUid();
   }
 
   play(list_id: string, id: string) {
@@ -67,7 +69,7 @@ export class HttpService {
   getWordsBy(list_id: string): Observable<any> {
     return this.firestore
       // .collection("words", ref => ref
-        .collection("words_____", ref => ref
+      .collection("words_____", ref => ref
         .orderBy("createdAt", "desc")
         .where("list_id", "==", list_id)
       )
@@ -84,31 +86,31 @@ export class HttpService {
       .add(newWord)
   }
 
-//   editWord2(list_id) {
-//     this.firestore
-//       .collection("words", ref => ref
-//         // .collection("words_____", ref => ref
-//         // .orderBy("createdAt", "desc")
-//         .where("list_id", "==", list_id))
-//       .snapshotChanges()
-//       .subscribe(x => {
-//         console.log('WD ', x)
+  //   editWord2(list_id) {
+  //     this.firestore
+  //       .collection("words", ref => ref
+  //         // .collection("words_____", ref => ref
+  //         // .orderBy("createdAt", "desc")
+  //         .where("list_id", "==", list_id))
+  //       .snapshotChanges()
+  //       .subscribe(x => {
+  //         console.log('WD ', x)
 
-//         x.forEach(w => {
+  //         x.forEach(w => {
 
-//           var word = Object.assign(
-//             { id: w.payload.doc.id },
-//             w.payload.doc.data(),
-//             { lang: this.currLang, uid: this.uid }
-//           ) as Word;
+  //           var word = Object.assign(
+  //             { id: w.payload.doc.id },
+  //             w.payload.doc.data(),
+  //             { lang: this.currLang, uid: this.uid }
+  //           ) as Word;
 
-//           console.log('w,',word);
-          
-// this.editWord(word)
+  //           console.log('w,',word);
 
-//         })
-//       })
-//   }
+  // this.editWord(word)
+
+  //         })
+  //       })
+  //   }
 
   editWord(word: Word): Promise<any> {
     // word["uid"] = this.uid;
@@ -199,10 +201,15 @@ export class HttpService {
       .set({ is_bookmarked: true }, { merge: true })
   }
 
-  getAllBookmarks(lang: string) {
-    console.log('u_i_d', this.uid);
-    console.log('LANG', lang);
+  private bookmSubj: BehaviorSubject<Word[]> = new BehaviorSubject<Word[]>([])
+  bookmSubjArr = [];
+  bookm$ = this.bookmSubj.asObservable();
 
+  getAllBookmarks(lang: string) {
+    // console.log('u_i_d', this.uid);
+    // console.log('LANG', lang);
+
+    console.log('getAllBookmarks');
 
 
     // this.lang.lang$
@@ -219,7 +226,26 @@ export class HttpService {
       .where("uid", "==", this.uid)
       .where("is_bookmarked", "==", true)
       .where("lang", "==", lang)
+      .get()
+      .then(x => {
+        var words = x.docs.map(item => {
+          return {
+            id: item.id,
+            original: item.data()["original"],
+            translation: item.data()["translation"],
+            transcription: item.data()["transcription"],
+            createdAt: item.data()["createdAt"],
+            list_id: item.data()["list_id"],
+            is_bookmarked: item.data()["is_bookmarked"],
+            lang: item.data()["lang"],
+            uid: item.data()["uid"],
+          }
+        })
+        console.log('words=', words);
 
+        this.bookmSubjArr = words;
+        this.bookmSubj.next([...this.bookmSubjArr]);
+      })
 
 
 
@@ -235,6 +261,7 @@ export class HttpService {
       .collection("words_____")
       .doc(id)
       .set({ is_bookmarked: false }, { merge: true })
+      .then(() => this.getAllBookmarks(this.currLang))
   }
 }
 

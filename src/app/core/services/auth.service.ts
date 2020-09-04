@@ -17,6 +17,8 @@ export class AuthService {
 
   currUserId;
 
+  
+
   private currUserSubj = new BehaviorSubject(JSON.parse(localStorage.getItem("currUser")) || {});
   currUser = this.currUserSubj.asObservable();
 
@@ -26,7 +28,7 @@ export class AuthService {
     private firestore: AngularFirestore
   ) {
     this.afAuth.onAuthStateChanged(authData => {
-      console.log('authData', authData);
+      console.log('authData', authData.uid);
 
       if (authData != null) {
         this.userSubject.next(authData);

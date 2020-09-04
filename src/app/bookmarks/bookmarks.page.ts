@@ -16,45 +16,60 @@ import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 })
 export class BookmarksPage implements OnInit {
 
-  words: Word[];
+  words: Word[] = [];
   openedTranslations: string[] = [];
   allRecords;
 
   currLang: string;
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     console.log(
       'Enter'
     );
     this.lang.lang$
       .subscribe(lang => {
         if (!!lang) {
+          console.log('lang!!!!', lang);
 
           this.currLang = lang
+          // this.words = [
+          //     {
+          //       id: "pqYUnboC1qjpXasi4uaP",
+          //       is_bookmarked: true,
+          //       lang: "en",
+          //       list_id: "5HNA4UPT9SyocwaJe8NS",
+          //       original: "22222222222222222",
+          //       transcription: "",
+          //       translation: "",
+          //       uid: "8qRxvDtQAmZMTtdjHpsIfsx8dkr2"
+          //     }
+          //   ];
 
-          this.http.getAllBookmarks(lang).onSnapshot(x => {
-            this.words = x.docs.map(item => {
-              return {
-                id: item.id,
-                original: item.data()["original"],
-                translation: item.data()["translation"],
-                transcription: item.data()["transcription"],
-                createdAt: item.data()["createdAt"],
-                list_id: item.data()["list_id"],
-                is_bookmarked: item.data()["is_bookmarked"],
-                lang: item.data()["lang"],
-                uid: item.data()["uid"],
-              }
-            })
-            console.log('BOOKwords ', this.words);
+          this.http.getAllBookmarks(lang);
 
-            this.WS = this.words;
-            this.WSS.next([...this.WS]);
-          })
+          // this.http.getAllBookmarks(lang).then(x => {
+          //   var res = x.docs.map(item => {
+          //     return {
+          //       id: item.id,
+          //       original: item.data()["original"],
+          //       translation: item.data()["translation"],
+          //       transcription: item.data()["transcription"],
+          //       createdAt: item.data()["createdAt"],
+          //       list_id: item.data()["list_id"],
+          //       is_bookmarked: item.data()["is_bookmarked"],
+          //       lang: item.data()["lang"],
+          //       uid: item.data()["uid"],
+          //     }
+          //   })
+          //   console.log('BOOKwords ', res);
+          //   this.words = res;
+          //   // this.WS = this.words;
+          //   // this.WSS.next([...this.WS]);
+          // })
         }
       })
 
-    
+
   }
 
   ionViewDidLoad() {
@@ -69,7 +84,7 @@ export class BookmarksPage implements OnInit {
   W = this.WSS.asObservable();
 
 
-  
+
 
   constructor(
     private http: HttpService,
@@ -78,23 +93,58 @@ export class BookmarksPage implements OnInit {
     private modalController: ModalController,
   ) {
 
-this.W.subscribe(x=>{
-  console.log('W',x)
-})
+
+    this.http.bookm$
+      .subscribe(x => {
+        console.log('bookm$ ', x);
+        this.words = x
+      })
+    // console.log('LLL ', this.lang.get());
 
 
-    // this.words = [
-    //   {
-    //     id: "pqYUnboC1qjpXasi4uaP",
-    //     is_bookmarked: true,
-    //     lang: "en",
-    //     list_id: "5HNA4UPT9SyocwaJe8NS",
-    //     original: "22222222222222222",
-    //     transcription: "",
-    //     translation: "",
-    //     uid: "8qRxvDtQAmZMTtdjHpsIfsx8dkr2"
-    //   }
-    // ];
+    // this.http.getAllBookmarks('en').onSnapshot(x => {
+    //   this.words = x.docs.map(item => {
+    //     return {
+    //       id: item.id,
+    //       original: item.data()["original"],
+    //       translation: item.data()["translation"],
+    //       transcription: item.data()["transcription"],
+    //       createdAt: item.data()["createdAt"],
+    //       list_id: item.data()["list_id"],
+    //       is_bookmarked: item.data()["is_bookmarked"],
+    //       lang: item.data()["lang"],
+    //       uid: item.data()["uid"],
+    //     }
+    //   })
+    //   console.log('BOOKwords ', this.words);
+
+    //   // this.WS = this.words;
+    //   // this.WSS.next([...this.WS]);
+    // })
+
+
+    // setTimeout(() => {
+    //   this.words = [
+    //     {
+    //       id: "pqYUnboC1qjpXasi4uaP",
+    //       is_bookmarked: true,
+    //       lang: "en",
+    //       list_id: "5HNA4UPT9SyocwaJe8NS",
+    //       original: "22222222222222222",
+    //       transcription: "",
+    //       translation: "",
+    //       uid: "8qRxvDtQAmZMTtdjHpsIfsx8dkr2"
+    //     }
+    //   ];
+    // }, 2000);
+
+
+    this.W.subscribe(x => {
+      console.log('W', x)
+    })
+
+
+
     console.log(' ');
     console.log('   BOOKMARKS    ');
     console.log(' ');
@@ -102,33 +152,33 @@ this.W.subscribe(x=>{
     // this.lang.lang$
     //   .subscribe((lang: string) => this.currLang = lang);
 
-/*     this.lang.lang$
-      .subscribe(lang => {
-        if (!!lang) {
-
-          this.currLang = lang
-
-          this.http.getAllBookmarks(lang).onSnapshot(x => {
-            this.words = x.docs.map(item => {
-              return {
-                id: item.id,
-                original: item.data()["original"],
-                translation: item.data()["translation"],
-                transcription: item.data()["transcription"],
-                createdAt: item.data()["createdAt"],
-                list_id: item.data()["list_id"],
-                is_bookmarked: item.data()["is_bookmarked"],
-                lang: item.data()["lang"],
-                uid: item.data()["uid"],
-              }
-            })
-            console.log('BOOKwords ', this.words);
-
-            this.WS = this.words;
-            this.WSS.next([...this.WS]);
-          })
-        }
-      }) */
+    /*     this.lang.lang$
+          .subscribe(lang => {
+            if (!!lang) {
+    
+              this.currLang = lang
+    
+              this.http.getAllBookmarks(lang).onSnapshot(x => {
+                this.words = x.docs.map(item => {
+                  return {
+                    id: item.id,
+                    original: item.data()["original"],
+                    translation: item.data()["translation"],
+                    transcription: item.data()["transcription"],
+                    createdAt: item.data()["createdAt"],
+                    list_id: item.data()["list_id"],
+                    is_bookmarked: item.data()["is_bookmarked"],
+                    lang: item.data()["lang"],
+                    uid: item.data()["uid"],
+                  }
+                })
+                console.log('BOOKwords ', this.words);
+    
+                this.WS = this.words;
+                this.WSS.next([...this.WS]);
+              })
+            }
+          }) */
 
 
   }
@@ -232,4 +282,10 @@ this.W.subscribe(x=>{
   // async presentModal(prop: {}, className: string, component) {
 
   // }
+
+
+
+  shuffle() {
+    this.words = this.words.sort(() => Math.random() - 0.5)
+  }
 }
