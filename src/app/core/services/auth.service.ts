@@ -28,9 +28,9 @@ export class AuthService {
     private firestore: AngularFirestore
   ) {
     this.afAuth.onAuthStateChanged(authData => {
-      console.log('authData', authData.uid);
-
+      
       if (authData != null) {
+        console.log('authData', authData.uid);
         this.userSubject.next(authData);
         this.currUserId = authData.uid;
 

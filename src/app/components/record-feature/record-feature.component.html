@@ -27,7 +27,7 @@
   </svg>
 </ion-col>
 
-<ion-col (click)="playRecorded(item.id, item.list_id)" size="2" class="ion-text-center recorded"
+<ion-col (click)="playRecorded()" size="2" class="ion-text-center recorded"
   *ngIf="recordExist && currLang !== 'en'">
   <svg viewBox="0 0 63.8 64.8" style="enable-background:new 0 0 63.8 64.8;" xml:space="preserve">
     <style type="text/css">
@@ -57,7 +57,7 @@
   </svg>
 </ion-col>
 
-<ion-col (click)="addAudio(item.id)" size="2" class="ion-text-center record"
+<!-- <ion-col (click)="addAudio(item.id)" size="2" class="ion-text-center record"
   *ngIf="!recordExist && currLang !== 'en'">
   <svg width="20" height="22" viewBox="0 0 60 60">
     <style type="text/css">
@@ -81,4 +81,4 @@
           c-1,0-1.8-0.8-1.8-1.8c0-1,0.8-1.8,1.8-1.8h8.7c0,0,0,0,0.1,0C48.3,5.7,41.2,0,32.5,0c-9,0-16.2,5.4-16.2,14.4c0,0,0.1,0,0.1,0H25
           z" />
   </svg>
-</ion-col>
+</ion-col> -->

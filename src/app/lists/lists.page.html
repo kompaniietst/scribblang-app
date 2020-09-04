@@ -1,6 +1,6 @@
 <ion-content>
   <app-header [title]="'Directories and lists'">
-    <div class="lang">{{ lang.lang$ | async }}</div>
+    <div class="lang" *ngIf="(lang.lang$ | async) === 'en'">{{ lang.lang$ | async }}</div>
   </app-header>
 
   <div *ngIf="treeData?.length === 0" class="no-data ion-text-center">

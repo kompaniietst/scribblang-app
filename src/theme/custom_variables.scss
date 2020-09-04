@@ -20,14 +20,15 @@
 
 //     --ion-fab-highlight: #343d45;
 //     --ion-fab-list: #31373c;
+//     // --ion-tab-background:#
 
-//     --svg-color: #1246a2;
+//     --svg-opacity:0.3;
 // }
 
 /* Light theme */
+
 :root {
     --main-theme-color: #5e33ad;
-    // --main-theme-color: #1457cd;
     --sec-theme-color: #f21a50;
     --thr-theme-color: #493e53;
 
@@ -45,6 +46,4 @@
 
     --ion-fab-highlight: rgba(155, 95, 229, 0.169);
     --ion-fab-list: #fafafc;
-
-    --svg-color: #5e33ad;
 }

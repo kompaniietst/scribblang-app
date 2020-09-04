@@ -53,13 +53,13 @@ export class ModalAudioComponent implements OnInit {
     this.platform.ready().then(() => {
       if (this.platform.is('android')) {
         this.file.checkDir(this.file.externalRootDirectory, 'Scribblang').then(response => {
-          alert('Directory exists' + JSON.stringify(response));
+          // alert('Directory exists' + JSON.stringify(response));
         }).catch(err => {
-          console.log('Directory doesn\'t exist' + JSON.stringify(err));
+          // console.log('Directory doesn\'t exist' + JSON.stringify(err));
           this.file.createDir(this.file.externalRootDirectory, 'Scribblang', false).then(response => {
-            alert('Directory create' + JSON.stringify(response));
+            // alert('Directory create' + JSON.stringify(response));
           }).catch(err => {
-            alert('Directory no create' + JSON.stringify(err));
+            // alert('Directory no create' + JSON.stringify(err));
           });
         });
       }
@@ -104,7 +104,7 @@ export class ModalAudioComponent implements OnInit {
 
 
           setTimeout(() => {
-            alert('readed audio'+readedAudio);
+            // alert('readed audio'+readedAudio);
 
             this.http.upload(this.list_id, this.id, readedAudio)
               .then(snapshot => console.log('snapshot'))

@@ -18,7 +18,7 @@ export class BookmarksPage implements OnInit {
 
   words: Word[] = [];
   openedTranslations: string[] = [];
-  allRecords;
+  allRecords = [];
 
   currLang: string;
 
@@ -32,18 +32,6 @@ export class BookmarksPage implements OnInit {
           console.log('lang!!!!', lang);
 
           this.currLang = lang
-          // this.words = [
-          //     {
-          //       id: "pqYUnboC1qjpXasi4uaP",
-          //       is_bookmarked: true,
-          //       lang: "en",
-          //       list_id: "5HNA4UPT9SyocwaJe8NS",
-          //       original: "22222222222222222",
-          //       transcription: "",
-          //       translation: "",
-          //       uid: "8qRxvDtQAmZMTtdjHpsIfsx8dkr2"
-          //     }
-          //   ];
 
           this.http.getAllBookmarks(lang);
 
@@ -72,19 +60,13 @@ export class BookmarksPage implements OnInit {
 
   }
 
-  ionViewDidLoad() {
-    console.log("I'm alive!");
-  }
-  ionViewWillLeave() {
-    console.log("Looks like I'm about to leave :(");
-  }
-
-  private WSS: BehaviorSubject<Word[]> = new BehaviorSubject([]);
-  WS = [];
-  W = this.WSS.asObservable();
-
-
-
+  // ifRecordExist(id: string) {
+  //   if (this.allRecords.length > 0){
+  //     console.log(this.allRecords.some(x => x.includes('2FRcSdzXCaQI78s0oFv7jm')));
+      
+  //   }
+  //     return this.allRecords.some(x => x.includes('2FRcSdzXCaQI78s0oFv7jm'))
+  // }
 
   constructor(
     private http: HttpService,
@@ -94,91 +76,52 @@ export class BookmarksPage implements OnInit {
   ) {
 
 
+
+
+    // async ifRecordExist(list_id, id) {
+    //   try {
+    //     const x = await this.http.getSingeRecord(list_id, id);
+    //     console.log('recsSSS ', x);
+
+    //     var url = x.items.map(x_1 => x_1.toString()).find(x_2 => x_2.includes(id));
+    //     console.log(url);
+
+    //     if (url)
+    //       return true;
+    //     else
+    //       return false;
+    //   }
+    //   catch (x_3) {
+    //     console.log(x_3);
+    //   }
+    // }
+
+
+
     this.http.bookm$
       .subscribe(x => {
         console.log('bookm$ ', x);
-        this.words = x
+        this.words = x;
+
+        var words = x;
+
+        // words.forEach(w => {
+        //   this.http.getSingeRecord(w.list_id, w.id)
+        //     .then(x => {
+        //       // alert('firebase => ' + JSON.stringify(x));
+        //       this.allRecords.push(x);
+        //     }).catch(x => {
+        //       // alert('err ' + JSON.stringify(x));
+        //     });
+        // });
+
+
+
+
       })
-    // console.log('LLL ', this.lang.get());
-
-
-    // this.http.getAllBookmarks('en').onSnapshot(x => {
-    //   this.words = x.docs.map(item => {
-    //     return {
-    //       id: item.id,
-    //       original: item.data()["original"],
-    //       translation: item.data()["translation"],
-    //       transcription: item.data()["transcription"],
-    //       createdAt: item.data()["createdAt"],
-    //       list_id: item.data()["list_id"],
-    //       is_bookmarked: item.data()["is_bookmarked"],
-    //       lang: item.data()["lang"],
-    //       uid: item.data()["uid"],
-    //     }
-    //   })
-    //   console.log('BOOKwords ', this.words);
-
-    //   // this.WS = this.words;
-    //   // this.WSS.next([...this.WS]);
-    // })
-
-
-    // setTimeout(() => {
-    //   this.words = [
-    //     {
-    //       id: "pqYUnboC1qjpXasi4uaP",
-    //       is_bookmarked: true,
-    //       lang: "en",
-    //       list_id: "5HNA4UPT9SyocwaJe8NS",
-    //       original: "22222222222222222",
-    //       transcription: "",
-    //       translation: "",
-    //       uid: "8qRxvDtQAmZMTtdjHpsIfsx8dkr2"
-    //     }
-    //   ];
-    // }, 2000);
-
-
-    this.W.subscribe(x => {
-      console.log('W', x)
-    })
 
 
 
-    console.log(' ');
-    console.log('   BOOKMARKS    ');
-    console.log(' ');
-
-    // this.lang.lang$
-    //   .subscribe((lang: string) => this.currLang = lang);
-
-    /*     this.lang.lang$
-          .subscribe(lang => {
-            if (!!lang) {
-    
-              this.currLang = lang
-    
-              this.http.getAllBookmarks(lang).onSnapshot(x => {
-                this.words = x.docs.map(item => {
-                  return {
-                    id: item.id,
-                    original: item.data()["original"],
-                    translation: item.data()["translation"],
-                    transcription: item.data()["transcription"],
-                    createdAt: item.data()["createdAt"],
-                    list_id: item.data()["list_id"],
-                    is_bookmarked: item.data()["is_bookmarked"],
-                    lang: item.data()["lang"],
-                    uid: item.data()["uid"],
-                  }
-                })
-                console.log('BOOKwords ', this.words);
-    
-                this.WS = this.words;
-                this.WSS.next([...this.WS]);
-              })
-            }
-          }) */
 
 
   }
