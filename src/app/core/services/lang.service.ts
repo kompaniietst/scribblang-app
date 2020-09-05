@@ -16,7 +16,6 @@ export class Language {
 })
 export class LangService {
 
-  // currLang: string;
   languages: Language[] = [];
 
   languages$ = of([
@@ -47,32 +46,19 @@ export class LangService {
     },
   ]);
 
-
   private langSubj: BehaviorSubject<Language> = new BehaviorSubject(null);
-
   public lang$ = this.langSubj.asObservable();
-
   uid: string;
 
   constructor(
-    private auth: AuthService,
-    private firestore: AngularFirestore,
     private storage: Storage
   ) {
-
 
     this.storage.get("lang")
       .then((l: string) => this.langSubj.next(JSON.parse(l)));
 
     this.languages$
       .subscribe((l: Language[]) => this.languages = l)
-
-    // this.auth.user$
-    //   .subscribe(
-    //     x => {
-    //       this.uid = x.uid; this.getLang();
-    //     }
-    //   )
   }
 
   getCurrLang(): Language {
@@ -90,37 +76,5 @@ export class LangService {
       .some(l => l.label === this.langSubj.value.label);
   }
 
-  // test() {
-  //   console.log('test');
-  // }
-
-  // get() {
-  //   return this.langSubj.value;
-  // }
-
-  // setLangtoUser(lang: string) {
-
-  //   this.firestore.collection("users")
-  //     .doc(this.uid)
-  //     .set({ lang: lang }, { merge: true })
-  //     .then(x => this.langSubj.next(lang));
-  // }
-
-  // getLang() {
-  //   console.log('GGGETT', this.uid);
-
-  //   this.firestore.collection("users")
-  //     .doc(this.uid)
-  //     .get()
-  //     .subscribe(x => {
-  //       var lang = x.data()?.lang;
-  //       if (lang) this.langSubj.next(lang);
-  //     })
-  // }
-
-
-
   setLang = (lang: Language) => this.langSubj.next(lang);
-
-  // getLang = () => this.langSubj.value;
 }

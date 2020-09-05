@@ -7,6 +7,7 @@ import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { HttpService } from 'src/app/core/services/http.service';
 import { ModalWordComponent } from '../modal-word/modal-word.component';
 import { ModalAudioComponent } from '../modal-audio/modal-audio.component';
+import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 
 @Component({
   selector: 'app-single-word-item',
@@ -16,18 +17,14 @@ import { ModalAudioComponent } from '../modal-audio/modal-audio.component';
 export class SingleWordItemComponent implements OnInit {
 
   @Input() item: Word;
-  // bookmarkedWords: Word[];
 
   openedTranslations: string[] = [];
 
   list_id: string = this.route.snapshot.queryParams.id;
-  list_name: string;
-  currPageisBookmarks: boolean;
-
-  allRecords;
 
   currLang: Language;
-  // isBookmarked = this.item.is_bookmarked;
+  recordUrl: string = "";
+  recordExist: boolean = false;
 
   constructor(
     private http: HttpService,
@@ -35,12 +32,16 @@ export class SingleWordItemComponent implements OnInit {
     private route: ActivatedRoute,
     private tts: TextToSpeech,
     private lang: LangService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private streamingMedia: StreamingMedia,
   ) {
     this.currLang = this.lang.getCurrLang();
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.getRecord();
+  }
+
   toggleTranslation = (id: string) => {
     this.openedTranslations.includes(id)
       ? this.closeTranslation(id)
@@ -62,9 +63,17 @@ export class SingleWordItemComponent implements OnInit {
     return this.openedTranslations.includes(id);
   }
 
+  getRecord() {
+    this.http.getSingeRecord(this.item.list_id, this.item.id)
+      .then(x => {
+        this.recordUrl = x;
+        this.recordExist = true;
+      }).catch(x => {
+        console.log('err ' + JSON.stringify(x));
+      });
+  }
+
   bookmark(id: string) {
-    // this.checkIfBookmark(id)
-    // this.isBookmarked
     this.item.is_bookmarked
       ? this.http.unBookmark(id)
       : this.http.bookmarkWord(id)
@@ -73,18 +82,8 @@ export class SingleWordItemComponent implements OnInit {
     //   .then(() => this.presentToast(`${name} was bookmarked`, 'success'))
   }
 
-  async presentToast(message: string, color: string) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 2000,
-      color: color
-    });
-    toast.present();
-  }
-
   edit = (word: Word) =>
-    this.presentModal(
-      { word: word, mode: 'edit' }, "modal-edit-word", ModalWordComponent);
+    this.presentModal({ word: word, mode: 'edit' }, "modal-edit-word", ModalWordComponent);
 
   addAudio = (id: string, slidingItem?: IonItemSliding) => {
     slidingItem?.close();
@@ -102,27 +101,18 @@ export class SingleWordItemComponent implements OnInit {
     return await modal.present();
   }
 
-  playRecorded = (id: string) => this.http.play(this.list_id, id);
-
-  ifRecordExist(id: string) {
-    if (this.allRecords)
-      return this.allRecords.some(x => x.includes(id))
+  async presentToast(message: string, color: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      color: color
+    });
+    toast.present();
   }
 
-  speek(string: string) {
-    console.log('speak');
+  playRecorded = (id: string) =>
+    this.streamingMedia.playAudio(this.recordUrl);
 
-    this.tts.speak({
-      text: string,
-      rate: 0.85
-    })
-      .then(x => console.log(string))
-      .catch(x => console.log(string))
-  }
-
-  // checkIfBookmark(word_id: string) {
-  //   return this.bookmarkedWords.some(w => w.id === word_id);
-  // }
-
-
+  speek = (string: string) =>
+    this.tts.speak({ text: string, rate: 0.85 })
 }

@@ -56,7 +56,7 @@
       </ion-col>
 
       <ion-col (click)="playRecorded(item.id)" size="2" class="ion-text-center recorded"
-        *ngIf="ifRecordExist(item.id) && !currLang.ttsActive">
+        *ngIf="recordExist && !currLang.ttsActive">
         <svg viewBox="0 0 63.8 64.8" style="enable-background:new 0 0 63.8 64.8;" xml:space="preserve">
           <path style="fill: #f7577a;"
             d="M38.1,60.8c0.1-0.2,0.1-0.5,0.1-0.7c0,0,0,0,0,0V4.7c0,0,0,0,0,0c0-0.2,0-0.4-0.1-0.6c0-0.1-0.1-0.1-0.1-0.2

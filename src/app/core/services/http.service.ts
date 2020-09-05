@@ -67,7 +67,6 @@ export class HttpService {
     // alert('sigle ' + list_id + ' ' + id)
     return firebase.storage().ref().child("audio/" + this.uid + '/' + list_id + "/" + id + ".mp3")
       .getDownloadURL()
-
   }
 
   getWordsBy(list_id: string): Observable<any> {
@@ -121,7 +120,7 @@ export class HttpService {
       .where("lang", "==", this.currLang.locale)
   }
 
-  createFileSystemEntity(obj: Partial<FileSystemEntity>, lang: string) {
+  createFileSystemEntity(obj: Partial<FileSystemEntity>) {
     obj["createdAt"] = new Date();
     obj["uid"] = this.uid;
     obj["lang"] = this.currLang.locale;
