@@ -22,7 +22,7 @@ export class SingleListPage implements OnInit {
   words$: Observable<Word[]>;
   // bookmarkedWords: Word[];
 
-  
+
   list_id: string = this.route.snapshot.queryParams.id;
   list_name: string;
   currPageisBookmarks: boolean;
@@ -69,11 +69,25 @@ export class SingleListPage implements OnInit {
     if (this.list_id)
       this.words$ = this.http.getWordsBy(this.list_id)
         .pipe(
-          map((res: any) =>
-            res.map((x: any) =>
-              Object.assign({ id: x.payload.doc.id }, x.payload.doc.data()))),
+          map((res: any) => {
+            var r = res.map((x: any) =>
+              Object.assign({ id: x.payload.doc.id }, x.payload.doc.data()))
+
+              console.log('R',r);
+            /*   
+              r.forEach(el => {
+                // console.log('el',el);
+                
+                  this.http.editWord(el)
+              }); */
+              
+
+            return r;
+          }
+
+          ),
           tap((w: Word[]) => {
-            console.log('w', w);
+            // console.log('w', w);
 
             // this.bookmarkedWords = w.filter(x => x.is_bookmarked)
           }))

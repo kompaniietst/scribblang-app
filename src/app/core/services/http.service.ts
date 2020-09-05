@@ -7,6 +7,7 @@ import { FileSystemEntity } from '../models/FileSystemEntity';
 import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 import * as firebase from "firebase";
 import { LangService, Language } from './lang.service';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -22,17 +23,31 @@ export class HttpService {
     private auth: AuthService,
     private firestore: AngularFirestore,
     private streamingMedia: StreamingMedia,
-    private lang: LangService
+    private lang: LangService,
+    private afAuth: AngularFireAuth
   ) {
-    console.log('USer', this.auth.getCurrUser());
+    console.log('USer', this.auth.getCurrUser().uid);
     this.uid = this.auth.getCurrUser().uid;
+
+    
+    this.afAuth.authState
+      .subscribe(
+        (user) => {
+       
+          if (user) {
+            this.uid = user.uid;
+          }
+        }
+      );
+
+
 
     this.lang.lang$
       .subscribe(lang => {
         console.log(' ');
-        console.log(' lang$',lang);
+        console.log(' lang$', lang);
         console.log(' ');
-        
+
         this.currLang = lang;
         this.getFileSystemEntities();
       })
@@ -70,10 +85,14 @@ export class HttpService {
   }
 
   getWordsBy(list_id: string): Observable<any> {
+    console.log(list_id, this.currLang.locale);
+
     return this.firestore
       .collection("words_____", ref => ref
         .orderBy("createdAt", "desc")
         .where("list_id", "==", list_id)
+        .where("uid", "==", this.uid)
+        // .where("lang", "==", this.currLang.locale)
       )
       .snapshotChanges()
   }

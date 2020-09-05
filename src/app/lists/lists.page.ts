@@ -49,6 +49,7 @@ export class ListsPage {
             path: item.data()["path"],
             type: item.data()["type"],
             lang: item.data()["lang"],
+            uid: item.data()["uid"],
             createdAt: item.data()["createdAt"],
           }
         });
