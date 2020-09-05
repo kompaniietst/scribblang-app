@@ -20,6 +20,8 @@ export class BookmarksPage implements OnInit {
   openedTranslations: string[] = [];
   allRecords = [];
 
+  isTtsActive: boolean;
+
   currLang: string;
 
   ionViewWillEnter() {
@@ -60,13 +62,7 @@ export class BookmarksPage implements OnInit {
 
   }
 
-  // ifRecordExist(id: string) {
-  //   if (this.allRecords.length > 0){
-  //     console.log(this.allRecords.some(x => x.includes('2FRcSdzXCaQI78s0oFv7jm')));
-      
-  //   }
-  //     return this.allRecords.some(x => x.includes('2FRcSdzXCaQI78s0oFv7jm'))
-  // }
+
 
   constructor(
     private http: HttpService,
@@ -76,52 +72,24 @@ export class BookmarksPage implements OnInit {
   ) {
 
 
-
-
-    // async ifRecordExist(list_id, id) {
-    //   try {
-    //     const x = await this.http.getSingeRecord(list_id, id);
-    //     console.log('recsSSS ', x);
-
-    //     var url = x.items.map(x_1 => x_1.toString()).find(x_2 => x_2.includes(id));
-    //     console.log(url);
-
-    //     if (url)
-    //       return true;
-    //     else
-    //       return false;
-    //   }
-    //   catch (x_3) {
-    //     console.log(x_3);
-    //   }
-    // }
-
-
-
-    this.http.bookm$
-      .subscribe(x => {
-        console.log('bookm$ ', x);
-        this.words = x;
-
-        var words = x;
-
-        // words.forEach(w => {
-        //   this.http.getSingeRecord(w.list_id, w.id)
-        //     .then(x => {
-        //       // alert('firebase => ' + JSON.stringify(x));
-        //       this.allRecords.push(x);
-        //     }).catch(x => {
-        //       // alert('err ' + JSON.stringify(x));
-        //     });
-        // });
+    // this.isTtsActive =this.lang.checkIfTTSActive();
 
 
 
 
-      })
+
+      this.http.bookm$
+        .subscribe(x => {
+          console.log('bookm$ ', x);
+          this.words = x;
+
+          var words = x;
+
+ 
 
 
 
+        })
 
 
   }
@@ -151,59 +119,6 @@ export class BookmarksPage implements OnInit {
     return this.openedTranslations.includes(id);
   }
 
-  // playRecorded = (id: string, list_id: string) => {
-  //   // this.http.getSingeRecord(list_id, id)
-  //   //   .then(x => {
-  //   //     alert('firebase => ' + JSON.stringify(x))
-  //   //   }).catch(x => {
-  //   //     alert('err ' + JSON.stringify(x));
-  //   //   });
-
-  //   // this.http.getAllRecords(list_id)
-  //   //   .then(x => {
-  //   //     alert('recs ' + JSON.stringify(x));
-
-  //   //     this.allRecords = x.items.map(x => x.toString());
-  //   //   }).catch(x => {
-  //   //     alert('err' + JSON.stringify(x));
-  //   //   });
-
-  //   this.http.getSingeRecord(list_id, id)
-  //     .then(x => {
-  //       console.log('recsSSS ', x);
-
-  //       var url = x.items.map(x => x.toString()).find(x => x.includes(id));
-  //       console.log(url);
-
-  //       if (url) this.http.play(list_id, id);
-
-  //     }).catch(x => {
-  //       console.log(x);
-  //     });
-  // }
-
-
-  // async ifRecordExist(list_id, id) {
-  //   try {
-  //     const x = await this.http.getSingeRecord(list_id, id);
-  //     console.log('recsSSS ', x);
-
-  //     var url = x.items.map(x_1 => x_1.toString()).find(x_2 => x_2.includes(id));
-  //     console.log(url);
-
-  //     if (url)
-  //       return true;
-  //     else
-  //       return false;
-  //   }
-  //   catch (x_3) {
-  //     console.log(x_3);
-  //   }
-  // }
-
-
-
-
 
 
   unBookmark(id: string) {
@@ -218,14 +133,6 @@ export class BookmarksPage implements OnInit {
     });
     return await modal.present();
   }
-  //   this.presentModal(
-  //     { word: word, mode: 'edit' }, "modal-edit-word", ModalWordComponent);
-
-
-  // async presentModal(prop: {}, className: string, component) {
-
-  // }
-
 
 
   shuffle() {

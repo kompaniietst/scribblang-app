@@ -42,9 +42,15 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/start',
+    redirectTo: '/app',
     pathMatch: 'full'
-  },  {
+  },
+  // {
+  //   path: '',
+  //   redirectTo: '/start',
+  //   pathMatch: 'full'
+  // },
+  {
     path: 'bookmarks',
     loadChildren: () => import('./bookmarks/bookmarks.module').then( m => m.BookmarksPageModule)
   },

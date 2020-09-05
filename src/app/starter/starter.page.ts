@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { LangService } from '../core/services/lang.service';
+import { LangService, Language } from '../core/services/lang.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../core/services/auth.service';
 import { map, take } from 'rxjs/operators';
+import { Storage } from '@ionic/storage';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-starter',
@@ -11,38 +13,23 @@ import { map, take } from 'rxjs/operators';
 })
 export class StarterPage implements OnInit {
 
-  // uid: string;
+  currLang: string;
+  langs$: Observable<Language[]>;
 
   constructor(
     private lang: LangService,
-    private router: Router
+    private router: Router,
+    private storage: Storage
   ) {
-    this.lang.lang$
-      .pipe(take(3),
-        map(x => { return x }))
-      .subscribe(langIsSet => {
-        if (!!langIsSet) this.router.navigate(["app/tabs/lists"]);
-      })
+    this.storage.get("lang").then(x => this.currLang = x)
+    this.langs$ = this.lang.getLanguageList();
   }
 
-  ngOnInit(): void {
-
-    //  console.log('init', this.lang.getLang());
-    // this.lang.lang$
-    //   .subscribe(x=>
-    //   console.log('AUTHHH', this.lang.getLang())
-    //   )
-  }
+  ngOnInit(): void { }
 
   selectLang(lang: string) {
-
+    this.storage.set('lang', lang);
     this.lang.setLang(lang);
-
-    this.lang.setLangtoUser(lang)
-
-
     this.router.navigate(["app/tabs/lists"]);
   }
-
-
 }

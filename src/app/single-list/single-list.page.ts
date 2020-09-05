@@ -6,7 +6,7 @@ import { ModalController, IonItemSliding, ToastController } from '@ionic/angular
 import { ModalWordComponent } from 'src/app/components/modal-word/modal-word.component';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
+import { TextToSpeech, TTSOptions } from '@ionic-native/text-to-speech/ngx';
 import { ModalAudioComponent } from '../components/modal-audio/modal-audio.component';
 
 import * as firebase from "firebase";

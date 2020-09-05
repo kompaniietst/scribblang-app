@@ -6,8 +6,7 @@ import { AuthService } from './auth.service';
 import { FileSystemEntity } from '../models/FileSystemEntity';
 import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 import * as firebase from "firebase";
-import { LangService } from './lang.service';
-import { unescapeIdentifier } from '@angular/compiler';
+import { LangService, Language } from './lang.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,14 +24,33 @@ export class HttpService {
     private streamingMedia: StreamingMedia,
     private lang: LangService
   ) {
+    console.log('CONSTRUCTOR');
+
+    console.log('USer', this.auth.getCurrUser());
+    this.uid = this.auth.getCurrUser().uid;
+
+    // this.lang.getCurrLang()
+    //   .then((lang: string) => {
+    //     console.log('           ___LANG', lang);
+    //     if (lang) {
+    //       this.currLang = lang;
+    //     }
+    //   });
+
+
+
     this.lang.lang$
       .subscribe(lang => {
+        console.log(' ');
+        console.log(' lang$',lang);
+        console.log(' ');
+        
         this.currLang = lang;
-        this.getFileSystemEntities(lang)
+        this.getFileSystemEntities();
       })
 
-    this.auth.user$
-      .subscribe(x => this.uid = x.uid)
+    // this.auth.user$
+    //   .subscribe(x => this.uid = x.uid)
     // this.uid = this.auth.getCurrUserUid();
   }
 
@@ -68,7 +86,6 @@ export class HttpService {
 
   getWordsBy(list_id: string): Observable<any> {
     return this.firestore
-      // .collection("words", ref => ref
       .collection("words_____", ref => ref
         .orderBy("createdAt", "desc")
         .where("list_id", "==", list_id)
@@ -77,7 +94,6 @@ export class HttpService {
   }
 
   createWord(list_id: string, word: Partial<Word>) {
-
     var newWord = Object.assign(
       { list_id: list_id, uid: this.uid, lang: this.currLang }, word);
 
@@ -86,37 +102,7 @@ export class HttpService {
       .add(newWord)
   }
 
-  //   editWord2(list_id) {
-  //     this.firestore
-  //       .collection("words", ref => ref
-  //         // .collection("words_____", ref => ref
-  //         // .orderBy("createdAt", "desc")
-  //         .where("list_id", "==", list_id))
-  //       .snapshotChanges()
-  //       .subscribe(x => {
-  //         console.log('WD ', x)
-
-  //         x.forEach(w => {
-
-  //           var word = Object.assign(
-  //             { id: w.payload.doc.id },
-  //             w.payload.doc.data(),
-  //             { lang: this.currLang, uid: this.uid }
-  //           ) as Word;
-
-  //           console.log('w,',word);
-
-  // this.editWord(word)
-
-  //         })
-  //       })
-  //   }
-
   editWord(word: Word): Promise<any> {
-    // word["uid"] = this.uid;
-    // word["lang"] = this.currLang;
-    // word["lang"] = this.currLang;
-
     return this.firestore
       .collection("words_____")
       .doc(word.id)
@@ -138,53 +124,33 @@ export class HttpService {
     });
   }
 
-  getFileSystemEntities(lang: string) {
-    var uid = this.auth.getCurrUserUid();
-
-    // return firebase.firestore().collection("systemEntities2").orderBy("createdAt", "desc")
-    return firebase.firestore().collection("systemEntities_____").orderBy("createdAt", "desc")
-      .where("uid", "==", uid)
-      .where("lang", "==", lang)
+  getFileSystemEntities() {
+    console.log('......', this.uid, this.currLang);
+    return firebase.firestore().collection("systemEntities_____")
+      .orderBy("createdAt", "desc")
+      .where("uid", "==", this.uid)
+      .where("lang", "==", this.currLang)
   }
 
   createFileSystemEntity(obj: Partial<FileSystemEntity>, lang: string) {
-    var uid = this.auth.getCurrUserUid();
-
     obj["createdAt"] = new Date();
-    obj["uid"] = uid;
-    obj["lang"] = lang;
+    obj["uid"] = this.uid;
+    obj["lang"] = this.currLang;
 
     return this.firestore
       .collection("systemEntities_____")
       .add(obj)
       .then(() => {
-        // this.saveSystEntIdToUsersColl(resp.id);
-        this.getFileSystemEntities(lang);
+        this.getFileSystemEntities();
       });
   }
 
-
-  // saveSystEntIdToUsersColl(list_id) {
-  //   var uid = this.auth.getCurrUserUid();
-
-  //   this.firestore
-  //     .collection("users")
-  //     .doc(uid)
-  //     .set({ list_id: list_id }, { merge: true })
-  // }
-
   editFileSystemEntity(doc_id: string, systemEntityName: string) {
-    // return this.firestore
-    //   .collection("systemEntities_____")
-    //   .doc(doc_id)
-    //   .set({
-    //     name: systemEntityName, lang: 'hw', uid: 'S1fo8esA2TNsYuyMmLi6v87wmig1',
-    //     type: 'list', path: [""], createdAt: new Date()
-    //   }, { merge: true })
     return this.firestore
       .collection("systemEntities_____")
       .doc(doc_id)
       .update({ name: systemEntityName })
+    // .update({ lang: "he_IL" })
   }
 
   removeFileSystemEntity(doc_id: string, type: string) {
@@ -206,20 +172,8 @@ export class HttpService {
   bookm$ = this.bookmSubj.asObservable();
 
   getAllBookmarks(lang: string) {
-    // console.log('u_i_d', this.uid);
-    // console.log('LANG', lang);
 
     console.log('getAllBookmarks');
-
-
-    // this.lang.lang$
-    //   .subscribe(lang => {
-    //   console.log('UOD');
-
-    //   })
-
-
-
 
     //filter by uid
     return firebase.firestore().collection("words_____")
@@ -246,14 +200,6 @@ export class HttpService {
         this.bookmSubjArr = words;
         this.bookmSubj.next([...this.bookmSubjArr]);
       })
-
-
-
-
-    // return firebase.firestore().collection("words_____")
-    //   .where("uid", "==", this.uid)
-    // .where("is_bookmarked", "==", true)
-
   }
 
   unBookmark(id: string) {
@@ -264,27 +210,3 @@ export class HttpService {
       .then(() => this.getAllBookmarks(this.currLang))
   }
 }
-
-  // saveToBookmark(word: Word, lang: string) {
-  //   var uid = this.auth.getCurrUserUid();
-
-  //   return this.firestore
-  //     .collection("bookmarked")
-  //     .doc(word.id)
-  //     .set(Object.assign(word, { lang: lang, uid: uid }))
-  // }
-
-  // getBookmarks(list_id?: string) {
-  //   return list_id
-
-  //     ? this.firestore
-  //       .collection("bookmarked", ref => ref
-  //         .where("list_id", "==", list_id))
-  //       .snapshotChanges()
-
-  //     : this.firestore
-  //       .collection("bookmarked")
-  //       .snapshotChanges()
-  // }
-// }
-

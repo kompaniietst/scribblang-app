@@ -15,8 +15,9 @@
         <strong>Change vacabulary:</strong>
       </ion-label>
       <ion-select [value]="currLang" okText="Ok" cancelText="" (ionChange)="selectLang($event.target.value)">
-        <ion-select-option value="en">English</ion-select-option>
-        <ion-select-option value="hw">Other</ion-select-option>
+        <ion-select-option [value]="item.locale" *ngFor="let item of langs$ | async">
+          {{ item.label }}
+        </ion-select-option>
       </ion-select>
     </ion-item>
   </ion-list>
