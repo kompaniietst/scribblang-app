@@ -26,27 +26,13 @@ export class HttpService {
     private lang: LangService,
     private afAuth: AngularFireAuth
   ) {
-    console.log('USer', this.auth.getCurrUser().uid);
-    this.uid = this.auth.getCurrUser().uid;
 
-    
-    this.afAuth.authState
-      .subscribe(
-        (user) => {
-       
-          if (user) {
-            this.uid = user.uid;
-          }
-        }
-      );
-
-
+    this.auth.user$
+      .subscribe(user => this.uid = user?.uid)
 
     this.lang.lang$
       .subscribe(lang => {
-        console.log(' ');
         console.log(' lang$', lang);
-        console.log(' ');
 
         this.currLang = lang;
         this.getFileSystemEntities();

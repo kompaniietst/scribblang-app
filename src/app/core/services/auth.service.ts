@@ -45,20 +45,16 @@ export class AuthService {
     this.afAuth.authState
       .subscribe(
         (user) => {
-          // console.log('AuthState ', user);
 
           this.storage.get('lang').then((val) => {
-            // console.log('..............Your age is', val, val === null);
             if (val === null) {
-              // alert()
               this.router.navigate(["start"]);
-              // this.router.navigate(["start"]);
             }
-            else
+            else {
+              this.userSubject.next(user);
               this.router.navigate(['app/tabs/lists'])
-
-          });;
-
+            }
+          });
 
           // this.router.navigate(['app/tabs/lists'])
 
@@ -84,7 +80,6 @@ export class AuthService {
   getCurrUser = () => this.user;
 
   doRegister(user) {
-    // console.log('doRegister ', user);
 
     return new Promise<any>((resolve, reject) => {
       firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
@@ -97,12 +92,10 @@ export class AuthService {
   }
 
   doSignIn(user) {
-    // console.log('doSignIn ', user);
 
     return new Promise<any>((resolve, reject) => {
       firebase.auth().signInWithEmailAndPassword(user.email, user.password)
         .then(res => {
-          // console.log('res', res);
 
           var user = {
             uid: res.user.uid,
@@ -135,8 +128,6 @@ export class AuthService {
   }
 
   addUsertoColection(user) {
-    // console.log('aft reg', user);
-
     this.firestore.collection('users')
       .doc(user.uid)
       .set({
@@ -149,29 +140,4 @@ export class AuthService {
       })
   }
 
-  // async auth(): Promise<any> {
-  //   return new Promise((resolve, reject) => {
-  //     this.userSubject.subscribe((authData) => {
-  //       resolve(authData.uid);
-  //     }, (error => {
-  //       reject(error);
-  //     }));
-  //   });
-  // }
-
-  // guardAuth() {
-  //   return from(this.auth().then(result => {
-  //     return true;
-  //   }).catch(error => {
-  //     this.router.navigate(['/login']);
-  //     return false;
-  //   }));
-  // }
-
-  // setLangtoUser(uid: string, lang: string) {
-  //   this.firestore.collection("users")
-  //     .doc(uid)
-  //     .set({ lang: lang }, { merge: true })
-  //     .then(x => console.log('add lang', x));
-  // }
 }
