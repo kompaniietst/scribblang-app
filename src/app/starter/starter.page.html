@@ -2,7 +2,7 @@
   <ion-list>
     <ion-item>
       <ion-select placeholder="Select language:" okText="Ok" cancelText="" (ionChange)="selectLang($event.target.value)">
-        <ion-select-option [value]="item.locale" *ngFor="let item of langs$ | async">
+        <ion-select-option [value]="item" *ngFor="let item of langs$ | async">
         {{ item.label }}
         </ion-select-option>
       </ion-select>

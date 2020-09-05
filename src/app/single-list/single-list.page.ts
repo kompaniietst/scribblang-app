@@ -10,7 +10,7 @@ import { TextToSpeech, TTSOptions } from '@ionic-native/text-to-speech/ngx';
 import { ModalAudioComponent } from '../components/modal-audio/modal-audio.component';
 
 import * as firebase from "firebase";
-import { LangService } from '../core/services/lang.service';
+import { LangService, Language } from '../core/services/lang.service';
 
 @Component({
   selector: 'single-list',
@@ -20,10 +20,9 @@ import { LangService } from '../core/services/lang.service';
 export class SingleListPage implements OnInit {
 
   words$: Observable<Word[]>;
-  bookmarkedWords: Word[];
+  // bookmarkedWords: Word[];
 
-  openedTranslations: string[] = [];
-
+  
   list_id: string = this.route.snapshot.queryParams.id;
   list_name: string;
   currPageisBookmarks: boolean;
@@ -43,7 +42,7 @@ export class SingleListPage implements OnInit {
 
     this.lang.lang$
       .pipe(tap(x => console.log('lang in lists', x)))
-      .subscribe((lang: string) => this.currLang = lang);
+      .subscribe((lang: Language) => this.currLang = lang.label);
 
     this.http.recordListener$
       .subscribe(() => {
@@ -76,89 +75,8 @@ export class SingleListPage implements OnInit {
           tap((w: Word[]) => {
             console.log('w', w);
 
-            this.bookmarkedWords = w.filter(x => x.is_bookmarked)
+            // this.bookmarkedWords = w.filter(x => x.is_bookmarked)
           }))
-  }
-
-  toggleTranslation = (id: string) => {
-    this.openedTranslations.includes(id)
-      ? this.closeTranslation(id)
-      : this.openTranslation(id)
-  }
-
-  openTranslation(id: string) {
-    this.openedTranslations.push(id);
-  }
-
-  closeTranslation(id: string) {
-    var i = this.openedTranslations.indexOf(id);
-    console.log(i);
-
-    this.openedTranslations.splice(i, 1);
-  }
-
-  isTranslationOpened(id: string) {
-    return this.openedTranslations.includes(id);
-  }
-
-  bookmark(id: string) {
-    this.checkIfBookmark(id)
-      ? this.http.unBookmark(id)
-      : this.http.bookmarkWord(id)
-
-    // this.http.saveToBookmark(word, this.currLang)
-    //   .then(() => this.presentToast(`${name} was bookmarked`, 'success'))
-  }
-
-  async presentToast(message: string, color: string) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 2000,
-      color: color
-    });
-    toast.present();
-  }
-
-  edit = (word: Word) =>
-    this.presentModal(
-      { word: word, mode: 'edit' }, "modal-edit-word", ModalWordComponent);
-
-  addAudio = (id: string, slidingItem?: IonItemSliding) => {
-    slidingItem?.close();
-    this.presentModal({ id: id }, "modal-add-audio", ModalAudioComponent);
-  }
-
-  remove = (word_id: string) => this.http.removeWord(this.list_id, word_id)
-
-  async presentModal(prop: {}, className: string, component) {
-    const modal = await this.modalController.create({
-      component: component,
-      cssClass: className,
-      componentProps: prop
-    });
-    return await modal.present();
-  }
-
-  playRecorded = (id: string) => this.http.play(this.list_id, id);
-
-  ifRecordExist(id: string) {
-    if (this.allRecords)
-      return this.allRecords.some(x => x.includes(id))
-  }
-
-  speek(string: string) {
-    console.log('speak');
-
-    this.tts.speak({
-      text: string,
-      rate: 0.85
-    })
-      .then(x => console.log(string))
-      .catch(x => console.log(string))
-  }
-
-  checkIfBookmark(word_id: string) {
-    return this.bookmarkedWords.some(w => w.id === word_id);
   }
 
   shuffle() {
@@ -167,4 +85,5 @@ export class SingleListPage implements OnInit {
       words.sort(() => Math.random() - 0.5)
     ))
   }
+
 }

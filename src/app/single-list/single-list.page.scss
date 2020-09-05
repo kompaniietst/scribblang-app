@@ -1,76 +1,17 @@
-.back {
-    position: absolute;
-    left: 13px;
-    top: 50%;
-    transform: translate(0, -50%);
-    font-size: 27px;
-    display: flex;
-}
+// .back {
+//     position: absolute;
+//     left: 13px;
+//     top: 50%;
+//     transform: translate(0, -50%);
+//     font-size: 27px;
+//     display: flex;
+// }
 
-svg.to-bookmark {
-    fill: #d0c5bf;
-    &.bookmarked {
-        fill: var(--sec-theme-color);
-        opacity: 1;
-    }
-}
-a {
-    color: var(--thr-theme-color);
-    opacity: 0.7;
-    font-size: 15px;
-    border-bottom: 1px solid var(--thr-theme-color);
-}
-.word {
-    padding-left: 7px;
-    padding-top: 5px;
-}
-.to-bookmark {
-    padding-top: 2px;
-}
-.translation {
-    font-size: 14px;
-    padding-top: 5px;
-    line-height: initial;
-    text-align: right;
-}
-.transcription {
-    margin-top: 10px;
-    margin-bottom: -13px;
-    div {
-        background: var(--ion-item-border-color);
-        font-size: 10px;
-        padding: 4px 7px 4px 11px;
-        margin-top: 4px;
-        border-radius: 10px 0 0 0;
-        display: unset;
-        color: var(--thr-theme-color);
-    }
-}
-ion-grid {
-    height: 100%;
-}
-ion-row {
-    height: 100%;
-    padding: 10px 0;
-    ion-row {
-        padding: 0;
-        height: unset;
-    }
-}
-ion-col {
-    padding: 0;
-}
-ion-item {
-    border: none;
-    --border-color: transparent;
-    border-width: 0;
-    --inner-border-width: 0;
-    --inner-padding-end: 0;
-}
-small {
-    line-height: 16px;
-    display: block;
-}
+
+// small {
+//     line-height: 16px;
+//     display: block;
+// }
 .no-data {
     position: absolute;
     top: calc(50% - 50px);
@@ -78,25 +19,11 @@ small {
     width: 100%;
     margin: auto;
 }
-.record {
-    padding-top: 2px;
-}
-.recorded {
-    padding-top: 2px;
-    svg {
-        max-width: 20px;
-    }
-}
-.say {
-    padding-top: 4px;
-    svg {
-        max-width: 20px;
-    }
-}
+
 .icon-shuffle {
     position: absolute;
     right: 20px;
 }
 app-header{
-    margin-bottom: -33px;
+    // margin-bottom: -33px;
 }

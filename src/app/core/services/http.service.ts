@@ -16,7 +16,7 @@ export class HttpService {
   private recordSubj = new BehaviorSubject(false);
   public recordListener$ = this.recordSubj.asObservable();
   uid: string;
-  currLang: string;
+  currLang: Language;
 
   constructor(
     private auth: AuthService,
@@ -24,20 +24,8 @@ export class HttpService {
     private streamingMedia: StreamingMedia,
     private lang: LangService
   ) {
-    console.log('CONSTRUCTOR');
-
     console.log('USer', this.auth.getCurrUser());
     this.uid = this.auth.getCurrUser().uid;
-
-    // this.lang.getCurrLang()
-    //   .then((lang: string) => {
-    //     console.log('           ___LANG', lang);
-    //     if (lang) {
-    //       this.currLang = lang;
-    //     }
-    //   });
-
-
 
     this.lang.lang$
       .subscribe(lang => {
@@ -49,9 +37,6 @@ export class HttpService {
         this.getFileSystemEntities();
       })
 
-    // this.auth.user$
-    //   .subscribe(x => this.uid = x.uid)
-    // this.uid = this.auth.getCurrUserUid();
   }
 
   play(list_id: string, id: string) {
@@ -95,7 +80,7 @@ export class HttpService {
 
   createWord(list_id: string, word: Partial<Word>) {
     var newWord = Object.assign(
-      { list_id: list_id, uid: this.uid, lang: this.currLang }, word);
+      { list_id: list_id, uid: this.uid, lang: this.currLang.locale }, word);
 
     return this.firestore
       .collection("words_____")
@@ -125,17 +110,16 @@ export class HttpService {
   }
 
   getFileSystemEntities() {
-    console.log('......', this.uid, this.currLang);
     return firebase.firestore().collection("systemEntities_____")
       .orderBy("createdAt", "desc")
       .where("uid", "==", this.uid)
-      .where("lang", "==", this.currLang)
+      .where("lang", "==", this.currLang.locale)
   }
 
   createFileSystemEntity(obj: Partial<FileSystemEntity>, lang: string) {
     obj["createdAt"] = new Date();
     obj["uid"] = this.uid;
-    obj["lang"] = this.currLang;
+    obj["lang"] = this.currLang.locale;
 
     return this.firestore
       .collection("systemEntities_____")
@@ -171,7 +155,7 @@ export class HttpService {
   bookmSubjArr = [];
   bookm$ = this.bookmSubj.asObservable();
 
-  getAllBookmarks(lang: string) {
+  getAllBookmarks() {
 
     console.log('getAllBookmarks');
 
@@ -179,7 +163,7 @@ export class HttpService {
     return firebase.firestore().collection("words_____")
       .where("uid", "==", this.uid)
       .where("is_bookmarked", "==", true)
-      .where("lang", "==", lang)
+      .where("lang", "==", this.currLang.locale)
       .get()
       .then(x => {
         var words = x.docs.map(item => {
@@ -207,6 +191,6 @@ export class HttpService {
       .collection("words_____")
       .doc(id)
       .set({ is_bookmarked: false }, { merge: true })
-      .then(() => this.getAllBookmarks(this.currLang))
+      .then(() => this.getAllBookmarks())
   }
 }

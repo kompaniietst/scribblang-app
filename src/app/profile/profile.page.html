@@ -2,7 +2,6 @@
   <app-header>
     <a (click)="logout()">Log out</a>
   </app-header>
-
   <ion-list>
     <ion-item>
       <ion-label>
@@ -13,12 +12,13 @@
     <ion-item>
       <ion-label>
         <strong>Change vacabulary:</strong>
-      </ion-label>
-      <ion-select [value]="currLang" okText="Ok" cancelText="" (ionChange)="selectLang($event.target.value)">
-        <ion-select-option [value]="item.locale" *ngFor="let item of langs$ | async">
+      </ion-label> 
+      <ion-select [placeholder]="currLang.label" okText="Ok" cancelText="" (ionChange)="selectLang($event.target.value)">
+        <ion-select-option [value]="item" *ngFor="let item of langs$ | async">
           {{ item.label }}
         </ion-select-option>
       </ion-select>
     </ion-item>
   </ion-list>
+  <ion-button (click)="remLang()">remLang()</ion-button>
 </ion-content>

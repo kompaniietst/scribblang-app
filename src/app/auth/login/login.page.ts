@@ -15,22 +15,13 @@ export class LoginPage implements OnInit, AfterViewInit {
   constructor(
     private router: Router,
     private auth: AuthService
-  ) {
-
-    this.auth.user$
-      .subscribe(x => console.log("X", x))
-    console.log('this.uid', this.uid);
-
-  }
+  ) { }
 
   ngAfterViewInit(): void {
     setTimeout(() => this.inputToFocus.setFocus(), 300);
   }
 
-  ngOnInit() {
-    console.log('this.uid', this.uid);
-
-  }
+  ngOnInit() { }
 
   errorMessage;
   successMessage;
@@ -48,7 +39,6 @@ export class LoginPage implements OnInit, AfterViewInit {
         // this.router.navigate(['login'])
         this.router.navigate(['start']);
 
-        console.log('res', res.user.uid);
 
         this.uid = res.user.uid;
       }, err => {

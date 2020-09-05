@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class ProfilePage {
 
-  currLang: string;
+  currLang: Language;
   langs$: Observable<Language[]>;
 
   constructor(
@@ -19,14 +19,24 @@ export class ProfilePage {
     private storage: Storage,
     private lang: LangService
   ) {
-    this.lang.lang$.subscribe(x => this.currLang = x)
+    this.lang.lang$.subscribe(x => {
+      console.log('lang$=>', x);
+
+      this.currLang = x
+    }
+    )
+
     this.langs$ = this.lang.getLanguageList();
   }
-
+  remLang() {
+    this.storage.remove("lang").then((x) => console.log('remove', x));
+  }
   logout = () => this.auth.logout();
 
-  selectLang = (lang: string) => {
-    this.storage.set("lang", lang);
+  selectLang = (lang: Language) => {
+    console.log('set ', lang);
+
+    this.storage.set("lang", JSON.stringify(lang));
     this.lang.setLang(lang);
   };
 }

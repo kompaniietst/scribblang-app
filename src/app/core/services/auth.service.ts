@@ -20,9 +20,6 @@ export class AuthService {
   public userSubject: ReplaySubject<firebase.User> = new ReplaySubject(1);
   user$ = this.userSubject.asObservable();
 
-  currUserId;
-
-
 
   private currUserSubj = new BehaviorSubject(JSON.parse(localStorage.getItem("currUser")) || {});
   currUser = this.currUserSubj.asObservable();
@@ -48,10 +45,10 @@ export class AuthService {
     this.afAuth.authState
       .subscribe(
         (user) => {
-          console.log('AuthState ', user);
+          // console.log('AuthState ', user);
 
           this.storage.get('lang').then((val) => {
-            console.log('..............Your age is', val, val === null);
+            // console.log('..............Your age is', val, val === null);
             if (val === null) {
               // alert()
               this.router.navigate(["start"]);
@@ -74,38 +71,17 @@ export class AuthService {
 
 
     this.afAuth.onAuthStateChanged(authData => {
-
       if (authData != null) {
-        console.log('authData', authData.uid);
         this.userSubject.next(authData);
-        this.currUserId = authData.uid;
-
-        // if(authData){
-        //   authData.
-        //   authData.updateProfile({
-        //      displayName: 'DN',
-        //      LANG:'lang',
-        //      photoURL: "PU"
-        //   }).then(
-        //     (s)=> console.log('updated')
-        //   )
-        // }
-
       } else {
         this.router.navigate(["login"]);
       }
     });
   }
 
-  isLoggedIn() {
-    return !!this.user
-    // return false;
-    // return true;
-  }
+  isLoggedIn = () => !!this.user
 
-  getCurrUser() {
-    return this.user;
-  }
+  getCurrUser = () => this.user;
 
   doRegister(user) {
     // console.log('doRegister ', user);
@@ -157,16 +133,6 @@ export class AuthService {
 
     this.currUserSubj.next(null);
   }
-
-
-  getCurrUserUid = () => {
-    // console.log('currUserId', this.currUserId);
-
-    return this.currUserId;
-  }
-
-
-
 
   addUsertoColection(user) {
     // console.log('aft reg', user);

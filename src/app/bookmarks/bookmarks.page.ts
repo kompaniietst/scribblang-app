@@ -6,7 +6,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { ModalController } from '@ionic/angular';
 import { ModalWordComponent } from '../components/modal-word/modal-word.component';
-import { LangService } from '../core/services/lang.service';
+import { LangService, Language } from '../core/services/lang.service';
 import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 
 @Component({
@@ -22,7 +22,7 @@ export class BookmarksPage implements OnInit {
 
   isTtsActive: boolean;
 
-  currLang: string;
+  currLang: Language;
 
   ionViewWillEnter() {
     console.log(
@@ -35,7 +35,7 @@ export class BookmarksPage implements OnInit {
 
           this.currLang = lang
 
-          this.http.getAllBookmarks(lang);
+          this.http.getAllBookmarks();
 
           // this.http.getAllBookmarks(lang).then(x => {
           //   var res = x.docs.map(item => {

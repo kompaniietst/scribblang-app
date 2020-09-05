@@ -3,7 +3,7 @@ import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { Word } from 'src/app/core/models/Word';
 import { HttpService } from 'src/app/core/services/http.service';
-import { LangService } from 'src/app/core/services/lang.service';
+import { LangService, Language } from 'src/app/core/services/lang.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ModalAudioComponent } from '../modal-audio/modal-audio.component';
 import { ModalController } from '@ionic/angular';
@@ -30,27 +30,25 @@ export class RecordFeatureComponent implements OnInit {
     private lang: LangService,
     private modalController: ModalController
   ) {
-    this.uid = this.auth.getCurrUserUid();
+    this.uid = this.auth.getCurrUser().uid;
 
+    this.lang.lang$
+      .subscribe((l: Language) => {
+        if (!l.ttsActive && !!this.item)
+          this.getRecord();
+      })
   }
 
-  ngOnInit() {
-    console.log(' ');
-    console.log(' ');
+  ngOnInit() {}
 
-    // this.ifRecordExist(this.item.list_id, this.item.id);
-
-    // words.forEach(w => {
+  getRecord() {
     this.http.getSingeRecord(this.item.list_id, this.item.id)
       .then(x => {
-        // alert('firebase => ' + JSON.stringify(x));
         this.recordUrl = x;
         this.recordExist = true;
       }).catch(x => {
-        // alert('err ' + JSON.stringify(x));
+        console.log('err ' + JSON.stringify(x));
       });
-    // });
-
   }
 
   playRecorded = (id: string) => this.streamingMedia.playAudio(this.recordUrl);

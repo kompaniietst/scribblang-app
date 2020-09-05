@@ -9,6 +9,7 @@ import { ModalFileSystemComponent } from './modal-file-system/modal-file-system.
 import { ModalAudioComponent } from './modal-audio/modal-audio.component';
 import { RecordFeatureComponent } from './record-feature/record-feature.component';
 import { SingleBookmarkComponent } from './single-bookmark/single-bookmark.component';
+import { SingleWordItemComponent } from './single-word-item/single-word-item.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { SingleBookmarkComponent } from './single-bookmark/single-bookmark.compo
     ModalFileSystemComponent,
     ModalAudioComponent,
     RecordFeatureComponent,
-    SingleBookmarkComponent
+    SingleBookmarkComponent,
+    SingleWordItemComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,8 @@ import { SingleBookmarkComponent } from './single-bookmark/single-bookmark.compo
     HeaderComponent,
     RecordFeatureComponent,
     FileSystemViewComponent,
-    SingleBookmarkComponent
+    SingleBookmarkComponent,
+    SingleWordItemComponent
   ],
   providers: []
 })

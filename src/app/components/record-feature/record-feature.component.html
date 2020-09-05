@@ -1,4 +1,4 @@
-<ion-col (click)="speek(item.original)" size="2" class="ion-text-center say" *ngIf="currLang === 'en'">
+<ion-col (click)="speek(item.original)" size="2" class="ion-text-center say" *ngIf="currLang.ttsActive">
   <svg viewBox="0 0 63.8 64.8" style="enable-background:new 0 0 63.8 64.8;" xml:space="preserve">
     <style type="text/css">
       .say {
@@ -28,7 +28,7 @@
 </ion-col>
 
 <ion-col (click)="playRecorded()" size="2" class="ion-text-center recorded"
-  *ngIf="recordExist && currLang !== 'en'">
+  *ngIf="recordExist && !currLang.ttsActive">
   <svg viewBox="0 0 63.8 64.8" style="enable-background:new 0 0 63.8 64.8;" xml:space="preserve">
     <style type="text/css">
       .say {
@@ -58,7 +58,7 @@
 </ion-col>
 
 <!-- <ion-col (click)="addAudio(item.id)" size="2" class="ion-text-center record"
-  *ngIf="!recordExist && currLang !== 'en'">
+  *ngIf="!recordExist && currLang.ttsActive">
   <svg width="20" height="22" viewBox="0 0 60 60">
     <style type="text/css">
       .roseDiz {

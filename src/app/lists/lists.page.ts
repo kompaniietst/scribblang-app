@@ -13,34 +13,25 @@ import { Storage } from '@ionic/storage';
 })
 export class ListsPage {
 
-  currLang: string;
+  currLangIsTtsActive: string;
 
   constructor(
     private http: HttpService,
     private route: ActivatedRoute,
     private lang: LangService,
     private storage: Storage
-  ) {
-    console.log(' ');
-    console.log('   LISTS    ');
-    console.log(' ');
-
-  }
+  ) { }
 
   ionViewDidEnter() {
+    this.treeData = [];
+
     this.storage.get("lang")
       .then((x) => {
         console.log(x);
         this.getFilesStructure()
       })
+
     console.log('enter!');
-
-
-
-  }
-
-  remLang() {
-    this.storage.remove("lang").then((x) => console.log('remove', x));
   }
 
   treeData: FileSystemEntity[];
@@ -50,7 +41,6 @@ export class ListsPage {
   getFilesStructure() {
     this.http.getFileSystemEntities()
       .onSnapshot(querySnapshot => {
-        console.log('querySnapshot', querySnapshot);
 
         var data = querySnapshot.docs.map(item => {
           return {

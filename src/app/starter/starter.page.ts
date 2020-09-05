@@ -27,8 +27,8 @@ export class StarterPage implements OnInit {
 
   ngOnInit(): void { }
 
-  selectLang(lang: string) {
-    this.storage.set('lang', lang);
+  selectLang(lang: Language) {
+    this.storage.set('lang', JSON.stringify(lang));
     this.lang.setLang(lang);
     this.router.navigate(["app/tabs/lists"]);
   }

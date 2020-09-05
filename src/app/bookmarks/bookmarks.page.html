@@ -27,7 +27,7 @@
       <ion-grid>
         <ion-row>
 
-          <app-single-bookmark></app-single-bookmark>
+          <!-- <app-single-bookmark></app-single-bookmark> -->
 
           <ion-col size="5" class="word">
             <strong>{{ item.original }}</strong>
@@ -59,7 +59,7 @@
       </ion-grid>
     </ion-item>
     <ion-item-options side="end">
-      <ion-item-option (click)="addAudio(item.id, slidingItem)" *ngIf="currLang !== 'en'">
+      <ion-item-option (click)="addAudio(item.id, slidingItem)" *ngIf="!currLang.ttsActive">
         <svg width="20" height="22" viewBox="0 0 60 60">
           <style type="text/css">
             .roseDiz {

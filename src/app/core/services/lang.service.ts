@@ -48,7 +48,8 @@ export class LangService {
   ]);
 
 
-  private langSubj: BehaviorSubject<string> = new BehaviorSubject("");
+  private langSubj: BehaviorSubject<Language> = new BehaviorSubject(null);
+
   public lang$ = this.langSubj.asObservable();
 
   uid: string;
@@ -61,7 +62,7 @@ export class LangService {
 
 
     this.storage.get("lang")
-      .then((l: string) => this.langSubj.next(l));
+      .then((l: string) => this.langSubj.next(JSON.parse(l)));
 
     this.languages$
       .subscribe((l: Language[]) => this.languages = l)
@@ -74,9 +75,9 @@ export class LangService {
     //   )
   }
 
-  // getCurrLang(): Promise<string> {
-  //   return this.storage.get("lang");
-  // }
+  getCurrLang(): Language {
+    return this.langSubj.value;
+  }
 
   getLanguageList(): Observable<Language[]> {
     return this.languages$;
@@ -86,7 +87,7 @@ export class LangService {
     console.log(this.languages);
     this.languages
       .filter(l => l.ttsActive)
-      .some(l => l.label === this.langSubj.value);
+      .some(l => l.label === this.langSubj.value.label);
   }
 
   // test() {
@@ -119,7 +120,7 @@ export class LangService {
 
 
 
-  setLang = (lang: string) => this.langSubj.next(lang);
+  setLang = (lang: Language) => this.langSubj.next(lang);
 
   // getLang = () => this.langSubj.value;
 }
