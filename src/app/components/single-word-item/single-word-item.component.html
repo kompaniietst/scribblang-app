@@ -12,7 +12,8 @@
         </svg>
       </ion-col>
       <ion-col size="5" class="word">
-        <strong>{{ item.original }}</strong>
+        <!-- <strong>{{ item.original }}</strong> -->
+        {{item.id}}
       </ion-col>
       <ion-col (click)="toggleTranslation(item.id)" size="4" class="ion-text-right translation"
         *ngIf="!isTranslationOpened(item.id)">
@@ -54,7 +55,7 @@
           </g>
         </svg>
       </ion-col>
-
+{{recordExist}}
       <ion-col (click)="playRecorded(item.id)" size="2" class="ion-text-center recorded"
         *ngIf="recordExist && !currLang.ttsActive">
         <svg viewBox="0 0 63.8 64.8" style="enable-background:new 0 0 63.8 64.8;" xml:space="preserve">

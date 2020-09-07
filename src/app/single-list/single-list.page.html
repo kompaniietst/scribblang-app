@@ -32,7 +32,8 @@
   </div>
   <br><br><br> ====={{recordUrls}}
   <ion-item-sliding *ngFor="let item of words$ | async" #slidingItem>
-    <app-single-word-item [item]="item" [recordUrl]="'recordUrls'.includes('rec') ? true : false"></app-single-word-item>
+    <app-single-word-item [item]="item"></app-single-word-item>
+    <!-- <app-single-word-item [item]="item"></app-single-word-item> -->
 
   </ion-item-sliding>
 

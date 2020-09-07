@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, ReplaySubject } from 'rxjs';
 import { Word } from '../models/Word';
 import { AuthService } from './auth.service';
 import { FileSystemEntity } from '../models/FileSystemEntity';
@@ -59,23 +59,52 @@ export class HttpService {
     }
   }
 
+  private recordsSubj: ReplaySubject<{ word_id: string, url: string }[]> = new ReplaySubject();
+  records$ = this.recordsSubj.asObservable();
+  recArr: { word_id: string, url: string }[] = [];
+
   getRecordsByList(list_id: string) {
+
+    
     return firebase.storage().ref().child("audio/" + this.uid + '/' + list_id).listAll()
+    .then(x => {
+      x.items.map(r => {
+
+          var word_id = r.fullPath.split(/[\s/]+/).pop().split(/[\s.]+/).shift();
+          r.getDownloadURL()
+            .then(url => {
+
+              this.recArr.push({ word_id: word_id, url: url });
+              this.recordsSubj.next([...this.recArr]);
+              // alert('TYPEOF ' + typeof this.arr);
+
+              // alert('URL ' + url);
+              // console.log('URL ', this.recordUrls);
+            })
+        })
+      })
+      .catch(err => console.log(err))
   }
+
+
+
+  // getRecordsByList(list_id: string) {
+  //   return firebase.storage().ref().child("audio/" + this.uid + '/' + list_id).listAll()
+  // }
 
   async getSingeRecord(list_id: string, id: string) {
     // alert('sigle ' + list_id + ' ' + id)
 
 
     return firebase.storage().ref().child("audio/" + this.uid + '/' + list_id)
-    // return firebase.storage().ref().child("audio/" + this.uid + '/' + list_id + "/" + id + ".mp3")
+      // return firebase.storage().ref().child("audio/" + this.uid + '/' + list_id + "/" + id + ".mp3")
       .listAll()
       // .getDownloadURL()
       .then(x => {
         console.log('X_', x);
 
       })
-      // .catch(x => console.log('er', x))
+    // .catch(x => console.log('er', x))
 
 
     // const ref = firebase.storage().ref("audio/" + this.uid + '/' + list_id + "/" + id + ".mp3")

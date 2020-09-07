@@ -9,7 +9,6 @@ import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 
 import * as firebase from "firebase";
 import { LangService, Language } from '../core/services/lang.service';
-import { url } from 'inspector';
 
 @Component({
   selector: 'single-list',
@@ -24,7 +23,7 @@ export class SingleListPage implements OnInit {
   list_name: string;
 
   currLang: string;
-  recordUrls: string[] = [];
+  // recordUrls: { word_id: string, url: string }[] = [];
 
   constructor(
     private http: HttpService,
@@ -40,6 +39,15 @@ export class SingleListPage implements OnInit {
     this.list_name = this.route.snapshot.queryParams.name;
 
     this.getRecord();
+
+
+
+  }
+
+  func(id){
+    // console.log('FFFAFAFAAFFAAFAFA');
+    // console.log('recordUrls',this.recordUrls);
+    
   }
 
   ngOnInit(): void {
@@ -69,6 +77,8 @@ export class SingleListPage implements OnInit {
 
   getRecord() {
 
+
+
     // this.http.getSingeRecord(this.item.list_id, this.item.id)
     //   .then(x => {
     //     this.recordUrl = x;
@@ -76,15 +86,7 @@ export class SingleListPage implements OnInit {
     //   })
     //   .catch(() => console.log())
     this.http.getRecordsByList(this.list_id)
-      .then(x => {
-        x.items.map(r =>
-          r.getDownloadURL()
-            .then(url => {this.recordUrls.push(url);
-              alert('URL '+url);
-              console.log('URL ',this.recordUrls);
-            }))
-      })
-      .catch(err => console.log(err))
+
   }
 
   shuffle() {
@@ -93,4 +95,9 @@ export class SingleListPage implements OnInit {
         words.sort(() => Math.random() - 0.5)
       ))
   }
+
+  // recordUrlIfExist(id: string) {
+  //   console.log('======', this.recordUrls);
+
+  // }
 }
