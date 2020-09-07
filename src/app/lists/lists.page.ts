@@ -14,24 +14,20 @@ import { Storage } from '@ionic/storage';
 export class ListsPage {
 
   currLangIsTtsActive: string;
+  isEmpty: boolean = false;
 
   constructor(
     private http: HttpService,
     private route: ActivatedRoute,
     private lang: LangService,
     private storage: Storage
-  ) { }
+  ) {
 
-  ionViewDidEnter() {
-    this.treeData = [];
-
-    this.storage.get("lang")
-      .then((x) => {
+    this.lang.lang$
+      .subscribe((x) => {
         console.log(x);
         this.getFilesStructure()
       })
-
-    console.log('enter!');
   }
 
   treeData: FileSystemEntity[];
@@ -53,7 +49,7 @@ export class ListsPage {
             createdAt: item.data()["createdAt"],
           }
         });
-
+        this.isEmpty = data.length === 0;
         console.log(`Received`, data);
 
         // if (data.length > 0) {

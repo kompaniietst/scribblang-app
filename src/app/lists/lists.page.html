@@ -3,9 +3,13 @@
     <div class="lang">{{ (lang.lang$ | async).locale }}</div>
   </app-header>
 
-  <div *ngIf="treeData?.length === 0" class="no-data ion-text-center">
+  <div *ngIf="isEmpty" class="no-data ion-text-center">
     Start to add directories and lists <br> of your words!
   </div>
+<!-- 
+  <div *ngIf="treeData?.length === 0" class="no-data ion-text-center">
+    Start to add directories and lists <br> of your words!
+  </div> -->
 
   <app-file-system-view [children]="treeData" *ngIf="treeData?.length > 0" class="tree"></app-file-system-view>
 
