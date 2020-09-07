@@ -4,6 +4,7 @@ import { Word } from '../core/models/Word';
 import { ModalController } from '@ionic/angular';
 import { ModalWordComponent } from '../components/modal-word/modal-word.component';
 import { LangService, Language } from '../core/services/lang.service';
+import { BookmarksProviderService } from '../core/services/bookmarks-provider.service';
 
 @Component({
   selector: 'app-bookmarks',
@@ -19,6 +20,7 @@ export class BookmarksPage implements OnInit {
   isTtsActive: boolean;
 
   currLang: Language;
+  isEmpty: boolean = false;
 
   ionViewWillEnter() {
     console.log('Enter');
@@ -30,20 +32,22 @@ export class BookmarksPage implements OnInit {
 
           this.currLang = lang
 
-          this.http.getAllBookmarks();
+          this.bookmarkService.pullAllBookmarks();
         }
       })
   }
 
   constructor(
     private http: HttpService,
+    private bookmarkService: BookmarksProviderService,
     private lang: LangService,
     private modalController: ModalController,
   ) {
 
-    this.http.bookm$
+    this.bookmarkService.bookmarks$
       .subscribe(x => {
-        console.log('bookm$ ', x);
+        console.log('bookmarks$ ', x, x.length);
+        // this.isEmpty = x.length === 0;
         this.words = x;
       })
   }
@@ -67,7 +71,7 @@ export class BookmarksPage implements OnInit {
     this.openedTranslations.includes(id);
 
   unBookmark = (id: string) =>
-    this.http.unBookmark(id);
+    this.bookmarkService.unBookmark(id);
 
   edit = async (word: Word) => {
     const modal = await this.modalController.create({
