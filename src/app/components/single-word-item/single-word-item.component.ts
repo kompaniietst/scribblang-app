@@ -8,6 +8,7 @@ import { HttpService } from 'src/app/core/services/http.service';
 import { ModalWordComponent } from '../modal-word/modal-word.component';
 import { ModalAudioComponent } from '../modal-audio/modal-audio.component';
 import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
+import { AudioRecordsProviderService } from 'src/app/core/services/audio-records-provider.service';
 
 @Component({
   selector: 'app-single-word-item',
@@ -35,24 +36,16 @@ export class SingleWordItemComponent implements OnInit {
     private lang: LangService,
     private toastController: ToastController,
     private streamingMedia: StreamingMedia,
+    private audioService: AudioRecordsProviderService
   ) {
     this.currLang = this.lang.getCurrLang();
 
-    this.http.records$
+    this.audioService.records$
       .subscribe(x => {
-
         if (this.item) {
-
-          var rec = x.find(r=>r.word_id == this.item.id);
-          console.log('rec',rec);
+          var rec = x.find(r => r.word_id == this.item.id);
           this.recordExist = !!rec;
           this.recordUrl = rec?.url;
-
-          console.log('X', x);
-          x.forEach(el => {
-            // console.log('el', this.item.id ,el.word_id,this.item.id == el.word_id);
-            // this.recordExist = this.item.id == el.word_id;
-          })
         }
       })
   }

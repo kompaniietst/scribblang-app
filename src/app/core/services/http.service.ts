@@ -14,8 +14,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 })
 export class HttpService {
 
-  private recordSubj = new BehaviorSubject(false);
-  public recordListener$ = this.recordSubj.asObservable();
+  // private recordSubj = new BehaviorSubject(false);
+  // public recordListener$ = this.recordSubj.asObservable();
   uid: string;
   currLang: Language;
 
@@ -46,49 +46,11 @@ export class HttpService {
       .then(url => this.streamingMedia.playAudio(url))
   }
 
-  async upload(list_id: string, id: string, str: string) {
-    let storageRef = firebase.storage().ref().child("audio/" + this.uid + '/' + list_id + '/' + id + '.mp3');
-
-    try {
-      const _ = await storageRef.putString((str as string), 'data_url');
-      this.recordSubj.next(true);
-      this.getRecordsByList(list_id);
-    }
-    catch (err) {
-      console.log(err)
-    }
-  }
-
-  private recordsSubj: ReplaySubject<{ word_id: string, url: string }[]> = new ReplaySubject();
-  records$ = this.recordsSubj.asObservable();
-  recArr: { word_id: string, url: string }[] = [];
-
-  getRecordsByList(list_id: string) {
-
-    
-    return firebase.storage().ref().child("audio/" + this.uid + '/' + list_id).listAll()
-    .then(x => {
-      x.items.map(r => {
-
-          var word_id = r.fullPath.split(/[\s/]+/).pop().split(/[\s.]+/).shift();
-          r.getDownloadURL()
-            .then(url => {
-
-              this.recArr.push({ word_id: word_id, url: url });
-              this.recordsSubj.next([...this.recArr]);
-              // alert('TYPEOF ' + typeof this.arr);
-
-              // alert('URL ' + url);
-              // console.log('URL ', this.recordUrls);
-            })
-        })
-      })
-      .catch(err => console.log(err))
-  }
+ 
 
 
 
-  // getRecordsByList(list_id: string) {
+  // pullRecordsByList(list_id: string) {
   //   return firebase.storage().ref().child("audio/" + this.uid + '/' + list_id).listAll()
   // }
 

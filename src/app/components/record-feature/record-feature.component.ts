@@ -45,8 +45,8 @@ export class RecordFeatureComponent implements OnInit {
   getRecord() {
     this.http.getSingeRecord(this.item.list_id, this.item.id)
       .then(x => {
-        this.recordUrl = x;
-        this.recordExist = true;
+        // this.recordUrl = x;
+        // this.recordExist = true;
       })
   }
 
