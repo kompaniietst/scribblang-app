@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { LangService, Language } from 'src/app/core/services/lang.service';
-import { HttpService } from 'src/app/core/services/http.service';
 import { BookmarksProviderService } from 'src/app/core/services/bookmarks-provider.service';
 import { ModalWordComponent } from '../modal-word/modal-word.component';
 import { Word } from 'src/app/core/models/Word';
@@ -29,7 +28,6 @@ export class SingleBookmarkComponent implements OnInit {
   recordExist: boolean = false;
 
   constructor(
-    private http: HttpService,
     private audioService: AudioRecordsProviderService,
     private bookmarkService: BookmarksProviderService,
     private lang: LangService,

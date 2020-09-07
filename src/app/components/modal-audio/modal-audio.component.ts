@@ -4,7 +4,6 @@ import { File } from "@ionic-native/file/ngx";
 import { Md5 } from 'ts-md5';
 import { Platform, ModalController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import { HttpService } from 'src/app/core/services/http.service';
 import { AudioRecordsProviderService } from 'src/app/core/services/audio-records-provider.service';
 
 @Component({
@@ -29,8 +28,6 @@ export class ModalAudioComponent implements OnInit {
     private media: Media,
     private file: File,
     private platform: Platform,
-
-    private http: HttpService,
     private audioService: AudioRecordsProviderService
   ) { }
 

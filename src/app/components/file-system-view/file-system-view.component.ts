@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController, ToastController, IonItemSliding } from '@ionic/angular';
-import { HttpService } from 'src/app/core/services/http.service';
 import { FileSystemEntity } from 'src/app/core/models/FileSystemEntity';
 import { ModalFileSystemComponent } from '../modal-file-system/modal-file-system.component';
+import { FileSystemProviderService } from 'src/app/core/services/file-system-provider.service';
+import { WordsProviderService } from 'src/app/core/services/words-provider.service';
 
 @Component({
   selector: 'app-file-system-view',
@@ -17,9 +18,10 @@ export class FileSystemViewComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private http: HttpService,
+    private wordService: WordsProviderService,
     public modalController: ModalController,
-    public toastController: ToastController
+    public toastController: ToastController,
+    private fileService: FileSystemProviderService
   ) { }
 
   ngOnInit() { }
@@ -89,19 +91,19 @@ export class FileSystemViewComponent implements OnInit {
     }
 
     if (type === "directory")
-      this.http.removeFileSystemEntity(id)
+      this.fileService.removeFileSystemEntity(id)
         .then(_ => this.presentToast(`${name} was removed`, 'success'))
 
     if (type === "list")
-      this.http.removeFileSystemEntity(id)
+      this.fileService.removeFileSystemEntity(id)
         .then(() => {
-          this.http.getWordsBy(id)
+          this.wordService.getWordsBy(id)
             .subscribe(x => {
               console.log('on list rem ', x);
               x.forEach((el: any) => {
                 console.log(el.payload.doc.id);
                 var word_id = el.payload.doc.id;
-                this.http.removeWord(id, word_id);
+                this.wordService.removeWord(id, word_id);
               });
             })
         })

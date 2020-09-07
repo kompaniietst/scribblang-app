@@ -28,7 +28,7 @@ export class AudioRecordsProviderService {
   }
 
   async upload(list_id: string, id: string, str: string) {
-    
+
     let storageRef = firebase.storage().ref().child("audio/" + this.uid + '/' + list_id + '/' + id + '.mp3');
 
     try {
@@ -63,5 +63,15 @@ export class AudioRecordsProviderService {
     return firebase.storage().ref()
       .child("audio/" + this.uid + '/' + list_id + "/" + id + ".mp3")
       .getDownloadURL()
+  }
+
+  removeWordAudioRecord(list_id: string, word_id: string) {
+    var audioRec = firebase.storage().ref().child(list_id + "/" + word_id + ".mp3");
+
+    audioRec.delete().then(function () {
+      console.log('removed rec');
+    }).catch(function (error) {
+      console.log('catch removing rec');
+    });
   }
 }

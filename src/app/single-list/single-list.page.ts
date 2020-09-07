@@ -1,11 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { HttpService } from 'src/app/core/services/http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Word } from 'src/app/core/models/Word';
 import { ModalController, IonItemSliding } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { AudioRecordsProviderService } from '../core/services/audio-records-provider.service';
+import { WordsProviderService } from '../core/services/words-provider.service';
 
 @Component({
   selector: 'single-list',
@@ -21,7 +21,7 @@ export class SingleListPage {
   @ViewChild("slidingItem") ioninp: IonItemSliding;
 
   constructor(
-    private http: HttpService,
+    private wordService: WordsProviderService,
     public modalController: ModalController,
     private route: ActivatedRoute,
     private audioService: AudioRecordsProviderService
@@ -36,7 +36,7 @@ export class SingleListPage {
 
   getWords = () => {
     if (this.list_id)
-      this.words$ = this.http.getWordsBy(this.list_id)
+      this.words$ = this.wordService.getWordsBy(this.list_id)
         .pipe(
           map((res: any) =>
             res.map((x: any) =>

@@ -4,12 +4,12 @@ import { ToastController, ModalController } from '@ionic/angular';
 import { LangService, Language } from 'src/app/core/services/lang.service';
 import { ActivatedRoute } from '@angular/router';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
-import { HttpService } from 'src/app/core/services/http.service';
 import { ModalWordComponent } from '../modal-word/modal-word.component';
 import { ModalAudioComponent } from '../modal-audio/modal-audio.component';
 import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 import { AudioRecordsProviderService } from 'src/app/core/services/audio-records-provider.service';
 import { BookmarksProviderService } from 'src/app/core/services/bookmarks-provider.service';
+import { WordsProviderService } from 'src/app/core/services/words-provider.service';
 
 @Component({
   selector: 'app-single-word-item',
@@ -33,7 +33,7 @@ export class SingleWordItemComponent implements OnInit {
 
   constructor(
     public modalController: ModalController,
-    private http: HttpService,
+    private wordService: WordsProviderService,
     private route: ActivatedRoute,
     private tts: TextToSpeech,
     private lang: LangService,
@@ -76,7 +76,7 @@ export class SingleWordItemComponent implements OnInit {
     this.presentModal({ word: word, mode: 'edit' }, "modal-edit-word", ModalWordComponent);
   }
 
-  removeWord = (word_id: string) => this.http.removeWord(this.list_id, word_id)
+  removeWord = (word_id: string) => this.wordService.removeWord(this.list_id, word_id)
 
   get initColumnSize() {
     if (this.currLang.ttsActive) return 4;

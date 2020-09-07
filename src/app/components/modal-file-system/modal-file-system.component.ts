@@ -1,9 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, Input } from '@angular/core';
 import { ModalController, ToastController } from '@ionic/angular';
-import { HttpService } from 'src/app/core/services/http.service';
 import { FileSystemEntity } from 'src/app/core/models/FileSystemEntity';
-import { ActivatedRoute } from '@angular/router';
-import { LangService } from 'src/app/core/services/lang.service';
+import { FileSystemProviderService } from 'src/app/core/services/file-system-provider.service';
 
 @Component({
   selector: 'app-modal-file-system',
@@ -22,9 +20,8 @@ export class ModalFileSystemComponent implements OnInit, AfterViewInit {
 
   constructor(
     public modalController: ModalController,
-    private http: HttpService,
     public toastController: ToastController,
-    private lang: LangService
+    private fileService: FileSystemProviderService
   ) { }
 
   ngOnInit() {
@@ -48,7 +45,7 @@ export class ModalFileSystemComponent implements OnInit, AfterViewInit {
   }
 
   createFileSystemEntity(form_value: Partial<FileSystemEntity>) {
-    this.http.createFileSystemEntity({
+    this.fileService.createFileSystemEntity({
       name: form_value.name, type: this.type, path: this.path
     })
       .then(_ => {
@@ -58,7 +55,7 @@ export class ModalFileSystemComponent implements OnInit, AfterViewInit {
   }
 
   editFileSystemEntity(name: string) {
-    this.http.editFileSystemEntity(this.entity.id, name)
+    this.fileService.editFileSystemEntity(this.entity.id, name)
       .then(_ => {
         this.presentToast(`${this.entity.name} was successfully updated.`, 'success');
       });

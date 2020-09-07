@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-import { HttpService } from '../core/services/http.service';
 import { FileSystemEntity } from '../core/models/FileSystemEntity';
-import { ActivatedRoute } from '@angular/router';
-import { tap } from 'rxjs/operators';
 import { LangService } from '../core/services/lang.service';
-import { Storage } from '@ionic/storage';
+import { FileSystemProviderService } from '../core/services/file-system-provider.service';
 
 @Component({
   selector: 'app-lists',
@@ -17,10 +14,8 @@ export class ListsPage {
   isEmpty: boolean = false;
 
   constructor(
-    private http: HttpService,
-    private route: ActivatedRoute,
+    private fileService: FileSystemProviderService,
     private lang: LangService,
-    private storage: Storage
   ) {
 
     this.lang.lang$
@@ -31,7 +26,7 @@ export class ListsPage {
   }
 
   getFilesStructure() {
-    this.http.getFileSystemEntities()
+    this.fileService.getFileSystemEntities()
       .onSnapshot(querySnapshot => {
 
         var data = querySnapshot.docs.map(item => {
