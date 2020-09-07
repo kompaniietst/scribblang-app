@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { HttpService } from 'src/app/core/services/http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Word } from 'src/app/core/models/Word';
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonItemSliding } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { AudioRecordsProviderService } from '../core/services/audio-records-provider.service';
@@ -17,6 +17,8 @@ export class SingleListPage {
   words$: Observable<Word[]>;
   list_name: string;
   list_id = this.route.snapshot.queryParams.id;
+
+  @ViewChild("slidingItem") ioninp: IonItemSliding;
 
   constructor(
     private http: HttpService,
@@ -47,4 +49,7 @@ export class SingleListPage {
       .pipe(map(words =>
         words.sort(() => Math.random() - 0.5)
       ))
+
+  closeIonItem = () => this.ioninp.closeOpened()
+
 }

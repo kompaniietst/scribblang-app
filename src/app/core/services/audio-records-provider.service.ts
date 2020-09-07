@@ -15,6 +15,11 @@ export class AudioRecordsProviderService {
   uid: string;
   currLang: Language;
 
+  
+  private recordsSubj: ReplaySubject<{ word_id: string, url: string }[]> = new ReplaySubject();
+  records$ = this.recordsSubj.asObservable();
+  recArr: { word_id: string, url: string }[] = [];
+  
   constructor(
     private auth: AuthService,
     private firestore: AngularFirestore,
@@ -34,7 +39,6 @@ export class AudioRecordsProviderService {
 
     try {
       const _ = await storageRef.putString((str as string), 'data_url');
-      // this.recordSubj.next(true);
       this.pullRecordsByList(list_id);
     }
     catch (err) {
@@ -42,9 +46,6 @@ export class AudioRecordsProviderService {
     }
   }
 
-  private recordsSubj: ReplaySubject<{ word_id: string, url: string }[]> = new ReplaySubject();
-  records$ = this.recordsSubj.asObservable();
-  recArr: { word_id: string, url: string }[] = [];
 
 
   pullRecordsByList(list_id: string) {

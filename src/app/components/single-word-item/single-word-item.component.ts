@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Word } from 'src/app/core/models/Word';
 import { ToastController, ModalController, IonItemSliding } from '@ionic/angular';
 import { LangService, Language } from 'src/app/core/services/lang.service';
@@ -28,6 +28,8 @@ export class SingleWordItemComponent implements OnInit {
   recordUrl: string = "";
   recordExist: boolean = false;
 
+  @Output() close: EventEmitter<boolean> = new EventEmitter(false);
+
   constructor(
     private http: HttpService,
     public modalController: ModalController,
@@ -39,7 +41,9 @@ export class SingleWordItemComponent implements OnInit {
     private audioService: AudioRecordsProviderService
   ) {
     this.currLang = this.lang.getCurrLang();
+  }
 
+  ngOnInit() {
     this.audioService.records$
       .subscribe(x => {
         if (this.item) {
@@ -49,8 +53,6 @@ export class SingleWordItemComponent implements OnInit {
         }
       })
   }
-
-  ngOnInit() { }
 
   toggleTranslation = (id: string) => {
     this.openedTranslations.includes(id)
@@ -98,11 +100,13 @@ export class SingleWordItemComponent implements OnInit {
     //   .then(() => this.presentToast(`${name} was bookmarked`, 'success'))
   }
 
-  edit = (word: Word) =>
+  edit = (word: Word) => {
+    this.close.emit(true);
     this.presentModal({ word: word, mode: 'edit' }, "modal-edit-word", ModalWordComponent);
+  }
 
-  addAudio = (id: string, slidingItem?: IonItemSliding) => {
-    slidingItem?.close();
+  callModalAudio = (id: string) => {
+    this.close.emit(true);
     this.presentModal({ id: id }, "modal-add-audio", ModalAudioComponent);
   }
 

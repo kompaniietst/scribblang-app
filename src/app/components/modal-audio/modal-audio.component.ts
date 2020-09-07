@@ -5,6 +5,7 @@ import { Md5 } from 'ts-md5';
 import { Platform, ModalController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { HttpService } from 'src/app/core/services/http.service';
+import { AudioRecordsProviderService } from 'src/app/core/services/audio-records-provider.service';
 
 @Component({
   selector: 'app-modal-audio',
@@ -29,7 +30,8 @@ export class ModalAudioComponent implements OnInit {
     private file: File,
     private platform: Platform,
 
-    private http: HttpService
+    private http: HttpService,
+    private audioService: AudioRecordsProviderService
   ) { }
 
   ngOnInit() { }
@@ -106,7 +108,7 @@ export class ModalAudioComponent implements OnInit {
           setTimeout(() => {
             // alert('readed audio'+readedAudio);
 
-            this.http.upload(this.list_id, this.id, readedAudio)
+            this.audioService.upload(this.list_id, this.id, readedAudio)
               .then(snapshot => console.log('snapshot'))
               .catch(err => alert(err));;
           }, 100);

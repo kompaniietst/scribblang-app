@@ -85,8 +85,6 @@ export class HttpService {
   }
 
   getWordsBy(list_id: string): Observable<any> {
-    console.log(list_id, this.currLang.locale);
-
     return this.firestore
       .collection("words_____", ref => ref
         .orderBy("createdAt", "desc")
