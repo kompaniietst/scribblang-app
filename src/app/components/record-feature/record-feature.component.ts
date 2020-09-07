@@ -24,8 +24,7 @@ export class RecordFeatureComponent implements OnInit {
 
 
   constructor(
-    private tts: TextToSpeech,
-    private streamingMedia: StreamingMedia,
+ 
     private http: HttpService,
     private auth: AuthService,
     private lang: LangService,
@@ -43,27 +42,12 @@ export class RecordFeatureComponent implements OnInit {
   ngOnInit() { }
 
   getRecord() {
-    this.http.getSingeRecord(this.item.list_id, this.item.id)
-      .then(x => {
-        // this.recordUrl = x;
-        // this.recordExist = true;
-      })
+    // this.http.getSingeRecord(this.item.list_id, this.item.id)
+    //   .then(x => {
+    //     // this.recordUrl = x;
+    //     // this.recordExist = true;
+    //   })
   }
 
-  playRecorded = (id: string) => this.streamingMedia.playAudio(this.recordUrl);
 
-  addAudio = (id: string) =>
-    this.presentModal({ id: id }, "modal-add-audio", ModalAudioComponent);
-
-  async presentModal(prop: {}, className: string, component) {
-    const modal = await this.modalController.create({
-      component: component,
-      cssClass: className,
-      componentProps: prop
-    });
-    return await modal.present();
-  }
-
-  speek = (string: string) =>
-    this.tts.speak({ text: string, rate: 0.85 })
 }

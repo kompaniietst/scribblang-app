@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable, BehaviorSubject, ReplaySubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import * as firebase from "firebase";
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Word } from '../models/Word';
@@ -14,8 +14,6 @@ import { LangService, Language } from './lang.service';
 })
 export class HttpService {
 
-  // private recordSubj = new BehaviorSubject(false);
-  // public recordListener$ = this.recordSubj.asObservable();
   uid: string;
   currLang: Language;
 
@@ -32,8 +30,6 @@ export class HttpService {
 
     this.lang.lang$
       .subscribe(lang => {
-        console.log(' lang$', lang);
-
         this.currLang = lang;
         this.getFileSystemEntities();
       })
@@ -46,51 +42,12 @@ export class HttpService {
       .then(url => this.streamingMedia.playAudio(url))
   }
 
- 
-
-
-
-  // pullRecordsByList(list_id: string) {
-  //   return firebase.storage().ref().child("audio/" + this.uid + '/' + list_id).listAll()
-  // }
-
-  async getSingeRecord(list_id: string, id: string) {
-    // alert('sigle ' + list_id + ' ' + id)
-
-
-    return firebase.storage().ref().child("audio/" + this.uid + '/' + list_id)
-      // return firebase.storage().ref().child("audio/" + this.uid + '/' + list_id + "/" + id + ".mp3")
-      .listAll()
-      // .getDownloadURL()
-      .then(x => {
-        console.log('X_', x);
-
-      })
-    // .catch(x => console.log('er', x))
-
-
-    // const ref = firebase.storage().ref("audio/" + this.uid + '/' + list_id + "/" + id + ".mp3")
-    // try {
-    //   await ref.listAll()
-    //   // Do whatever
-    //   console.log('DO WHA');
-
-    // } catch (err) {
-    //   console.log('ERRRR', err);
-
-    //   // Doesn't exist... or potentially some other error
-    // }
-
-
-  }
-
   getWordsBy(list_id: string): Observable<any> {
     return this.firestore
       .collection("words_____", ref => ref
         .orderBy("createdAt", "desc")
         .where("list_id", "==", list_id)
         .where("uid", "==", this.uid)
-        // .where("lang", "==", this.currLang.locale)
       )
       .snapshotChanges()
   }
@@ -151,14 +108,12 @@ export class HttpService {
       .collection("systemEntities_____")
       .doc(doc_id)
       .update({ name: systemEntityName })
-    // .update({ lang: "he_IL" })
   }
 
-  removeFileSystemEntity(doc_id: string, type: string) {
+  removeFileSystemEntity(doc_id: string) {
     return this.firestore
       .collection("systemEntities_____")
       .doc(doc_id)
       .delete()
   }
-
 }

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ModalController, IonItemSliding } from '@ionic/angular';
 import { HttpService } from '../core/services/http.service';
 import { Word } from '../core/models/Word';
-import { ModalController } from '@ionic/angular';
 import { ModalWordComponent } from '../components/modal-word/modal-word.component';
 import { LangService, Language } from '../core/services/lang.service';
 import { BookmarksProviderService } from '../core/services/bookmarks-provider.service';
@@ -25,6 +25,16 @@ export class BookmarksPage implements OnInit {
   ionViewWillEnter() {
     console.log('Enter');
 
+  }
+
+  @ViewChild("slidingItem") slidingItem: IonItemSliding;
+
+  constructor(
+    private http: HttpService,
+    private bookmarkService: BookmarksProviderService,
+    private lang: LangService,
+    private modalController: ModalController,
+  ) {
     this.lang.lang$
       .subscribe(lang => {
         if (!!lang) {
@@ -35,14 +45,6 @@ export class BookmarksPage implements OnInit {
           this.bookmarkService.pullAllBookmarks();
         }
       })
-  }
-
-  constructor(
-    private http: HttpService,
-    private bookmarkService: BookmarksProviderService,
-    private lang: LangService,
-    private modalController: ModalController,
-  ) {
 
     this.bookmarkService.bookmarks$
       .subscribe(x => {
@@ -54,34 +56,8 @@ export class BookmarksPage implements OnInit {
 
   ngOnInit() { }
 
-  toggleTranslation = (id: string) =>
-    this.openedTranslations.includes(id)
-      ? this.closeTranslation(id)
-      : this.openTranslation(id)
-
-  openTranslation = (id: string) =>
-    this.openedTranslations.push(id);
-
-  closeTranslation = (id: string) => {
-    var i = this.openedTranslations.indexOf(id);
-    this.openedTranslations.splice(i, 1);
-  }
-
-  isTranslationOpened = (id: string) =>
-    this.openedTranslations.includes(id);
-
-  unBookmark = (id: string) =>
-    this.bookmarkService.unBookmark(id);
-
-  edit = async (word: Word) => {
-    const modal = await this.modalController.create({
-      component: ModalWordComponent,
-      cssClass: "modal-edit-word",
-      componentProps: { word: word, mode: 'edit' }
-    });
-    return await modal.present();
-  }
-
   shuffle = () =>
-    this.words = this.words.sort(() => Math.random() - 0.5)
+    this.words = this.words.sort(() => Math.random() - 0.5);
+
+  closeIonItem = () => this.slidingItem.closeOpened();
 }
