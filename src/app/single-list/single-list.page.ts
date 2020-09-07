@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/core/services/http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Word } from 'src/app/core/models/Word';
-import { ModalController,  ToastController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 
 import * as firebase from "firebase";
 import { LangService, Language } from '../core/services/lang.service';
+import { url } from 'inspector';
 
 @Component({
   selector: 'single-list',
@@ -23,6 +24,7 @@ export class SingleListPage implements OnInit {
   list_name: string;
 
   currLang: string;
+  recordUrls: string[] = [];
 
   constructor(
     private http: HttpService,
@@ -36,6 +38,8 @@ export class SingleListPage implements OnInit {
       .subscribe((lang: Language) => this.currLang = lang.label);
 
     this.list_name = this.route.snapshot.queryParams.name;
+
+    this.getRecord();
   }
 
   ngOnInit(): void {
@@ -61,6 +65,26 @@ export class SingleListPage implements OnInit {
 
           ),
           tap((w: Word[]) => console.log('w', w)))
+  }
+
+  getRecord() {
+
+    // this.http.getSingeRecord(this.item.list_id, this.item.id)
+    //   .then(x => {
+    //     this.recordUrl = x;
+    //     this.recordExist = true;
+    //   })
+    //   .catch(() => console.log())
+    this.http.getRecordsByList(this.list_id)
+      .then(x => {
+        x.items.map(r =>
+          r.getDownloadURL()
+            .then(url => {this.recordUrls.push(url);
+              alert('URL '+url);
+              console.log('URL ',this.recordUrls);
+            }))
+      })
+      .catch(err => console.log(err))
   }
 
   shuffle() {

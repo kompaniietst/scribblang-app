@@ -30,8 +30,9 @@
         c27.5-17.6,31.8-28.8,31.8-39.4C63.8,12.7,55.4,4.1,45,4.1L45,4.1z" />
     </svg>
   </div>
+  <br><br><br> ====={{recordUrls}}
   <ion-item-sliding *ngFor="let item of words$ | async" #slidingItem>
-    <app-single-word-item [item]="item"></app-single-word-item>
+    <app-single-word-item [item]="item" [recordUrl]="'recordUrls'.includes('rec') ? true : false"></app-single-word-item>
 
   </ion-item-sliding>
 

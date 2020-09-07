@@ -17,6 +17,7 @@ import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 export class SingleWordItemComponent implements OnInit {
 
   @Input() item: Word;
+  @Input('recordUrl') recordUrl2;
 
   openedTranslations: string[] = [];
 
@@ -39,7 +40,9 @@ export class SingleWordItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getRecord();
+    // this.getRecord();
+    console.log('recordUrl - ', this.recordUrl2);
+
   }
 
   toggleTranslation = (id: string) => {
@@ -64,13 +67,19 @@ export class SingleWordItemComponent implements OnInit {
   }
 
   getRecord() {
-    this.http.getSingeRecord(this.item.list_id, this.item.id)
-      .then(x => {
-        this.recordUrl = x;
-        this.recordExist = true;
-      }).catch(x => {
-        console.log('err ' + JSON.stringify(x));
-      });
+    /*
+        // this.http.getSingeRecord(this.item.list_id, this.item.id)
+        //   .then(x => {
+        //     this.recordUrl = x;
+        //     this.recordExist = true;
+        //   })
+        //   .catch(() => console.log())
+        this.http.getRecordsByList(this.item.list_id)
+          .then(x => {
+            this.recordUrl = x;
+            this.recordExist = true;
+          })
+          .catch(() => console.log())*/
   }
 
   bookmark(id: string) {
