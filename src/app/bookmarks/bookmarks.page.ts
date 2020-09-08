@@ -44,15 +44,6 @@ export class BookmarksPage  {
         }
       })
 
-<<<<<<< HEAD
-=======
-  constructor(
-    private http: HttpService,
-    private lang: LangService,
-    private modalController: ModalController,
-  ) {
-
->>>>>>> parent of 0f73809... fix bookm
     this.http.bookm$
       .subscribe(x => {
         console.log('bookm$ ', x);
