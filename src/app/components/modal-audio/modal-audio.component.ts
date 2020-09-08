@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Media, MediaObject } from "@ionic-native/media/ngx";
 import { File } from "@ionic-native/file/ngx";
-import { Md5 } from 'ts-md5';
 import { Platform, ModalController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { AudioRecordsProviderService } from 'src/app/core/services/audio-records-provider.service';
@@ -18,7 +17,6 @@ export class ModalAudioComponent implements OnInit {
 
   status: string = "";
   audioFile: MediaObject;
-  md5 = new Md5();
 
   recordingNow: boolean = false;
 
@@ -45,32 +43,23 @@ export class ModalAudioComponent implements OnInit {
       return;
     }
 
-
     this.recordingNow = true;
-
 
     this.platform.ready().then(() => {
       if (this.platform.is('android')) {
-        this.file.checkDir(this.file.externalRootDirectory, 'Scribblang').then(response => {
-          // alert('Directory exists' + JSON.stringify(response));
-        }).catch(err => {
-          // console.log('Directory doesn\'t exist' + JSON.stringify(err));
-          this.file.createDir(this.file.externalRootDirectory, 'Scribblang', false).then(response => {
-            // alert('Directory create' + JSON.stringify(response));
-          }).catch(err => {
-            // alert('Directory no create' + JSON.stringify(err));
+        this.file.checkDir(this.file.externalRootDirectory, 'Scribblang')
+          .then(response => { })
+          .catch(err => {
+            this.file.createDir(this.file.externalRootDirectory, 'Scribblang', false).then(response => {
+              // alert('Directory create' + JSON.stringify(response));
+            }).catch(err => {
+              // alert('Directory no create' + JSON.stringify(err));
+            });
           });
-        });
       }
     });
 
-
-
-
-
-
     this.audioFile = this.media.create(this.file.externalRootDirectory + '/Scribblang/' + this.id + ".mp3");
-    this.audioFile.startRecord();
     this.status = "Recording...";
   }
 
@@ -92,31 +81,19 @@ export class ModalAudioComponent implements OnInit {
       .then((fileEntry) => {
 
         fileEntry.file(file => {
-
           let reader = new FileReader();
-
           reader.readAsDataURL(file)
 
           var readedAudio;
-
           reader.onload = () => readedAudio = reader.result;
 
-
           setTimeout(() => {
-            // alert('readed audio'+readedAudio);
-
             this.audioService.upload(this.list_id, this.id, readedAudio)
-              .then(snapshot => console.log('snapshot'))
+              .then(snapshot => console.log('upload'))
               .catch(err => alert(err));;
           }, 100);
 
-          //change status
-          //close window
-
         })
       })
-
-
   }
-
 }

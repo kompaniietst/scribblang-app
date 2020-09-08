@@ -12,11 +12,8 @@ import { Storage } from '@ionic/storage';
 })
 export class AuthService {
 
-
-  // private user: Observable<firebase.User>;
   private user: firebase.User = null;
 
-  /*  */
   public userSubject: ReplaySubject<firebase.User> = new ReplaySubject(1);
   user$ = this.userSubject.asObservable();
 
@@ -30,17 +27,6 @@ export class AuthService {
     private firestore: AngularFirestore,
     private storage: Storage
   ) {
-    /* 
-        // storage.set('lang', 'lang');
-        storage.get('lang').then((lang) => {
-          console.log('..............Your lang is', lang, lang === null);
-          if (lang === null) {
-            // alert()
-            this.router.navigate(["app/tabs/game"]);
-            // this.router.navigate(["start"]);
-          }
-    
-        });; */
 
     this.afAuth.authState
       .subscribe(
@@ -56,9 +42,6 @@ export class AuthService {
             }
           });
 
-          // this.router.navigate(['app/tabs/lists'])
-
-          // this.router.navigate(['start'])
           if (user) {
             this.user = user;
           }
@@ -92,7 +75,6 @@ export class AuthService {
   }
 
   doSignIn(user) {
-
     return new Promise<any>((resolve, reject) => {
       firebase.auth().signInWithEmailAndPassword(user.email, user.password)
         .then(res => {
@@ -117,7 +99,6 @@ export class AuthService {
     this.afAuth.signOut()
       .then((res) => {
         this.user = null;
-        // this.storage.remove('lang');
         console.log('Logout', res);
         this.router.navigate(['login'])
       })

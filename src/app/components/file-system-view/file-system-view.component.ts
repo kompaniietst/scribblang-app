@@ -27,25 +27,24 @@ export class FileSystemViewComponent implements OnInit {
   ngOnInit() { }
 
   toggleEntity(item: FileSystemEntity) {
-    if (item.type === 'list')
-      this.goToList(item);
+    if (item.type === 'list') this.goToList(item);
 
     this.isDirectoryOpen(item.id) ? this.close(item.id) : this.open(item.id)
   }
 
-  goToList(item: FileSystemEntity) {
+  goToList = (item: FileSystemEntity) => {
     this.router
       .navigate([`app/tabs/lists/single-list/`],
         { queryParams: { id: item.id, name: item.name } });
   }
-  open(id: string) {
+  open = (id: string) => {
     this.openedDirectories.push(id);
   }
-  close(id: string) {
+  close = (id: string) => {
     var i = this.openedDirectories.indexOf(id);
     this.openedDirectories.splice(i, 1)
   }
-  isDirectoryOpen(id: string) {
+  isDirectoryOpen = (id: string) => {
     return this.openedDirectories.includes(id);
   }
 
@@ -62,15 +61,6 @@ export class FileSystemViewComponent implements OnInit {
     }
 
     this.presentModal_(modalData);
-  }
-
-  async presentModal_(modalData: { props: {}, class: string }) {
-    const modal = await this.modalController.create({
-      component: ModalFileSystemComponent,
-      cssClass: modalData.class,
-      componentProps: modalData.props
-    });
-    return await modal.present();
   }
 
   editSystemEntity = (entity: FileSystemEntity, slidingItem: IonItemSliding) => {
@@ -99,14 +89,22 @@ export class FileSystemViewComponent implements OnInit {
         .then(() => {
           this.wordService.getWordsBy(id)
             .subscribe(x => {
-              console.log('on list rem ', x);
               x.forEach((el: any) => {
-                console.log(el.payload.doc.id);
                 var word_id = el.payload.doc.id;
                 this.wordService.removeWord(id, word_id);
               });
             })
         })
+  }
+
+
+  async presentModal_(modalData: { props: {}, class: string }) {
+    const modal = await this.modalController.create({
+      component: ModalFileSystemComponent,
+      cssClass: modalData.class,
+      componentProps: modalData.props
+    });
+    return await modal.present();
   }
 
   async presentToast(message: string, color: string) {

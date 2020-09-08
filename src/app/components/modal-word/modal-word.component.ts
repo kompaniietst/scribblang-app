@@ -5,7 +5,6 @@ import { Word } from 'src/app/core/models/Word';
 import { NgForm } from '@angular/forms';
 import { Media, MediaObject } from "@ionic-native/media/ngx";
 import { File } from "@ionic-native/file/ngx";
-import { Md5 } from 'ts-md5/dist/md5';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { WordsProviderService } from 'src/app/core/services/words-provider.service';
 
@@ -27,25 +26,14 @@ export class ModalWordComponent implements OnInit, AfterViewInit {
 
   list_id = this.route.snapshot.queryParams.id;
 
-  status: string = "";
-  audioFile: MediaObject;
-
-  md5 = new Md5();
-
   constructor(
     public modalController: ModalController,
     private wordService: WordsProviderService,
     private route: ActivatedRoute,
     public toastController: ToastController,
-    private media: Media,
-    private file: File,
-    private platform: Platform,
-    private str: AngularFireStorage,
   ) { }
 
   ngOnInit(): void {
-    console.log('diter word', this.word);
-
     this.original = this.word?.original || '';
     this.translation = this.word?.translation || '';
     this.transcription = this.word?.transcription || '';
@@ -55,11 +43,8 @@ export class ModalWordComponent implements OnInit, AfterViewInit {
     setTimeout(() => this.inputToFocus.nativeElement.setFocus(), 400);
   }
 
-  onFormSubmit(form: NgForm, form_value: Partial<Word>) {console.log(form_value);
-  
-    if (form_value.original === "" && form_value.translation === "" && form_value.transcription === ""
-    || form_value.original === null && form_value.translation === null && form_value.transcription === null)
-      return;
+  onFormSubmit(form: NgForm, form_value: Partial<Word>) {
+    if (this.isEmpty(form_value)) return;
 
     if (this.mode == 'create')
       this.createWord(form, form_value);
@@ -98,5 +83,10 @@ export class ModalWordComponent implements OnInit, AfterViewInit {
       color: color
     });
     toast.present();
+  }
+  
+  isEmpty(v) {
+    return v.original === "" && v.translation === "" && v.transcription === ""
+      || v.original === null && v.translation === null && v.transcription === null
   }
 }
