@@ -20,23 +20,32 @@ export class RegistrationPage implements OnInit, AfterViewInit {
     setTimeout(() => this.inputToFocus.setFocus(), 300);
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
+  login(formValue: any) {
+    console.log(formValue);
+
+  }
+  
   errorMessage;
   successMessage;
-
-  register(value) {
+  
+  register(value){
     this.auth.doRegister(value)
-      .then(res => {
-        console.log(res);
-        this.errorMessage = "";
-        this.successMessage = "Your account has been created";
-
-        this.router.navigate(['login'])
-      }, err => {
-        console.log(err);
-        this.errorMessage = err.message;
-        this.successMessage = "";
-      })
+    .then(res => {
+      console.log(res);
+      this.errorMessage = "";
+      this.successMessage = "Your account has been created";
+      
+      this.router.navigate(['login'])
+    }, err => {
+      console.log(err);
+      this.errorMessage = err.message;
+      this.successMessage = "";
+    })
   }
+
+
+
 }

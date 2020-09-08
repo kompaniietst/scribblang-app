@@ -1,10 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController, ToastController, IonItemSliding } from '@ionic/angular';
+import { HttpService } from 'src/app/core/services/http.service';
 import { FileSystemEntity } from 'src/app/core/models/FileSystemEntity';
 import { ModalFileSystemComponent } from '../modal-file-system/modal-file-system.component';
-import { FileSystemProviderService } from 'src/app/core/services/file-system-provider.service';
-import { WordsProviderService } from 'src/app/core/services/words-provider.service';
 
 @Component({
   selector: 'app-file-system-view',
@@ -18,33 +17,33 @@ export class FileSystemViewComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private wordService: WordsProviderService,
+    private http: HttpService,
     public modalController: ModalController,
-    public toastController: ToastController,
-    private fileService: FileSystemProviderService
+    public toastController: ToastController
   ) { }
 
   ngOnInit() { }
 
   toggleEntity(item: FileSystemEntity) {
-    if (item.type === 'list') this.goToList(item);
+    if (item.type === 'list')
+      this.goToList(item);
 
     this.isDirectoryOpen(item.id) ? this.close(item.id) : this.open(item.id)
   }
 
-  goToList = (item: FileSystemEntity) => {
+  goToList(item: FileSystemEntity) {
     this.router
       .navigate([`app/tabs/lists/single-list/`],
         { queryParams: { id: item.id, name: item.name } });
   }
-  open = (id: string) => {
+  open(id: string) {
     this.openedDirectories.push(id);
   }
-  close = (id: string) => {
+  close(id: string) {
     var i = this.openedDirectories.indexOf(id);
     this.openedDirectories.splice(i, 1)
   }
-  isDirectoryOpen = (id: string) => {
+  isDirectoryOpen(id: string) {
     return this.openedDirectories.includes(id);
   }
 
@@ -61,6 +60,15 @@ export class FileSystemViewComponent implements OnInit {
     }
 
     this.presentModal_(modalData);
+  }
+
+  async presentModal_(modalData: { props: {}, class: string }) {
+    const modal = await this.modalController.create({
+      component: ModalFileSystemComponent,
+      cssClass: modalData.class,
+      componentProps: modalData.props
+    });
+    return await modal.present();
   }
 
   editSystemEntity = (entity: FileSystemEntity, slidingItem: IonItemSliding) => {
@@ -81,30 +89,22 @@ export class FileSystemViewComponent implements OnInit {
     }
 
     if (type === "directory")
-      this.fileService.removeFileSystemEntity(id)
+      this.http.removeFileSystemEntity(id)
         .then(_ => this.presentToast(`${name} was removed`, 'success'))
 
     if (type === "list")
-      this.fileService.removeFileSystemEntity(id)
+      this.http.removeFileSystemEntity(id)
         .then(() => {
-          this.wordService.getWordsBy(id)
+          this.http.getWordsBy(id)
             .subscribe(x => {
+              console.log('on list rem ', x);
               x.forEach((el: any) => {
+                console.log(el.payload.doc.id);
                 var word_id = el.payload.doc.id;
-                this.wordService.removeWord(id, word_id);
+                this.http.removeWord(id, word_id);
               });
             })
         })
-  }
-
-
-  async presentModal_(modalData: { props: {}, class: string }) {
-    const modal = await this.modalController.create({
-      component: ModalFileSystemComponent,
-      cssClass: modalData.class,
-      componentProps: modalData.props
-    });
-    return await modal.present();
   }
 
   async presentToast(message: string, color: string) {

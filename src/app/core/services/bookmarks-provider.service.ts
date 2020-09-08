@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import * as firebase from "firebase";
+import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthService } from './auth.service';
+import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 import { LangService, Language } from './lang.service';
 import { Word } from '../models/Word';
 
@@ -11,17 +13,15 @@ import { Word } from '../models/Word';
 })
 export class BookmarksProviderService {
 
-  private bookmSubj: BehaviorSubject<Word[]> = new BehaviorSubject<Word[]>([])
-  bookmSubjArr = [];
-  bookmarks$ = this.bookmSubj.asObservable();
-
   uid: string;
   currLang: Language;
 
   constructor(
     private auth: AuthService,
     private firestore: AngularFirestore,
+    private streamingMedia: StreamingMedia,
     private lang: LangService,
+    private afAuth: AngularFireAuth
   ) {
     this.auth.user$
       .subscribe(user => this.uid = user?.uid)
@@ -37,7 +37,15 @@ export class BookmarksProviderService {
       .set({ is_bookmarked: true }, { merge: true })
   }
 
+  private bookmSubj: BehaviorSubject<Word[]> = new BehaviorSubject<Word[]>([])
+  bookmSubjArr = [];
+  bookmarks$ = this.bookmSubj.asObservable();
+
   pullAllBookmarks() {
+
+    console.log('getAllBookmarks');
+
+    //filter by uid
     firebase.firestore().collection("words_____")
       .where("uid", "==", this.uid)
       .where("is_bookmarked", "==", true)
@@ -57,6 +65,8 @@ export class BookmarksProviderService {
             uid: item.data()["uid"],
           }
         })
+        console.log('words=', words);
+
         this.bookmSubjArr = words;
         this.bookmSubj.next([...this.bookmSubjArr]);
       })

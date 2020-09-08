@@ -31,7 +31,7 @@ export class LoginPage implements OnInit, AfterViewInit {
       .then(res => {
         console.log(res);
         this.errorMessage = "";
-        // this.successMessage = "Your can enter";
+        this.successMessage = "Your can enter";
 
         this.router.navigate(['start']);
       }, err => {
@@ -39,5 +39,6 @@ export class LoginPage implements OnInit, AfterViewInit {
         this.errorMessage = err.message;
         this.successMessage = "";
       })
+
   }
 }
