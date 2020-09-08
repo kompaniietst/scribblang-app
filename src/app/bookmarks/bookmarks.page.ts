@@ -4,14 +4,13 @@ import { HttpService } from '../core/services/http.service';
 import { Word } from '../core/models/Word';
 import { ModalWordComponent } from '../components/modal-word/modal-word.component';
 import { LangService, Language } from '../core/services/lang.service';
-import { BookmarksProviderService } from '../core/services/bookmarks-provider.service';
 
 @Component({
   selector: 'app-bookmarks',
   templateUrl: './bookmarks.page.html',
   styleUrls: ['./bookmarks.page.scss'],
 })
-export class BookmarksPage implements OnInit {
+export class BookmarksPage  {
 
   words: Word[] = [];
   openedTranslations: string[] = [];
@@ -20,7 +19,6 @@ export class BookmarksPage implements OnInit {
   isTtsActive: boolean;
 
   currLang: Language;
-  isEmpty: boolean = false;
 
   ionViewWillEnter() {
     console.log('Enter');
@@ -31,7 +29,7 @@ export class BookmarksPage implements OnInit {
 
   constructor(
     private http: HttpService,
-    private bookmarkService: BookmarksProviderService,
+    // private bookmarkService: BookmarksProviderService,
     private lang: LangService,
     private modalController: ModalController,
   ) {
@@ -42,14 +40,13 @@ export class BookmarksPage implements OnInit {
 
           this.currLang = lang
 
-          this.bookmarkService.pullAllBookmarks();
+          this.http.getAllBookmarks();
         }
       })
 
-    this.bookmarkService.bookmarks$
+    this.http.bookm$
       .subscribe(x => {
-        console.log('bookmarks$ ', x, x.length);
-        // this.isEmpty = x.length === 0;
+        console.log('bookm$ ', x);
         this.words = x;
       })
   }
@@ -59,5 +56,27 @@ export class BookmarksPage implements OnInit {
   shuffle = () =>
     this.words = this.words.sort(() => Math.random() - 0.5);
 
-  closeIonItem = () => this.slidingItem.closeOpened();
+  openTranslation = (id: string) =>
+    this.openedTranslations.push(id);
+
+  closeTranslation = (id: string) => {
+    var i = this.openedTranslations.indexOf(id);
+    this.openedTranslations.splice(i, 1);
+  }
+
+  isTranslationOpened = (id: string) =>
+    this.openedTranslations.includes(id);
+
+  unBookmark = (id: string) =>
+    this.http.unBookmark(id);
+
+  edit = async (word: Word) => {
+    const modal = await this.modalController.create({
+      component: ModalWordComponent,
+      cssClass: "modal-edit-word",
+      componentProps: { word: word, mode: 'edit' }
+    });
+    return await modal.present();
+  }
+ 
 }
