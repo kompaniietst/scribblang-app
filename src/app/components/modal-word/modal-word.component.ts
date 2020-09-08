@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Input } from '@angular/core';
 import { ModalController, ToastController, Platform } from '@ionic/angular';
-import { HttpService } from 'src/app/core/services/http.service';
+import { WordsProvideService } from 'src/app/core/services/words-provider.service';
 import { ActivatedRoute } from '@angular/router';
 import { Word } from 'src/app/core/models/Word';
 import { NgForm } from '@angular/forms';
@@ -34,7 +34,7 @@ export class ModalWordComponent implements OnInit, AfterViewInit {
 
   constructor(
     public modalController: ModalController,
-    private http: HttpService,
+    private wordService: WordsProvideService,
     private route: ActivatedRoute,
     public toastController: ToastController,
     private media: Media,
@@ -55,10 +55,11 @@ export class ModalWordComponent implements OnInit, AfterViewInit {
     setTimeout(() => this.inputToFocus.nativeElement.setFocus(), 400);
   }
 
-  onFormSubmit(form: NgForm, form_value: Partial<Word>) {console.log(form_value);
-  
+  onFormSubmit(form: NgForm, form_value: Partial<Word>) {
+    console.log(form_value);
+
     if (form_value.original === "" && form_value.translation === "" && form_value.transcription === ""
-    || form_value.original === null && form_value.translation === null && form_value.transcription === null)
+      || form_value.original === null && form_value.translation === null && form_value.transcription === null)
       return;
 
     if (this.mode == 'create')
@@ -69,7 +70,7 @@ export class ModalWordComponent implements OnInit, AfterViewInit {
   }
 
   createWord(form: NgForm, value: Partial<Word>) {
-    this.http.createWord(this.list_id, {
+    this.wordService.createWord(this.list_id, {
       original: value.original,
       translation: value.translation,
       transcription: value.transcription,
@@ -85,7 +86,7 @@ export class ModalWordComponent implements OnInit, AfterViewInit {
     for (const key in value)
       this.word[key] = value[key]
 
-    this.http.editWord(this.word)
+    this.wordService.editWord(this.word)
       .then(_ => this.modalController.dismiss());
   }
 

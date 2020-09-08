@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CapitalizePipe } from '../core/pipes/capitalize.pipe';
@@ -7,9 +8,9 @@ import { FileSystemViewComponent } from './file-system-view/file-system-view.com
 import { ModalWordComponent } from './modal-word/modal-word.component';
 import { ModalFileSystemComponent } from './modal-file-system/modal-file-system.component';
 import { ModalAudioComponent } from './modal-audio/modal-audio.component';
-import { RecordFeatureComponent } from './record-feature/record-feature.component';
 import { SingleBookmarkComponent } from './single-bookmark/single-bookmark.component';
 import { SingleWordItemComponent } from './single-word-item/single-word-item.component';
+import { from } from 'rxjs';
 
 
 @NgModule({
@@ -20,17 +21,16 @@ import { SingleWordItemComponent } from './single-word-item/single-word-item.com
     ModalWordComponent,
     ModalFileSystemComponent,
     ModalAudioComponent,
-    RecordFeatureComponent,
     SingleBookmarkComponent,
     SingleWordItemComponent
   ],
   imports: [
     CommonModule,
+    IonicModule,
     FormsModule,
   ],
   exports: [
     HeaderComponent,
-    RecordFeatureComponent,
     FileSystemViewComponent,
     SingleBookmarkComponent,
     SingleWordItemComponent

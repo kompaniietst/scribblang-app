@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { HttpService } from '../core/services/http.service';
 import { FileSystemEntity } from '../core/models/FileSystemEntity';
 import { ActivatedRoute } from '@angular/router';
-import { tap } from 'rxjs/operators';
 import { LangService } from '../core/services/lang.service';
-import { Storage } from '@ionic/storage';
+import { FileSystemProviderService } from '../core/services/file-system-provider.service';
 
 @Component({
   selector: 'app-lists',
@@ -13,19 +11,17 @@ import { Storage } from '@ionic/storage';
 })
 export class ListsPage {
 
-  currLangIsTtsActive: string;
+  currLang: string;
   isEmpty: boolean = false;
 
   constructor(
-    private http: HttpService,
-    private route: ActivatedRoute,
     private lang: LangService,
-    private storage: Storage
+    private fileService: FileSystemProviderService
   ) {
 
     this.lang.lang$
       .subscribe((x) => {
-        console.log(x);
+        this.currLang = x.locale;
         this.getFilesStructure()
       })
   }
@@ -35,7 +31,7 @@ export class ListsPage {
   ngOnInit(): void { }
 
   getFilesStructure() {
-    this.http.getFileSystemEntities()
+    this.fileService.getFileSystemEntities()
       .onSnapshot(querySnapshot => {
 
         var data = querySnapshot.docs.map(item => {
@@ -51,14 +47,6 @@ export class ListsPage {
         });
         this.isEmpty = data.length === 0;
         console.log(`Received`, data);
-
-        // if (data.length > 0) {
-        // data.forEach(el => {
-        //   console.log('EL',el);
-
-        //   this.http.editFileSystemEntity(el.id, el.name)
-        // });
-        // }
 
         this.treeData = [];
         this.buildTree(data, this.treeData, "");

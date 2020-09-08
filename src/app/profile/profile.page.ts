@@ -15,7 +15,7 @@ export class ProfilePage {
   langs$: Observable<Language[]>;
 
   constructor(
-    private auth: AuthService,
+    public auth: AuthService,
     private storage: Storage,
     private lang: LangService
   ) {
@@ -23,8 +23,7 @@ export class ProfilePage {
       console.log('lang$=>', x);
 
       this.currLang = x
-    }
-    )
+    })
 
     this.langs$ = this.lang.getLanguageList();
   }

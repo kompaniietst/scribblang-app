@@ -10,6 +10,8 @@ import { AuthService } from 'src/app/core/services/auth.service';
 export class LoginPage implements OnInit, AfterViewInit {
 
   @ViewChild('input') inputToFocus;
+  email: string = "";
+  password: string = "";
 
   constructor(
     private router: Router,

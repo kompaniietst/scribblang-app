@@ -2,7 +2,7 @@
   <ion-grid>
     <ion-row>
 
-      <ion-col size="1" (click)="bookmark(item.id); bookmarked = item.id" class="to-bookmark">
+      <ion-col size="1" (click)="bookmark(item.id);" class="to-bookmark">
         <svg width="21" height="21" class="to-bookmark" [class.bookmarked]="item?.is_bookmarked">
           <g transform="scale(0.3)">
             <path d="M45,11.1c6.5,0,11.8,5.5,11.8,12.2c0,7-2,15.7-24.9,31.1C9,39,7,30.3,7,23.3c0-6.8,5.3-12.2,11.8-12.2

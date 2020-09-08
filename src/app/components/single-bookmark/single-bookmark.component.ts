@@ -1,14 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { LangService, Language } from 'src/app/core/services/lang.service';
-import { HttpService } from 'src/app/core/services/http.service';
-import { BookmarksProviderService } from 'src/app/core/services/bookmarks-provider.service';
 import { ModalWordComponent } from '../modal-word/modal-word.component';
 import { Word } from 'src/app/core/models/Word';
 import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { ModalAudioComponent } from '../modal-audio/modal-audio.component';
 import { AudioRecordsProviderService } from 'src/app/core/services/audio-records-provider.service';
+import { BookmarksProviderService } from 'src/app/core/services/bookmarks-provider.service';
 
 @Component({
   selector: 'app-single-bookmark',
@@ -23,13 +22,11 @@ export class SingleBookmarkComponent implements OnInit {
   openedTranslations: string[] = [];
 
   currLang: Language;
-  isTtsActive: boolean;
 
   recordUrl: string = "";
   recordExist: boolean = false;
 
   constructor(
-    private http: HttpService,
     private audioService: AudioRecordsProviderService,
     private bookmarkService: BookmarksProviderService,
     private lang: LangService,
@@ -66,8 +63,9 @@ export class SingleBookmarkComponent implements OnInit {
   speek = (string: string) =>
     this.tts.speak({ text: string, rate: 0.85 })
 
-  unBookmark = (id: string) =>
+  unBookmark = (id: string) => {
     this.bookmarkService.unBookmark(id)
+  }
 
   callEditWordModal = async (word: Word) => {
     this.presentModal({ word: word, mode: 'edit' }, "modal-edit-word", ModalWordComponent);
@@ -99,6 +97,6 @@ export class SingleBookmarkComponent implements OnInit {
   }
 
   isTranslationOpened = (id: string) => {
-    this.openedTranslations.includes(id);
+    return this.openedTranslations.includes(id);
   }
 }

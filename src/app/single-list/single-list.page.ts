@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { HttpService } from 'src/app/core/services/http.service';
+import { WordsProvideService } from 'src/app/core/services/words-provider.service';
 import { ActivatedRoute } from '@angular/router';
 import { Word } from 'src/app/core/models/Word';
 import { ModalController, IonItemSliding } from '@ionic/angular';
@@ -17,11 +17,12 @@ export class SingleListPage {
   words$: Observable<Word[]>;
   list_name: string;
   list_id = this.route.snapshot.queryParams.id;
+  isEmpty: boolean = false;
 
   @ViewChild("slidingItem") ioninp: IonItemSliding;
 
   constructor(
-    private http: HttpService,
+    private wordService: WordsProvideService,
     public modalController: ModalController,
     private route: ActivatedRoute,
     private audioService: AudioRecordsProviderService
@@ -36,7 +37,7 @@ export class SingleListPage {
 
   getWords = () => {
     if (this.list_id)
-      this.words$ = this.http.getWordsBy(this.list_id)
+      this.words$ = this.wordService.getWordsBy(this.list_id)
         .pipe(
           map((res: any) =>
             res.map((x: any) =>

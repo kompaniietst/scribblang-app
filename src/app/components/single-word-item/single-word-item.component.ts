@@ -4,12 +4,13 @@ import { ToastController, ModalController } from '@ionic/angular';
 import { LangService, Language } from 'src/app/core/services/lang.service';
 import { ActivatedRoute } from '@angular/router';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
-import { HttpService } from 'src/app/core/services/http.service';
+import { WordsProvideService } from 'src/app/core/services/words-provider.service';
 import { ModalWordComponent } from '../modal-word/modal-word.component';
 import { ModalAudioComponent } from '../modal-audio/modal-audio.component';
 import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 import { AudioRecordsProviderService } from 'src/app/core/services/audio-records-provider.service';
 import { BookmarksProviderService } from 'src/app/core/services/bookmarks-provider.service';
+import { FileSystemProviderService } from 'src/app/core/services/file-system-provider.service';
 
 @Component({
   selector: 'app-single-word-item',
@@ -33,14 +34,15 @@ export class SingleWordItemComponent implements OnInit {
 
   constructor(
     public modalController: ModalController,
-    private http: HttpService,
+    private wordService: WordsProvideService,
     private route: ActivatedRoute,
     private tts: TextToSpeech,
     private lang: LangService,
     private toastController: ToastController,
     private streamingMedia: StreamingMedia,
     private audioService: AudioRecordsProviderService,
-    private bookmarkService: BookmarksProviderService
+    private bookmarkService: BookmarksProviderService,
+    private fileService: FileSystemProviderService
   ) {
     this.currLang = this.lang.getCurrLang();
   }
@@ -63,29 +65,30 @@ export class SingleWordItemComponent implements OnInit {
   playRecorded = (id: string) =>
     this.streamingMedia.playAudio(this.recordUrl);
 
+  callRecordAudioModal = (id: string) => {
+    this.closeItem.emit(true);
+    this.presentModal({ id: id }, "modal-add-audio", ModalAudioComponent);
+  }
+
   speek = (string: string) =>
     this.tts.speak({ text: string, rate: 0.85 })
 
-  bookmark = (id: string) =>
+  bookmark = (id: string) => {
     this.item.is_bookmarked
       ? this.bookmarkService.unBookmark(id)
       : this.bookmarkService.bookmarkWord(id)
+  }
 
   callEditWordModal = (word: Word) => {
     this.closeItem.emit(true);
     this.presentModal({ word: word, mode: 'edit' }, "modal-edit-word", ModalWordComponent);
   }
 
-  removeWord = (word_id: string) => this.http.removeWord(this.list_id, word_id)
+  removeWord = (word_id: string) => this.wordService.removeWord(this.list_id, word_id)
 
   get initColumnSize() {
     if (this.currLang.ttsActive) return 4;
     return this.recordExist && !this.currLang.ttsActive ? 4 : 6;
-  }
-
-  callRecordAudioModal = (id: string) => {
-    this.closeItem.emit(true);
-    this.presentModal({ id: id }, "modal-add-audio", ModalAudioComponent);
   }
 
   async presentModal(prop: {}, className: string, component) {

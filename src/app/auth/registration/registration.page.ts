@@ -10,6 +10,8 @@ import { AuthService } from 'src/app/core/services/auth.service';
 export class RegistrationPage implements OnInit, AfterViewInit {
 
   @ViewChild('inputToFocus') inputToFocus;
+  email: string = "";
+  password: string = "";
 
   constructor(
     private router: Router,
@@ -25,27 +27,23 @@ export class RegistrationPage implements OnInit, AfterViewInit {
 
   login(formValue: any) {
     console.log(formValue);
-
   }
-  
+
   errorMessage;
   successMessage;
-  
-  register(value){
+
+  register(value) {
     this.auth.doRegister(value)
-    .then(res => {
-      console.log(res);
-      this.errorMessage = "";
-      this.successMessage = "Your account has been created";
-      
-      this.router.navigate(['login'])
-    }, err => {
-      console.log(err);
-      this.errorMessage = err.message;
-      this.successMessage = "";
-    })
+      .then(res => {
+        console.log(res);
+        this.errorMessage = "";
+        this.successMessage = "Your account has been created";
+
+        this.router.navigate(['login'])
+      }, err => {
+        console.log(err);
+        this.errorMessage = err.message;
+        this.successMessage = "";
+      })
   }
-
-
-
 }

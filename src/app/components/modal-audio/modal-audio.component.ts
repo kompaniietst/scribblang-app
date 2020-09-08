@@ -1,10 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Media, MediaObject } from "@ionic-native/media/ngx";
 import { File } from "@ionic-native/file/ngx";
-import { Md5 } from 'ts-md5';
 import { Platform, ModalController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import { HttpService } from 'src/app/core/services/http.service';
 import { AudioRecordsProviderService } from 'src/app/core/services/audio-records-provider.service';
 
 @Component({
@@ -19,7 +17,6 @@ export class ModalAudioComponent implements OnInit {
 
   status: string = "";
   audioFile: MediaObject;
-  md5 = new Md5();
 
   recordingNow: boolean = false;
 
@@ -29,8 +26,6 @@ export class ModalAudioComponent implements OnInit {
     private media: Media,
     private file: File,
     private platform: Platform,
-
-    private http: HttpService,
     private audioService: AudioRecordsProviderService
   ) { }
 
@@ -48,9 +43,7 @@ export class ModalAudioComponent implements OnInit {
       return;
     }
 
-
     this.recordingNow = true;
-
 
     this.platform.ready().then(() => {
       if (this.platform.is('android')) {
@@ -66,11 +59,6 @@ export class ModalAudioComponent implements OnInit {
         });
       }
     });
-
-
-
-
-
 
     this.audioFile = this.media.create(this.file.externalRootDirectory + '/Scribblang/' + this.id + ".mp3");
     this.audioFile.startRecord();
@@ -93,33 +81,18 @@ export class ModalAudioComponent implements OnInit {
         return this.file.getFile(rootDir, this.id + '.mp3', { create: false })
       })
       .then((fileEntry) => {
-
         fileEntry.file(file => {
-
           let reader = new FileReader();
-
           reader.readAsDataURL(file)
-
           var readedAudio;
-
           reader.onload = () => readedAudio = reader.result;
 
-
           setTimeout(() => {
-            // alert('readed audio'+readedAudio);
-
             this.audioService.upload(this.list_id, this.id, readedAudio)
-              .then(snapshot => console.log('snapshot'))
+              .then(snapshot => console.log())
               .catch(err => alert(err));;
           }, 100);
-
-          //change status
-          //close window
-
         })
       })
-
-
   }
-
 }
