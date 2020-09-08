@@ -89,11 +89,11 @@ export class FileSystemViewComponent implements OnInit {
     }
 
     if (type === "directory")
-      this.http.removeFileSystemEntity(id, type)
+      this.http.removeFileSystemEntity(id)
         .then(_ => this.presentToast(`${name} was removed`, 'success'))
 
     if (type === "list")
-      this.http.removeFileSystemEntity(id, type)
+      this.http.removeFileSystemEntity(id)
         .then(() => {
           this.http.getWordsBy(id)
             .subscribe(x => {

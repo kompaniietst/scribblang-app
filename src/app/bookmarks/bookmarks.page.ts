@@ -1,17 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ModalController, IonItemSliding } from '@ionic/angular';
 import { HttpService } from '../core/services/http.service';
 import { Word } from '../core/models/Word';
-import { ModalController } from '@ionic/angular';
 import { ModalWordComponent } from '../components/modal-word/modal-word.component';
 import { LangService, Language } from '../core/services/lang.service';
-import { BookmarksProviderService } from '../core/services/bookmarks-provider.service';
 
 @Component({
   selector: 'app-bookmarks',
   templateUrl: './bookmarks.page.html',
   styleUrls: ['./bookmarks.page.scss'],
 })
-export class BookmarksPage implements OnInit {
+export class BookmarksPage  {
 
   words: Word[] = [];
   openedTranslations: string[] = [];
@@ -20,11 +19,20 @@ export class BookmarksPage implements OnInit {
   isTtsActive: boolean;
 
   currLang: Language;
-  isEmpty: boolean = false;
 
   ionViewWillEnter() {
     console.log('Enter');
 
+  }
+
+  @ViewChild("slidingItem") slidingItem: IonItemSliding;
+
+  constructor(
+    private http: HttpService,
+    // private bookmarkService: BookmarksProviderService,
+    private lang: LangService,
+    private modalController: ModalController,
+  ) {
     this.lang.lang$
       .subscribe(lang => {
         if (!!lang) {
@@ -32,32 +40,30 @@ export class BookmarksPage implements OnInit {
 
           this.currLang = lang
 
-          this.bookmarkService.pullAllBookmarks();
+          this.http.getAllBookmarks();
         }
       })
-  }
 
+<<<<<<< HEAD
+=======
   constructor(
     private http: HttpService,
-    private bookmarkService: BookmarksProviderService,
     private lang: LangService,
     private modalController: ModalController,
   ) {
 
-    this.bookmarkService.bookmarks$
+>>>>>>> parent of 0f73809... fix bookm
+    this.http.bookm$
       .subscribe(x => {
-        console.log('bookmarks$ ', x, x.length);
-        // this.isEmpty = x.length === 0;
+        console.log('bookm$ ', x);
         this.words = x;
       })
   }
 
   ngOnInit() { }
 
-  toggleTranslation = (id: string) =>
-    this.openedTranslations.includes(id)
-      ? this.closeTranslation(id)
-      : this.openTranslation(id)
+  shuffle = () =>
+    this.words = this.words.sort(() => Math.random() - 0.5);
 
   openTranslation = (id: string) =>
     this.openedTranslations.push(id);
@@ -71,7 +77,7 @@ export class BookmarksPage implements OnInit {
     this.openedTranslations.includes(id);
 
   unBookmark = (id: string) =>
-    this.bookmarkService.unBookmark(id);
+    this.http.unBookmark(id);
 
   edit = async (word: Word) => {
     const modal = await this.modalController.create({
@@ -81,7 +87,5 @@ export class BookmarksPage implements OnInit {
     });
     return await modal.present();
   }
-
-  shuffle = () =>
-    this.words = this.words.sort(() => Math.random() - 0.5)
+ 
 }

@@ -13,7 +13,7 @@ import { Storage } from '@ionic/storage';
 })
 export class ListsPage {
 
-  treeData: FileSystemEntity[];
+  currLangIsTtsActive: string;
   isEmpty: boolean = false;
 
   constructor(
@@ -29,6 +29,10 @@ export class ListsPage {
         this.getFilesStructure()
       })
   }
+
+  treeData: FileSystemEntity[];
+
+  ngOnInit(): void { }
 
   getFilesStructure() {
     this.http.getFileSystemEntities()
@@ -48,10 +52,18 @@ export class ListsPage {
         this.isEmpty = data.length === 0;
         console.log(`Received`, data);
 
+        // if (data.length > 0) {
+        // data.forEach(el => {
+        //   console.log('EL',el);
+
+        //   this.http.editFileSystemEntity(el.id, el.name)
+        // });
+        // }
+
         this.treeData = [];
         this.buildTree(data, this.treeData, "");
       }, err => {
-        console.log(`Error: ${err}`);
+        console.log(`Encountered error: ${err}`);
       });
   }
 

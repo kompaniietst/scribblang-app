@@ -38,6 +38,7 @@ a {
     padding-top: 5px;
     line-height: initial;
     text-align: right;
+    // padding-right: 20px;
 }
 .transcription {
     margin-top: 10px;
@@ -72,4 +73,7 @@ ion-item {
     border-width: 0;
     --inner-border-width: 0;
     --inner-padding-end: 0;
+}
+.rpadding{
+    padding-right: 20px;
 }
