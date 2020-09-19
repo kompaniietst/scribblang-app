@@ -5,7 +5,20 @@
     width: 100%;
     margin: auto;
 }
-.icon-shuffle {
+.icons {
     position: absolute;
     right: 20px;
+    top: 0;
+    display: flex;
+    margin-top: -4px;
+}
+.icon-shuffle {
+    border-radius: 4px;
+    // background: #f3f5f9;
+    border: 1px solid #ffffff;
+    padding: 4px;
+    width: 28px;
+    height: 28px;
+    margin-left: 7px;
+    // box-shadow: 0 2px 2px rgba(255, 223, 182, 0.741);
 }

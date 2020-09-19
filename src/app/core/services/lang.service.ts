@@ -29,16 +29,16 @@ export class LangService {
       label: "Hebrew",
       ttsActive: false
     },
-    {
-      locale: "de_DE",
-      label: "Germany",
-      ttsActive: false
-    },
-    {
-      locale: "de_LU",
-      label: "Luxembourg",
-      ttsActive: false
-    },
+    // {
+    //   locale: "de_DE",
+    //   label: "Germany",
+    //   ttsActive: false
+    // },
+    // {
+    //   locale: "de_LU",
+    //   label: "Luxembourg",
+    //   ttsActive: false
+    // },
     {
       locale: "other",
       label: "Other",

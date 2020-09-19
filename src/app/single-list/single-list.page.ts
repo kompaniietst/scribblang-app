@@ -53,4 +53,16 @@ export class SingleListPage {
 
   closeIonItem = () => this.ioninp.closeOpened()
 
+  reverseTranslation() {
+    this.words$ = this.words$
+      .pipe(map((words: Word[]) => {
+        words.forEach(w => {
+          var tmp = w.original;
+          w.original = w.translation;
+          w.translation = tmp;
+        })
+
+        return words
+      }))
+  }
 }

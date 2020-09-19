@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class LoginPage implements OnInit, AfterViewInit {
 
-  @ViewChild('input') inputToFocus;
+  @ViewChild('inputToFocus') inputToFocus: HTMLFormElement;
   email: string = "";
   password: string = "";
 
@@ -33,7 +33,7 @@ export class LoginPage implements OnInit, AfterViewInit {
       .then(res => {
         console.log(res);
         this.errorMessage = "";
-        this.successMessage = "Your can enter";
+        // this.successMessage = "Your can enter";
 
         this.router.navigate(['start']);
       }, err => {

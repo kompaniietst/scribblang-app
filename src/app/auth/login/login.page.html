@@ -3,7 +3,7 @@
     <div class="logo"></div>
 
     <div class="tabs">
-      <a class="active">Sign in</a>
+      <a class="active">Login</a>
       <a routerLink="/registration">Sign up</a>
     </div>
     {{errorMessage}}
@@ -25,7 +25,7 @@
                   C63.8,44.8,56.7,37.7,48,37.7z" />
                 </g>
               </svg>
-              <ion-input #input [(ngModel)]="email" type="text" name="email"></ion-input>
+              <ion-input #inputToFocus [(ngModel)]="email" type="text" name="email"></ion-input>
             </ion-item>
             <ion-item>
               <ion-label position="floating">Password:</ion-label>
@@ -46,7 +46,7 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <a routerLink="/" class="forget">Forgot password?</a>
+            <!-- <a routerLink="/" class="forget">Forgot password?</a> -->
           </ion-col>
         </ion-row>
       </ion-grid>

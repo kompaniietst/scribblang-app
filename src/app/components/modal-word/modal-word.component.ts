@@ -23,7 +23,7 @@ export class ModalWordComponent implements OnInit, AfterViewInit {
   translation = '';
   transcription = ''
 
-  @ViewChild('input') inputToFocus: ElementRef<any>;
+  @ViewChild('input') inputToFocus: HTMLFormElement;
 
   list_id = this.route.snapshot.queryParams.id;
 
@@ -52,7 +52,7 @@ export class ModalWordComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    setTimeout(() => this.inputToFocus.nativeElement.setFocus(), 400);
+    setTimeout(() => this.inputToFocus.setFocus(), 400);
   }
 
   onFormSubmit(form: NgForm, form_value: Partial<Word>) {
@@ -78,7 +78,7 @@ export class ModalWordComponent implements OnInit, AfterViewInit {
     })
       .then(_ => {
         form.reset();
-        setTimeout(() => this.inputToFocus.nativeElement.setFocus(), 400);
+        setTimeout(() => this.inputToFocus.setFocus(), 400);
       });
   }
 

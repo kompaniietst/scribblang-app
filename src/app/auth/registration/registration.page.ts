@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class RegistrationPage implements OnInit, AfterViewInit {
 
-  @ViewChild('inputToFocus') inputToFocus;
+  @ViewChild('inputToFocus') inputToFocus: HTMLFormElement;
   email: string = "";
   password: string = "";
 

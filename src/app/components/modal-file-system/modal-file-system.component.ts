@@ -15,7 +15,7 @@ export class ModalFileSystemComponent implements OnInit, AfterViewInit {
   @Input() mode: 'edit' | 'create' = 'create';
   @Input() entity: FileSystemEntity;
 
-  @ViewChild('input') inputToFocus: ElementRef<any>;
+  @ViewChild('input') inputToFocus: HTMLFormElement;
 
   name: string = '';
 
@@ -31,7 +31,7 @@ export class ModalFileSystemComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    setTimeout(() => this.inputToFocus.nativeElement.setFocus(), 400);
+    setTimeout(() => this.inputToFocus.setFocus(), 400);
   }
 
   onFormSubmit(form_value: Partial<FileSystemEntity>) {
