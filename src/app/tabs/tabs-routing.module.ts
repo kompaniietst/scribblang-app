@@ -20,6 +20,10 @@ const routes: Routes = [
         loadChildren: () => import('../single-list/single-list.module').then(m => m.SingleListPageModule)
       },
       {
+        path: 'swipe',
+        loadChildren: () => import('../swipe/swipe.module').then(m => m.SwipePageModule)
+      },
+      {
         path: 'game',
         loadChildren: () => import('../game/game.module').then(m => m.GamePageModule)
       },

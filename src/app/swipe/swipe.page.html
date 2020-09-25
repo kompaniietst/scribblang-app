@@ -1,0 +1,23 @@
+<ion-content>
+  <app-header [title]="'Swipe'"></app-header>
+
+  <div *ngIf="lists?.length > 0 && !startGame">
+    <ion-item *ngFor="let list of lists">
+      <ion-label>{{list?.name}}</ion-label>
+      <ion-checkbox color="dark" (ionChange)="selectList($event.detail.checked, list)"></ion-checkbox>
+    </ion-item>
+
+    <ion-button (click)="start()" expand="full">Play</ion-button>
+  </div>
+
+  <div *ngIf="startGame">
+    <div class="word" (click)="showWord()">
+      <div class="original"> {{ word?.original }}</div>
+      <div [class.active]="showTranslate" class="translation"> {{ word?.translation }}</div>
+      <div [class.active]="showTranslate" class="transcription"> {{ word?.transcription }}</div>
+    </div>
+
+    <ion-button *ngIf="!showTranslate" (click)="showTranslate=!showTranslate" class="btn show-translate">Show translate
+    </ion-button>
+  </div>
+</ion-content>

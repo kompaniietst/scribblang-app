@@ -1,0 +1,46 @@
+.word {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    height: 70%;
+    width: 81%;
+    justify-content: center;
+    align-items: center;
+    background: #eeedf7;
+    margin-top: 34px;
+    box-shadow: 0px 10px 9px rgba(27, 14, 125, 0.16);
+    padding: 20px;
+    .original {
+        font-weight: bold;
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+    .transcription {
+        margin-top: 20px;
+        font-size: 11px;
+        opacity: 0.5;
+        line-height: 14px;
+        visibility: hidden;
+        &.active {
+            visibility: visible;
+        }
+    }
+    .translation {
+        visibility: hidden;
+        &.active {
+            visibility: visible;
+        }
+    }
+}
+.btn.show-translate {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.7);
+    z-index: 1;
+    margin-top: 53px;
+}

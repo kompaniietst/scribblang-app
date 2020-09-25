@@ -45,6 +45,19 @@ export class BookmarksPage {
   shuffle = () =>
     this.words = this.words.sort(() => Math.random() - 0.5);
 
+  reverseTranslation() {
+    // this.words$ = this.words$
+    //   .pipe(map((words: Word[]) => {
+    this.words.forEach(w => {
+      var tmp = w.original;
+      w.original = w.translation;
+      w.translation = tmp;
+    })
+
+    // return words
+    // }))
+  }
+
   closeIonItem() {
     this.slidingItem.closeOpened();
   }

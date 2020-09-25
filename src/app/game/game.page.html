@@ -1,3 +1,30 @@
 <ion-content [fullscreen]="true">
-  <ion-item>Under construction</ion-item>
+
+  <app-header [title]="'Play and learn!'">
+  </app-header>
+
+  <ion-card (click)="goToSwipe()">
+    <ion-card-header>
+      <ion-card-title>
+        <strong>Swipping</strong>
+      </ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      Choose list (or multiple lists) and learn words in random order by swiping them!
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <strong>Writting</strong>
+      </ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      Choose list (or multiple lists) and learn words in random order by writting them!
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>

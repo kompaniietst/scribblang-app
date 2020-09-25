@@ -37,6 +37,41 @@ export class WordsProvideService {
       .snapshotChanges()
   }
 
+  getWordsByLists(list_id: string[]): Promise<any> {
+    console.log('LIST', list_id);
+
+    // var l1 = this.firestore
+    //   .collection("words_____", ref => ref
+    //     .orderBy("createdAt", "desc")
+    //     .where("list_id", "==", list_id[0])
+    //     .where("uid", "==", this.uid)
+    //   )
+
+    // var l2 = this.firestore
+    //   .collection("words_____", ref => ref
+    //     .orderBy("createdAt", "desc")
+    //     .where("list_id", "==", list_id[1])
+    //     .where("uid", "==", this.uid)
+    //   )
+
+
+    //   firebase.firestore().getAll(l1, l2).then(docs => {
+    //   console.log(`First document: ${JSON.stringify(docs[0])}`);
+    //   console.log(`Second document: ${JSON.stringify(docs[1])}`);
+    // });
+
+
+
+
+    return this.firestore
+      .collection("words_____", ref => ref
+        .orderBy("createdAt", "desc")
+        .where("list_id", "in", list_id)
+        .where("uid", "==", this.uid)
+      )
+      .get().toPromise()
+  }
+
   createWord(list_id: string, word: Partial<Word>) {
     var newWord = Object.assign(
       { list_id: list_id, uid: this.uid, lang: this.currLang.locale }, word);

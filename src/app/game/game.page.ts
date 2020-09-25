@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Media, MediaObject } from "@ionic-native/media/ngx";
 import { File } from "@ionic-native/file/ngx";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -9,7 +10,11 @@ import { File } from "@ionic-native/file/ngx";
 })
 export class GamePage {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void { }
+
+  goToSwipe() {
+    this.router.navigate(["app/tabs/swipe/"]);
+  }
 }

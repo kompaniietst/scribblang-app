@@ -53,7 +53,11 @@ const routes: Routes = [
   {
     path: 'bookmarks',
     loadChildren: () => import('./bookmarks/bookmarks.module').then( m => m.BookmarksPageModule)
+  },  {
+    path: 'swipe',
+    loadChildren: () => import('./swipe/swipe.module').then( m => m.SwipePageModule)
   },
+
 
 ];
 

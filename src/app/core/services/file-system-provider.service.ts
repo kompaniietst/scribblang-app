@@ -36,6 +36,14 @@ export class FileSystemProviderService {
       .where("lang", "==", this.currLang.locale)
   }
 
+  getLists() {
+    return firebase.firestore().collection("systemEntities_____")
+      .orderBy("createdAt", "desc")
+      .where("uid", "==", this.uid)
+      .where("type", "==", "lists")
+      .where("lang", "==", this.currLang.locale)
+  }
+
   createFileSystemEntity(obj: Partial<FileSystemEntity>) {
     obj["createdAt"] = new Date();
     obj["uid"] = this.uid;
